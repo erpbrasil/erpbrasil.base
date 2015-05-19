@@ -345,3 +345,46 @@ CREDENCIADORAS_CARTAO = (
         ('034', '61.071.387/0001-61', u'Unicard Banco Múltiplo S/A - TRICARD'),
         ('999', '0', u'Outros'),)
 
+
+REDE_TIPOINTER_ETHE = 'ETHE'
+REDE_TIPOINTER_WIFI = 'WIFI'
+
+REDE_TIPOINTER_OPCOES = (
+        (REDE_TIPOINTER_ETHE, u'Ethernet'),
+        (REDE_TIPOINTER_WIFI, u'WiFi'),
+    )
+
+
+REDE_SEG_NONE = 'NONE'
+REDE_SEG_WEP = 'WEP'
+REDE_SEG_WPA_PERSONAL = 'WPA-PERSONAL'
+REDE_SEG_WPA_ENTERPRISE = 'WPA-ENTERPRISE'
+
+REDE_SEG_OPCOES = (
+        (REDE_SEG_NONE, u'Nenhuma'),
+        (REDE_SEG_WEP, u'WEP'),
+        (REDE_SEG_WPA_PERSONAL, u'WPA Personal'),
+        (REDE_SEG_WPA_ENTERPRISE, u'WPA Enterprise'),
+    )
+
+
+REDE_TIPOLAN_DHCP = 'DHCP'
+REDE_TIPOLAN_PPPOE = 'PPPOE'
+REDE_TIPOLAN_IPFIX = 'IPFIX'
+
+REDE_TIPOLAN_OPCOES = (
+        (REDE_TIPOLAN_DHCP, u'DHCP'),
+        (REDE_TIPOLAN_PPPOE, u'PPPoE'),
+        (REDE_TIPOLAN_IPFIX, u'IP fixo'),
+    )
+
+
+REDE_PROXY_NONE = '0'
+REDE_PROXY_CONFIGURACAO = '1'
+REDE_PROXY_TRANSPARENTE = '2'
+
+REDE_PROXY_OPCOES = (
+        (REDE_PROXY_NONE, u'Sem Proxy'),
+        (REDE_PROXY_CONFIGURACAO, u'Proxy com configuração'),
+        (REDE_PROXY_TRANSPARENTE, u'Proxy transparente'),
+    )
