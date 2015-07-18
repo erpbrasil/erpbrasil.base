@@ -18,9 +18,8 @@
 #
 
 VERSAO_ER = '2.14.10'
-"""
-Versão da Especificação de Requisitos (ER) do SAT-CF-e que esta implementação
-está baseada.
+"""Versão da Especificação de Requisitos (ER) do SAT-CF-e na qual esta
+implementação se baseia.
 """
 
 STANDARD_C = 1

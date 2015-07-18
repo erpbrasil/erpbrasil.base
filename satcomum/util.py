@@ -28,21 +28,33 @@ logger = logging.getLogger('satcomum')
 
 
 def digitos(valor):
-    """
-    Resulta em uma string contendo apenas os dígitos da string original.
+    """Resulta em uma string contendo apenas os dígitos da string original.
 
-    >>> digitos('teste')
-    ''
-    >>> digitos('2015-08-20')
-    '20150820'
+    .. sourcecode:: python
+
+        >>> digitos('teste')
+        ''
+        >>> digitos('2015-08-20')
+        '20150820'
 
     """
     return ''.join([d for d in valor if d.isdigit()])
 
 
 def forcar_unicode(arg):
-    """
-    Força uma conversão do argumento para unicode, se necessário.
+    """Força uma conversão do argumento para unicode, se necessário.
+
+    .. sourcecode:: python
+
+        >>> forcar_unicode('teste')
+        u'teste'
+        >>> forcar_unicode(u'teste')
+        u'teste'
+        >>> forcar_unicode(1)
+        Traceback (most recent call last):
+         ...
+        TypeError: ...
+
     """
     if isinstance(arg, unicode):
         return arg
@@ -52,8 +64,7 @@ def forcar_unicode(arg):
 
 
 def dados_qrcode(xml):
-    """
-    Compila os dados do QRCode conforme a documentação técnica oficial
+    """Compila os dados do QRCode conforme a documentação técnica oficial
     **Guia para Geração do QRCode pelo Aplicativo Comercial**.
 
     :param xml: Uma string contendo o XML do CF-e de venda ou cancelamento ou
@@ -75,8 +86,7 @@ def dados_qrcode(xml):
 
 
 def meio_pagamento(codigo):
-    """
-    Retorna a descrição para o código do meio de pagamento, referente ao
+    """Retorna a descrição para o código do meio de pagamento, referente ao
     elemento ``cMP`` WA03.
 
     .. sourcecode:: python
@@ -89,8 +99,7 @@ def meio_pagamento(codigo):
 
 
 def partes_chave_cfe(chave, partes=11):
-    """
-    Retorna a chave de consulta do CF-e-SAT em uma lista de segmentos onde a
+    """Retorna a chave de consulta do CF-e-SAT em uma lista de segmentos onde a
     chave de acesso em si (com 44 dígitos) está particionada em *N* partes.
 
     .. sourcecode:: python
@@ -124,9 +133,8 @@ class XMLPathError(Exception):
 
 
 class XMLFacade(object):
-    """
-    Um façade para lidar com arquivos XML através de algo parecido com *XPath*,
-    mas com expectativas mais modestas.
+    """Um façade para lidar com arquivos XML através de algo parecido
+    com *XPath*, mas com expectativas mais modestas.
     """
 
     def __init__(self, filename, namespace=None):
@@ -188,8 +196,7 @@ class XMLFacade(object):
 
 
 class XMLElementFacade(object):
-    """
-    Um façade para elementos ``xml.etree.ElementeTree`` oriúndos
+    """Um façade para elementos ``xml.etree.ElementeTree`` oriúndos
     de :class:`XMLFacade`.
     """
 
@@ -275,8 +282,7 @@ class XMLElementFacade(object):
 
 
 class XMLFacadeFromString(XMLFacade):
-    """
-    Um façade para lidar com strings XML.
+    """Um façade para lidar com strings XML.
 
     .. sourcecode::
 
@@ -293,9 +299,6 @@ class XMLFacadeFromString(XMLFacade):
         'C'
 
     """
-
-    _xmldata = None
-
 
     def __init__(self, xmldata, namespace=None):
         self._xmldata = xmldata
