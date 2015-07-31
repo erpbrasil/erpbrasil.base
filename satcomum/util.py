@@ -17,6 +17,7 @@
 # limitations under the License.
 #
 
+import locale
 import logging
 import xml.etree.ElementTree as ET
 
@@ -39,6 +40,40 @@ def digitos(valor):
 
     """
     return ''.join([d for d in valor if d.isdigit()])
+
+
+def texto_decimal(valor, remover_zeros=True):
+    """Converte um valor :py:class:`decimal.Decimal` para texto, com a opção de
+    remover os zeros à direita não significativos. A conversão para texto irá
+    considerar o :py:module:`locale` para converter o texto pronto para
+    apresentação.
+
+    :param decimal.Decimal valor: Valor a converter para texto.
+    :param bool remover_zeros: *Opcional* Indica se os zeros à direita não
+        significativos devem ser removidos do texto, o que irá incluir o
+        separador decimal se for o caso.
+
+    .. sourcecode:: python
+
+        >>> from decimal import Decimal
+        >>> valor = Decimal('10.0000')
+        >>> texto_decimal(valor)
+        '10'
+        >>> texto_decimal(valor, remover_zeros=False)
+        '10.0000'
+        >>> texto_decimal(Decimal('10.00100'))
+        '10.001'
+        >>> texto_decimal(Decimal('-1.00'))
+        '-1'
+        >>> texto_decimal(Decimal('-0.010'))
+        '-0.01'
+
+    """
+    texto = '{:n}'.format(valor)
+    if remover_zeros:
+        dp = locale.localeconv().get('decimal_point')
+        texto = texto.rstrip('0').rstrip(dp) if dp in texto else texto
+    return texto
 
 
 def forcar_unicode(arg):
