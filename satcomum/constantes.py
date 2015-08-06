@@ -22,6 +22,27 @@ VERSAO_ER = '2.14.10'
 implementação se baseia.
 """
 
+VERSAO_LAYOUT_ARQUIVO_DADOS_AC = '0.06'
+"""Versão do layout do arquivo de dados enviado pelo Aplicativo Comercial."""
+
+XML_DECL = '<?xml version="1.0" ?>'
+"""Declaração de documento XML."""
+
+XML_DECL_UNICODE = u'<?xml version="1.0" encoding="utf-8" ?>'
+"""Declaração de documento XML incluindo a codificação de texto UTF-8."""
+
+ROOT_TAG_VENDA = 'CFe'
+"""Nome da tag raiz para documentos CF-e-SAT de venda."""
+
+ROOT_TAG_CANCELAMENTO = 'CFeCanc'
+"""Nome da tag raiz para documentos CF-e-SAT de cancelamento."""
+
+ASSINATURA_AC_TESTE = 'SGR-SAT SISTEMA DE GESTAO E RETAGUARDA DO SAT'
+"""Assinatura do Aplicativo Comercial utilizada nos documentos de venda e
+cancelamento realizados contra equipamentos SAT para desenvolvimento.
+"""
+
+
 STANDARD_C = 1
 WINDOWS_STDCALL = 2
 
@@ -30,13 +51,14 @@ CONVENCOES_CHAMADA = (
         (WINDOWS_STDCALL, u'Windows "stdcall"'),)
 
 
-XML_DECL = '<?xml version="1.0" ?>'
+# tpAmb (B10), identificação do ambiente
+B10_PRODUCAO = '1'
+B10_TESTES = '2'
 
-XML_DECL_UNICODE = u'<?xml version="1.0" encoding="utf-8" ?>'
-
-VERSAO_LAYOUT_ARQUIVO_DADOS_AC = '0.06'
-
-ASSINATURA_AC_TESTE = 'SGR-SAT SISTEMA DE GESTAO E RETAGUARDA DO SAT'
+B10_TPAMB = (
+        (B10_PRODUCAO, u'Produção'),
+        (B10_TESTES, u'Testes'),
+    )
 
 
 # emit (C01), valores do elemento 'cRegTribISSQN' (C15)
