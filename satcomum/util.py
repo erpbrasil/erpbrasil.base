@@ -19,8 +19,6 @@
 
 import locale
 
-from . import constantes
-
 
 def digitos(valor):
     """Resulta em uma string contendo apenas os dígitos da string original.
@@ -94,73 +92,34 @@ def forcar_unicode(arg):
             'Expected unicode or str; got {!r} ({!r})'.format(arg, type(arg)))
 
 
-def dados_qrcode(cfe):
-    """Compila os dados que compõem o QRCode do CF-e-SAT a partir do elemento
-    :py:mod:`xml.etree.ElementTree` que representa a árvore do XML do CF-e-SAT,
-    conforme a documentação técnica oficial **Guia para Geração do QRCode pelo
-    Aplicativo Comercial**.
+def modulo11(base):
+    """Calcula o dígito verificador (DV) para o argumento usando "Módulo 11".
 
-    Por exemplo, para gerar a imagem do QRCode [#qrcode]_:
+    :param str base: String contendo os dígitos sobre os quais o DV será
+        calculado, assumindo que o DV não está incluído no argumento.
 
-    .. sourcecode:: python
-
-        import xml.etree.ElementTree as ET
-        import qrcode
-
-        with open('CFe_1.xml', 'r') as fp:
-            tree = ET.parse(fp)
-            imagem = qrcode.make(dados_qrcode(tree))
-
-    :return: String contendo a massa de dados para ser usada ao gerar o QRCode.
-
-    .. [#qrcode] https://pypi.python.org/pypi/qrcode
-
-    """
-    infCFe = cfe.getroot().find('./infCFe')
-    cnpjcpf_consumidor = infCFe.findtext('dest/CNPJ') or \
-            infCFe.findtext('dest/CPF') or ''
-    return '|'.join([
-            infCFe.attrib['Id'][3:], # remove prefixo "CFe"
-            '{}{}'.format(
-                    infCFe.findtext('ide/dEmi'),
-                    infCFe.findtext('ide/hEmi')),
-            infCFe.findtext('total/vCFe'),
-            cnpjcpf_consumidor,
-            infCFe.findtext('ide/assinaturaQRCODE'),])
-
-
-def meio_pagamento(codigo):
-    """Retorna a descrição para o código do meio de pagamento, referente ao
-    elemento ``cMP`` WA03.
+    :return: O dígito verificador calculado.
+    :rtype: int
 
     .. sourcecode:: python
 
-        >>> meio_pagamento('01')
-        u'Dinheiro'
+        >>> modulo11('0')  # digito resultante: 11
+        0
+        >>> modulo11('6')  # digito resultante: 10
+        0
+        >>> modulo11('1')  # digito resultante: 9
+        9
+
+        # chaves de CF-e-SAT emitidos em ambiente de testes
+        # CFe35150808723218000186599000040190000241114257
+        # CFe35150808723218000186599000040190000253347537
+        >>> modulo11('3515080872321800018659900004019000024111425')
+        7
+        >>> modulo11('3515080872321800018659900004019000025334753')
+        7
 
     """
-    return [s for v,s in constantes.WA03_CMP_MP if v == codigo][0]
-
-
-def partes_chave_cfe(chave, partes=11):
-    """Retorna a chave de consulta do CF-e-SAT em uma lista de segmentos onde a
-    chave de acesso em si (com 44 dígitos) está particionada em *N* partes.
-
-    .. sourcecode:: python
-
-        >>> chave = '35150461099008000141599000017900000053222424'
-        >>> partes_chave_cfe(chave)
-        ['3515', '0461', '0990', '0800', '0141', '5990', '0001', '7900', '0000', '5322', '2424']
-        >>> partes_chave_cfe(chave, partes=2)
-        ['3515046109900800014159', '9000017900000053222424']
-        >>> partes_chave_cfe(chave, partes=3)
-        Traceback (most recent call last):
-         ...
-        AssertionError: O numero de partes nao produz um resultado inteiro (partes por 44 digitos): partes=3
-
-    """
-    assert 44 % partes == 0, 'O numero de partes nao produz um resultado '\
-            'inteiro (partes por 44 digitos): partes=%s' % partes
-    salto = 44 / partes
-    _chave = chave.replace('CFe', '') # remove o prefixo 'CFe' se houver
-    return [_chave[n:(n + salto)] for n in range(0, 44, salto)]
+    pesos = '23456789' * ((len(base) / 8) + 1)
+    acumulado = sum([int(a) * int(b) for a, b in zip(base[::-1], pesos)])
+    digito = 11 - (acumulado % 11)
+    return 0 if digito >= 10 else digito
