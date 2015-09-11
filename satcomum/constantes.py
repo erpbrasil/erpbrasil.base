@@ -51,6 +51,26 @@ CONVENCOES_CHAMADA = (
         (WINDOWS_STDCALL, u'Windows "stdcall"'),)
 
 
+CERTIFICADO_ACSAT_SEFAZ = 1
+CERTIFICADO_ICPBRASIL = 2
+CERTIFICADO_ICPBRASIL_RENOVACAO = 3
+
+TIPOS_CERTIFICADOS = (
+        (CERTIFICADO_ACSAT_SEFAZ, u'AC-SAT/SEFAZ'),
+        (CERTIFICADO_ICPBRASIL, u'ICP-Brasil'),
+        (CERTIFICADO_ICPBRASIL_RENOVACAO, u'Renovação Certificado ICP-Brasil'),
+    )
+
+
+CODIGO_ATIVACAO_REGULAR = 1
+CODIGO_ATIVACAO_EMERGENCIA = 2
+
+TIPOS_CODIGOS_ATIVACAO = (
+        (CODIGO_ATIVACAO_REGULAR, u'Código de Ativação Regular'),
+        (CODIGO_ATIVACAO_EMERGENCIA, u'Código de Ativação de Emergência'),
+    )
+
+
 # tpAmb (B10), identificação do ambiente
 B10_PRODUCAO = '1'
 B10_TESTES = '2'

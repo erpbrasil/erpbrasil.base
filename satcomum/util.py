@@ -123,3 +123,46 @@ def modulo11(base):
     acumulado = sum([int(a) * int(b) for a, b in zip(base[::-1], pesos)])
     digito = 11 - (acumulado % 11)
     return 0 if digito >= 10 else digito
+
+
+def validar_casas_decimais(valor, minimo=1, maximo=2):
+    """Valida o número de casas decimais. Se o número de casas decimais não
+    estiver dentro do mínimo e máximo, será lançada uma exceção do tipo
+    :py:exc:`ValueError`.
+
+    :param valor: Um objeto :py:class:`~decimal.Decimal`.
+
+    :param minimo: Valor inteiro maior ou igual a zero indicando o número
+        mínimo de casas decimais. Se não informado, ``1`` é o mínimo.
+
+    :param maximo: Valor inteiro maior ou igual a zero indicando o número
+        máximo de casas decimais. Se não informado, ``2`` é o máximo.
+
+    .. sourcecode:: python
+
+        >>> from decimal import Decimal
+        >>> validar_casas_decimais(Decimal('0.1'))
+        >>> validar_casas_decimais(Decimal('0.12'))
+        >>> validar_casas_decimais(Decimal('0'), minimo=0)
+        >>> validar_casas_decimais(Decimal('0.1230'), maximo=4)
+
+        >>> validar_casas_decimais(Decimal('1.001'))
+        Traceback (most recent call last):
+         ...
+        ValueError: Numero de casas decimais fora dos limites esperados (valor=Decimal('1.001'), minimo=1, maximo=2): DecimalTuple(sign=0, digits=(1, 0, 0, 1), exponent=-3)
+
+        >>> validar_casas_decimais(Decimal('1'))
+        Traceback (most recent call last):
+         ...
+        ValueError: Numero de casas decimais fora dos limites esperados (valor=Decimal('1'), minimo=1, maximo=2): DecimalTuple(sign=0, digits=(1,), exponent=0)
+
+
+    :raises ValueError: Se o valor possuir um número de casas decimais fora dos
+        limites mínimo e máximo informados.
+
+    """
+    atributos = valor.as_tuple()
+    if not (minimo <= abs(atributos.exponent) <= maximo):
+        raise ValueError('Numero de casas decimais fora dos limites esperados '
+                '(valor={!r}, minimo={!r}, maximo={!r}): {!r}'.format(
+                        valor, minimo, maximo, atributos))
