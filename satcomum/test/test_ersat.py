@@ -46,7 +46,7 @@ def _atributos_qrcode(tree):
             timestamp=infCFe.findtext('ide/dEmi') + infCFe.findtext('ide/hEmi'),
             valortotal=infCFe.findtext('total/vCFe'),
             cpfcnpjvalue=cpfcnpjvalue,
-            assinaturaqrcode = infCFe.findtext('ide/assinaturaQRCODE'))
+            assinaturaqrcode=infCFe.findtext('ide/assinaturaQRCODE'))
 
 
 def _assert_dados_qrcode(tree):

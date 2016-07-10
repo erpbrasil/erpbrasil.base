@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-VERSAO_ER = '2.17.10'
+VERSAO_ER = '2.19.07'
 """Versão da Especificação de Requisitos (ER) do SAT-CF-e na qual esta
 implementação se baseia.
 """
