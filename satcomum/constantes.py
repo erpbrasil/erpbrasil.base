@@ -22,7 +22,7 @@ VERSAO_ER = '2.19.07'
 implementação se baseia.
 """
 
-VERSAO_LAYOUT_ARQUIVO_DADOS_AC = '0.06'
+VERSAO_LAYOUT_ARQUIVO_DADOS_AC = '0.07'
 """Versão do layout do arquivo de dados enviado pelo Aplicativo Comercial."""
 
 XML_DECL = '<?xml version="1.0" ?>'
@@ -153,13 +153,11 @@ N07_CST_ICMS00 = (
 # ICMS40 (N03), valores do elemento 'CST' (N07)
 N07_ISENTO = '40'
 N07_NAO_TRIBUTADO = '41'
-N07_SUSPENSAO = '50'
 N07_ICMS_COBRADO_ANTERIORMENTE_ST = '60'
 
 N07_CST_ICMS40 = (
         (N07_ISENTO, u'Isento'),
         (N07_NAO_TRIBUTADO, u'Não tributado'),
-        (N07_SUSPENSAO, u'Suspensão'),
         (N07_ICMS_COBRADO_ANTERIORMENTE_ST, u'ICMS cobrado anteriormente por Substituição Tributária'),
     )
 
@@ -167,11 +165,13 @@ N07_CST_ICMS40 = (
 # ICMSSN102 (N04), valores do elemento 'CSOSN' (N10)
 N10_TRIBUTADA_SN_SEM_PERMISSAO_CREDITO = '102'
 N10_IMUNE = '300'
+N10_NAO_TRIBUTADA = '400'
 N10_ICMS_COBRADO_ANTERIORMENTE_ST = '500'
 
 N10_CSOSN_ICMSSN102 = (
         (N10_TRIBUTADA_SN_SEM_PERMISSAO_CREDITO, u'Tributada pelo Simples Nacional sem permissão de crédito'),
         (N10_IMUNE, u'Imune'),
+        (N10_NAO_TRIBUTADA, u'Não tributado'),
         (N10_ICMS_COBRADO_ANTERIORMENTE_ST, u'ICMS cobrado anteriormente por Substituição Tributária'),
     )
 
