@@ -17,13 +17,49 @@
 # limitations under the License.
 #
 
+from decimal import Decimal
+
 import pytest
 
-from satcomum.util import forcar_unicode
+from satcomum import util
 
 
-def test_forcar_unicode():
-    texto_unicode = u'Praça de Operações'
-    assert forcar_unicode(texto_unicode) == texto_unicode
-    assert forcar_unicode('Simples ASCII') == u'Simples ASCII'
-    pytest.raises(TypeError, forcar_unicode, 123)
+def test_digitos():
+    assert util.digitos('teste') == ''
+    assert util.digitos('2015-08-20') == '20150820'
+
+
+def test_texto_decimal():
+    valor = Decimal('10.0000')
+    assert util.texto_decimal(valor) == '10'
+    assert util.texto_decimal(valor, remover_zeros=False) == '10.0000'
+    assert util.texto_decimal(Decimal('10.00100')) == '10.001'
+    assert util.texto_decimal(Decimal('-1.00')) == '-1'
+    assert util.texto_decimal(Decimal('-0.010')) == '-0.01'
+
+
+def test_modulo_11():
+    assert util.modulo11('0') == 0 # digito resultante: 11
+    assert util.modulo11('6') == 0 # digito resultante: 10
+    assert util.modulo11('1') == 9 # digito resultante: 9
+
+    # chaves de CF-e-SAT emitidos em ambiente de testes
+    # CFe35150808723218000186599000040190000241114257
+    # CFe35150808723218000186599000040190000253347537
+    assert util.modulo11('3515080872321800018659900004019000024111425') == 7
+    assert util.modulo11('3515080872321800018659900004019000025334753') == 7
+
+
+def test_validar_casas_decimais():
+    assert util.validar_casas_decimais(Decimal('0.1')) is None
+    assert util.validar_casas_decimais(Decimal('0.12')) is None
+    assert util.validar_casas_decimais(Decimal('0'), minimo=0) is None
+    assert util.validar_casas_decimais(Decimal('0.1230'), maximo=4) is None
+
+    with pytest.raises(ValueError):
+        # o número deveria possuir no mínimo 1 e no máximo 2 casas decimais
+        util.validar_casas_decimais(Decimal('1.001'))
+
+    with pytest.raises(ValueError):
+        # o número deveria possuir no mínimo 1 e no máximo 2 casas decimais
+        util.validar_casas_decimais(Decimal('1'))

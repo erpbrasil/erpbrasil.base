@@ -86,15 +86,6 @@ def uf(sigla):
     """
     Valida a sigla da Unidade Federativa. Se não for uma sigla de UF válida,
     será lançada a exceção :exc:`UnidadeFederativaError`.
-
-    .. sourcecode:: python
-
-        >>> uf('SP')
-        >>> uf('sp')
-        Traceback (most recent call last):
-         ...
-        UnidadeFederativaError: Estado (sigla) UF "sp" inexistente
-
     """
     if not sigla in [s for s, i, n, r in UNIDADES_FEDERACAO]:
         raise UnidadeFederativaError('Estado (sigla) UF "%s" '
@@ -104,16 +95,6 @@ def uf(sigla):
 def is_uf(sigla):
     """Uma versão conveniente para usar em testes condicionais. Apenas retorna
     verdadeiro ou falso, conforme o argumento é validado.
-
-    .. sourcecode:: python
-
-        >>> is_uf('')
-        False
-        >>> is_uf('sp')
-        False
-        >>> is_uf('SP')
-        True
-
     """
     try:
         uf(sigla)
@@ -124,53 +105,18 @@ def is_uf(sigla):
 
 
 def is_codigo_uf(codigo_ibge):
-    """Indica se o código da UF é um código válido.
-
-    .. sourcecode:: python
-
-        >>> is_codigo_uf(35)
-        True
-        >>> is_codigo_uf(0)
-        False
-
-    """
+    """Indica se o código da UF é um código válido."""
     return codigo_ibge in [i for s, i, n, r in UNIDADES_FEDERACAO]
 
 
 def uf_pelo_codigo(codigo_ibge):
-    """Retorna a UF para o código do IBGE informado.
-
-    .. sourcecode:: python
-
-        >>> uf_pelo_codigo(35)
-        'SP'
-        >>> uf_pelo_codigo(0)
-        Traceback (most recent call last):
-         ...
-        ValueError: ...
-
-    """
+    """Retorna a UF para o código do IBGE informado."""
     idx = [i for s, i, n, r in UNIDADES_FEDERACAO].index(codigo_ibge)
     return UNIDADES_FEDERACAO[idx][_UF_SIGLA]
 
 
 def codigo_ibge_uf(sigla):
-    """Retorna o código do IBGE para a UF informada.
-
-    .. sourcecode:: python
-
-        >>> codigo_ibge_uf('SP')
-        35
-        >>> codigo_ibge_uf('sp')
-        Traceback (most recent call last):
-         ...
-        ValueError: ...
-        >>> codigo_ibge_uf('')
-        Traceback (most recent call last):
-         ...
-        ValueError: ...
-
-    """
+    """Retorna o código do IBGE para a UF informada."""
     idx = [s for s, i, n, r in UNIDADES_FEDERACAO].index(sigla)
     return UNIDADES_FEDERACAO[idx][_UF_CODIGO_IBGE]
 
@@ -179,29 +125,14 @@ def cnpj(numero):
     """Valida um número de CNPJ. O número deverá ser informado como uma string
     contendo 14 dígitos numéricos. Se o número informado for inválido será
     lançada a exceção :exc:`NumeroCNPJError`. Esta implementação da validação
-    foi delicadamente copiada de `python-sped <http://git.io/vfuGW>`.
-
-    .. sourcecode:: python
-
-        >>> cnpj('111')
-        Traceback (most recent call last):
-         ...
-        NumeroCNPJError: CNPJ "111" nao possui 14 digitos
-        >>> cnpj('08427847000169')
-        >>> cnpj('08427847000179') # primeiro digito inválido
-        Traceback (most recent call last):
-          ...
-        NumeroCNPJError: CNPJ "08427847000179" invalido
-        >>> cnpj('08427847000168') # segundo digito inválido
-        Traceback (most recent call last):
-          ...
-        NumeroCNPJError: CNPJ "08427847000168" invalido
-
-    """
+    foi delicadamente copiada de `python-sped <http://git.io/vfuGW>`."""
     _digitos = [int(c) for c in numero if c.isdigit()]
 
     if len(_digitos) != 14 or len(numero) != 14:
-        raise NumeroCNPJError('CNPJ "%s" nao possui 14 digitos' % numero)
+        raise NumeroCNPJError('Nao possui 14 digitos: {!r}'.format(numero))
+
+    if numero == numero[0] * 14:
+        raise NumeroCNPJError('Todos os digitos iguais: {!r}'.format(numero))
 
     multiplicadores = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
 
@@ -217,7 +148,7 @@ def cnpj(numero):
         digito2 = 0
 
     if _digitos[12] != digito1 or _digitos[13] != digito2:
-        raise NumeroCNPJError('CNPJ "%s" invalido' % numero)
+        raise NumeroCNPJError('Digitos verificadores invalidos: {!r}'.format(numero))
 
 
 def is_cnpj(numero, estrito=False):
@@ -227,15 +158,6 @@ def is_cnpj(numero, estrito=False):
     :param bool estrito: Padrão ``False``, indica se apenas os dígitos do
         número deverão ser considerados. Se verdadeiro, potenciais caracteres
         que formam a máscara serão removidos antes da validação ser realizada.
-
-    .. sourcecode:: python
-
-        >>> is_cnpj('')
-        False
-        >>> is_cnpj('08.427.847/0001-69')
-        True
-        >>> is_cnpj('08.427.847/0001-69', estrito=True)
-        False
 
     """
     try:
@@ -249,20 +171,6 @@ def is_cnpj(numero, estrito=False):
 def as_cnpj(numero):
     """Formata um número de CNPJ. Se o número não for um CNPJ válido apenas
     retorna o argumento sem qualquer modificação.
-
-    .. sourcecode:: python
-
-        >>> as_cnpj('08427847000169')
-        '08.427.847/0001-69'
-        >>> as_cnpj('08427847000168')
-        '08427847000168'
-        >>> as_cnpj('08.427.847/0001-69')
-        '08.427.847/0001-69'
-        >>> as_cnpj('')
-        ''
-        >>> as_cnpj('000')
-        '000'
-
     """
     _num = digitos(numero)
     if is_cnpj(_num):
@@ -276,28 +184,14 @@ def cpf(numero):
     contendo 11 dígitos numéricos. Se o número informado for inválido será
     lançada a exceção :exc:`NumeroCPFError`. Esta implementação da validação
     foi delicadamente copiada de `python-sped <http://git.io/vfuGW>`.
-
-    .. sourcecode:: python
-
-        >>> cpf('111')
-        Traceback (most recent call last):
-         ...
-        NumeroCPFError: CPF "111" nao possui 11 digitos
-        >>> cpf('11122233396')
-        >>> cpf('11122233386') # primeiro digito inválido
-        Traceback (most recent call last):
-         ...
-        NumeroCPFError: CPF "11122233386" invalido
-        >>> cpf('11122233395') # segundo digito inválido
-        Traceback (most recent call last):
-         ...
-        NumeroCPFError: CPF "11122233395" invalido
-
     """
     _digitos = [int(c) for c in numero if c.isdigit()]
 
     if len(_digitos) != 11 or len(numero) != 11:
-        raise NumeroCPFError('CPF "%s" nao possui 11 digitos' % numero)
+        raise NumeroCPFError('Nao possui 11 digitos: {!r}'.format(numero))
+
+    if numero == numero[0] * 11:
+        raise NumeroCPFError('Todos os digitos iguais: {!r}'.format(numero))
 
     multiplicadores = [11, 10, 9, 8, 7, 6, 5, 4, 3, 2]
 
@@ -313,7 +207,7 @@ def cpf(numero):
         digito2 = 0
 
     if _digitos[9] != digito1 or _digitos[10] != digito2:
-        raise NumeroCPFError('CPF "%s" invalido' % numero)
+        raise NumeroCPFError('Digitos verificadores invalidos: {!r}'.format(numero))
 
 
 def is_cpf(numero, estrito=False):
@@ -323,15 +217,6 @@ def is_cpf(numero, estrito=False):
     :param bool estrito: Padrão ``False``, indica se apenas os dígitos do
         número deverão ser considerados. Se verdadeiro, potenciais caracteres
         que formam a máscara serão removidos antes da validação ser realizada.
-
-    .. sourcecode:: python
-
-        >>> is_cpf('')
-        False
-        >>> is_cpf('111.222.333-96')
-        True
-        >>> is_cpf('111.222.333-96', estrito=True)
-        False
 
     """
     try:
@@ -345,18 +230,6 @@ def is_cpf(numero, estrito=False):
 def as_cpf(numero):
     """Formata um número de CPF. Se o número não for um CPF válido apenas
     retorna o argumento sem qualquer modificação.
-
-    .. sourcecode:: python
-
-        >>> as_cpf('11122233396')
-        '111.222.333-96'
-        >>> as_cpf('111.222.333-96')
-        '111.222.333-96'
-        >>> as_cpf('')
-        ''
-        >>> as_cpf('000')
-        '000'
-
     """
     _num = digitos(numero)
     if is_cpf(_num):
@@ -365,18 +238,7 @@ def as_cpf(numero):
 
 
 def cnpjcpf(numero):
-    """Valida um número de CNPJ ou CPF. Veja :func:`cnpj` e/ou :func:`cpf`.
-
-    .. sourcecode::
-
-        >>> cnpjcpf('08427847000169')
-        >>> cnpjcpf('11122233396')
-        >>> cnpjcpf('08427847000168') # não é um CNPJ válido, nem um CPF...
-        Traceback (most recent call last):
-         ...
-        NumeroCNPJCPFError: ...
-
-    """
+    """Valida um número de CNPJ ou CPF. Veja :func:`cnpj` e/ou :func:`cpf`."""
     try:
         cnpj(numero)
     except NumeroCNPJError:
@@ -395,17 +257,6 @@ def is_cnpjcpf(numero, estrito=False):
         número deverão ser considerados. Se verdadeiro, potenciais caracteres
         que formam a máscara serão removidos antes da validação ser realizada.
 
-    .. sourcecode:: python
-
-        >>> is_cnpjcpf('')
-        False
-        >>> is_cnpjcpf('111.222.333-96')
-        True
-        >>> is_cnpjcpf('08.427.847/0001-69')
-        True
-        >>> is_cnpjcpf('111.222.333-96', estrito=True)
-        False
-
     """
     _numero = digitos(numero) if not estrito else numero
     try:
@@ -423,22 +274,6 @@ def is_cnpjcpf(numero, estrito=False):
 def as_cnpjcpf(numero):
     """Formata um número de CNPJ ou CPF. Se o número não for um CNPJ ou CPF
     válidos apenas retorna o argumento sem qualquer modificação.
-
-    .. sourcecode:: python
-
-        >>> as_cnpjcpf('11122233396')
-        '111.222.333-96'
-        >>> as_cnpjcpf('111.222.333-96')
-        '111.222.333-96'
-        >>> as_cnpjcpf('08427847000169')
-        '08.427.847/0001-69'
-        >>> as_cnpjcpf('08.427.847/0001-69')
-        '08.427.847/0001-69'
-        >>> as_cnpjcpf('')
-        ''
-        >>> as_cnpjcpf('000')
-        '000'
-
     """
     if is_cnpj(numero):
         return as_cnpj(numero)
@@ -456,21 +291,6 @@ def cep(numero):
 
         Qualquer string que contenha 8 dígitos será considerada como um CEP
         válido, desde que os dígitos não sejam todos iguais.
-
-    .. sourcecode:: python
-
-        >>> cep('15807250') # OK, este existe mesmo, é válido
-        >>> cep('12345678') # OK, considera válido
-        >>> cep('123456')
-        Traceback (most recent call last):
-         ...
-        NumeroCEPError: CEP "123456" nao possui 8 digitos
-
-        # 8 digitos mas todos iguais, considera inválido
-        >>> cep('11111111')
-        Traceback (most recent call last):
-         ...
-        NumeroCEPError: CEP "11111111" considerado invalido
 
     """
     _digitos = digitos(numero)
@@ -490,15 +310,6 @@ def is_cep(numero, estrito=False):
         número deverão ser considerados. Se verdadeiro, potenciais caracteres
         que formam a máscara serão removidos antes da validação ser realizada.
 
-    .. sourcecode:: python
-
-        >>> is_cep('')
-        False
-        >>> is_cep('15807-250')
-        True
-        >>> is_cpf('15807-250', estrito=True)
-        False
-
     """
     try:
         cep(digitos(numero) if not estrito else numero)
@@ -511,18 +322,6 @@ def is_cep(numero, estrito=False):
 def as_cep(numero):
     """Formata um número de CEP. Se o argumento não for um CEP válido apenas
     retorna o argumento sem qualquer modificação.
-
-    .. sourcecode:: python
-
-        >>> as_cep('15807250')
-        '15807-250'
-        >>> as_cep('15807-250')
-        '15807-250'
-        >>> as_cep('')
-        ''
-        >>> as_cep('123456')
-        '123456'
-
     """
     _numero = digitos(numero)
     if is_cep(_numero):
