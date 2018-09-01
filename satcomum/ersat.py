@@ -24,6 +24,8 @@ projeto nem nos projetos relacionados com o SAT-CF-e.
 
 import re
 
+from six.moves import range
+
 from . import br
 from . import constantes
 from . import util
@@ -35,11 +37,6 @@ def meio_pagamento(codigo):
     :param codigo: Código do meio de pagamento, conforme elemento WA03 ``cMP``.
     :return: Descrição para o código do meio de pagamento.
     :rtype: unicode
-
-    .. sourcecode:: python
-
-        >>> meio_pagamento('01')
-        u'Dinheiro'
 
     """
     return [s for v,s in constantes.WA03_CMP_MP if v == codigo][0]
@@ -108,69 +105,6 @@ class ChaveCFeSAT(object):
         |
         código da UF
 
-
-    .. sourcecode:: python
-
-        >>> chave = ChaveCFeSAT('CFe35150808723218000186599000040190000241114257')
-        >>> chave.codigo_uf
-        35
-        >>> chave.uf
-        'SP'
-        >>> chave.mes_emissao
-        8
-        >>> chave.ano_emissao
-        2015
-        >>> chave.anomes
-        '1508'
-        >>> chave.cnpj_emitente
-        '08.723.218/0001-86'
-        >>> chave.modelo_documento
-        '59'
-        >>> chave.numero_serie
-        '900004019'
-        >>> chave.numero_cupom_fiscal
-        '000024'
-        >>> chave.codigo_aleatorio
-        '111425'
-        >>> chave.digito_verificador
-        '7'
-
-        # chave com mês/ano no mês da Portaria CAT-147, introduzida em 11/2012
-        >>> chave = ChaveCFeSAT('CFe35121108723218000186599000040190000241114259')
-        >>> chave.mes_emissao
-        11
-        >>> chave.ano_emissao
-        2012
-
-        >>> chave = ChaveCFeSAT('CFe72150808723218000186599000040190000241114250')
-        Traceback (most recent call last):
-         ...
-        ValueError: chave de acesso invalida (codigo UF: '72'): 'CFe72150808723218000186599000040190000241114250'
-
-        >>> # mês/ano inválidos (Portaria CAT-147 introduzida em 11/2012)
-        >>> chave = ChaveCFeSAT('CFe35121008723218000186599000040190000241114255')
-        Traceback (most recent call last):
-         ...
-        ValueError: chave de acesso invalida (mes/ano emissao: 10/2012): 'CFe35121008723218000186599000040190000241114255'
-
-        >>> # mês/ano inválidos (Portaria CAT-147 introduzida em 11/2012)
-        >>> chave = ChaveCFeSAT('CFe35111208723218000186599000040190000241114250')
-        Traceback (most recent call last):
-         ...
-        ValueError: chave de acesso invalida (mes/ano emissao: 12/2011): 'CFe35111208723218000186599000040190000241114250'
-
-        >>> # mês/ano inválido (mês fora da faixa)
-        >>> chave = ChaveCFeSAT('CFe35151308723218000186599000040190000241114251')
-        Traceback (most recent call last):
-         ...
-        ValueError: chave de acesso invalida (mes/ano emissao: 13/2015): 'CFe35151308723218000186599000040190000241114251'
-
-        >>> chave = ChaveCFeSAT('CFe35150808723218000187599000040190000241114259')
-        Traceback (most recent call last):
-         ...
-        ValueError: chave de acesso invalida (CNPJ emitente: '08723218000187'): 'CFe35150808723218000187599000040190000241114259'
-
-
     """
 
     CHAVE_REGEX = re.compile(r'^CFe(?P<campos>\d{44})$')
@@ -216,7 +150,7 @@ class ChaveCFeSAT(object):
         ano = int(campos[ChaveCFeSAT.AAMM][:2]) + 2000
         mes = int(campos[ChaveCFeSAT.AAMM][2:])
 
-        if mes not in xrange(1,13) or \
+        if mes not in range(1,13) or \
                 (ano < 2012 or (ano == 2012 and mes < 11)):
             # considera válidas apenas as chaves que indicam mês/ano de emissão
             # a partir do início do projeto SAT-CF-e, em novembro/2012
@@ -312,22 +246,10 @@ class ChaveCFeSAT(object):
         :return: Lista de strings contendo a chave do CF-e-SAT particionada.
         :rtype: list
 
-        .. sourcecode:: python
-
-            >>> chave = ChaveCFeSAT('CFe35150461099008000141599000017900000053222424')
-            >>> chave.partes()
-            ['3515', '0461', '0990', '0800', '0141', '5990', '0001', '7900', '0000', '5322', '2424']
-            >>> chave.partes(2)
-            ['3515046109900800014159', '9000017900000053222424']
-            >>> chave.partes(3)
-            Traceback (most recent call last):
-             ...
-            AssertionError: O numero de partes nao produz um resultado inteiro (partes por 44 digitos): num_partes=3
-
         """
         assert 44 % num_partes == 0, 'O numero de partes nao produz um '\
                 'resultado inteiro (partes por 44 digitos): '\
                 'num_partes=%s' % num_partes
 
-        salto = 44 / num_partes
+        salto = 44 // num_partes
         return [self._campos[n:(n + salto)] for n in range(0, 44, salto)]
