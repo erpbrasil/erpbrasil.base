@@ -87,9 +87,10 @@ def uf(sigla):
     Valida a sigla da Unidade Federativa. Se não for uma sigla de UF válida,
     será lançada a exceção :exc:`UnidadeFederativaError`.
     """
-    if not sigla in [s for s, i, n, r in UNIDADES_FEDERACAO]:
-        raise UnidadeFederativaError('Estado (sigla) UF "%s" '
-                'inexistente' % sigla)
+    if sigla not in [s for s, i, n, r in UNIDADES_FEDERACAO]:
+        raise UnidadeFederativaError((
+                'Estado (sigla) UF inexistente: {!r}'
+            ).format(sigla))
 
 
 def is_uf(sigla):
@@ -148,7 +149,9 @@ def cnpj(numero):
         digito2 = 0
 
     if _digitos[12] != digito1 or _digitos[13] != digito2:
-        raise NumeroCNPJError('Digitos verificadores invalidos: {!r}'.format(numero))
+        raise NumeroCNPJError((
+                'Digitos verificadores invalidos: {!r}'
+            ).format(numero))
 
 
 def is_cnpj(numero, estrito=False):
@@ -207,7 +210,9 @@ def cpf(numero):
         digito2 = 0
 
     if _digitos[9] != digito1 or _digitos[10] != digito2:
-        raise NumeroCPFError('Digitos verificadores invalidos: {!r}'.format(numero))
+        raise NumeroCPFError((
+                'Digitos verificadores invalidos: {!r}'
+            ).format(numero))
 
 
 def is_cpf(numero, estrito=False):
@@ -245,8 +250,9 @@ def cnpjcpf(numero):
         try:
             cpf(numero)
         except NumeroCPFError:
-            raise NumeroCNPJCPFError('numero "%s" nao valida como '
-                    'CNPJ nem como CPF' % numero)
+            raise NumeroCNPJCPFError((
+                    'Numero nao valida como CNPJ nem como CPF: {!r}'
+                ).format(numero))
 
 
 def is_cnpjcpf(numero, estrito=False):
@@ -296,10 +302,10 @@ def cep(numero):
     _digitos = digitos(numero)
 
     if len(_digitos) != 8 or len(numero) != 8:
-        raise NumeroCEPError('CEP "%s" nao possui 8 digitos' % numero)
+        raise NumeroCEPError('CEP nao possui 8 digitos: {!r}'.format(numero))
 
     elif _digitos[0] * 8 == _digitos:
-        raise NumeroCEPError('CEP "%s" considerado invalido' % numero)
+        raise NumeroCEPError('CEP invalido: {!r}'.format(numero))
 
 
 def is_cep(numero, estrito=False):

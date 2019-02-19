@@ -17,7 +17,9 @@
 # limitations under the License.
 #
 
-VERSAO_ER = '2.19.07'
+# flake8: noqa
+
+VERSAO_ER = '2.21.08'
 """Versão da Especificação de Requisitos (ER) do SAT-CF-e na qual esta
 implementação se baseia.
 """
