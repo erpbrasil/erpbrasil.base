@@ -39,7 +39,7 @@ def meio_pagamento(codigo):
     :rtype: unicode
 
     """
-    return [s for v,s in constantes.WA03_CMP_MP if v == codigo][0]
+    return [s for v, s in constantes.WA03_CMP_MP if v == codigo][0]
 
 
 def dados_qrcode(cfe):
@@ -67,16 +67,21 @@ def dados_qrcode(cfe):
 
     """
     infCFe = cfe.getroot().find('./infCFe')
-    cnpjcpf_consumidor = infCFe.findtext('dest/CNPJ') or \
-            infCFe.findtext('dest/CPF') or ''
+    cnpjcpf_consumidor = (
+            infCFe.findtext('dest/CNPJ')
+            or infCFe.findtext('dest/CPF')
+            or ''
+        )
+
     return '|'.join([
-            infCFe.attrib['Id'][3:], # remove prefixo "CFe"
+            infCFe.attrib['Id'][3:],  # remove prefixo "CFe"
             '{}{}'.format(
                     infCFe.findtext('ide/dEmi'),
                     infCFe.findtext('ide/hEmi')),
             infCFe.findtext('total/vCFe'),
             cnpjcpf_consumidor,
-            infCFe.findtext('ide/assinaturaQRCODE'),])
+            infCFe.findtext('ide/assinaturaQRCODE'),
+        ])
 
 
 class ChaveCFeSAT(object):
@@ -125,7 +130,6 @@ class ChaveCFeSAT(object):
 
     CDV = slice(43, None)
 
-
     def __init__(self, chave):
 
         self._chave = None
@@ -135,104 +139,93 @@ class ChaveCFeSAT(object):
         if matcher:
             campos = matcher.group('campos')
         else:
-            raise ValueError('chave de acesso invalida: {!r}'.format(chave))
+            raise ValueError('Chave de acesso invalida: {!r}'.format(chave))
 
         digito = util.modulo11(campos[:43])
         if not (digito == int(campos[-1])):
-            raise ValueError('digito verificador invalido: '
-                    'chave={!r}, digito calculado={!r}'.format(chave, digito))
+            raise ValueError((
+                    'Digito verificador invalido: '
+                    'chave={!r}, digito calculado={!r}'
+                ).format(chave, digito))
 
         if not br.is_codigo_uf(int(campos[ChaveCFeSAT.CUF])):
-            raise ValueError('chave de acesso invalida '
-                    '(codigo UF: {!r}): {!r}'.format(
-                            campos[ChaveCFeSAT.CUF], chave))
+            raise ValueError((
+                    'Chave de acesso invalida (codigo UF: {!r}): {!r}'
+                ).format(campos[ChaveCFeSAT.CUF], chave))
 
         ano = int(campos[ChaveCFeSAT.AAMM][:2]) + 2000
         mes = int(campos[ChaveCFeSAT.AAMM][2:])
 
-        if mes not in range(1,13) or \
+        if mes not in range(1, 13) or \
                 (ano < 2012 or (ano == 2012 and mes < 11)):
             # considera válidas apenas as chaves que indicam mês/ano de emissão
             # a partir do início do projeto SAT-CF-e, em novembro/2012
-            raise ValueError('chave de acesso invalida '
-                    '(mes/ano emissao: {:d}/{:d}): {!r}'.format(
-                            mes, ano, chave))
+            raise ValueError((
+                    'Chave de acesso invalida '
+                    '(mes/ano emissao: {:d}/{:d}): {!r}'
+                ).format(mes, ano, chave))
 
         if not br.is_cnpj(campos[ChaveCFeSAT.CNPJ]):
-            raise ValueError('chave de acesso invalida '
-                    '(CNPJ emitente: {!r}): {!r}'.format(
-                            campos[ChaveCFeSAT.CNPJ], chave))
+            raise ValueError((
+                    'Chave de acesso invalida '
+                    '(CNPJ emitente: {!r}): {!r}'
+                ).format(campos[ChaveCFeSAT.CNPJ], chave))
 
         self._chave = chave
         self._campos = campos
 
-
     def __repr__(self):
         return '{:s}({!r})'.format(self.__class__.__name__, str(self))
-
 
     def __unicode__(self):
         return self._chave
 
-
     def __str__(self):
         return unicode(self).encode('utf-8')
-
 
     @property
     def codigo_uf(self):
         return int(self._campos[ChaveCFeSAT.CUF])
 
-
     @property
     def uf(self):
         return br.uf_pelo_codigo(self.codigo_uf)
-
 
     @property
     def anomes(self):
         return self._campos[ChaveCFeSAT.AAMM]
 
-
     @property
     def ano_emissao(self):
         return int(self._campos[ChaveCFeSAT.AAMM][:2]) + 2000
-
 
     @property
     def mes_emissao(self):
         return int(self._campos[ChaveCFeSAT.AAMM][2:])
 
-
     @property
     def cnpj_emitente(self):
         return br.as_cnpj(self._campos[ChaveCFeSAT.CNPJ])
-
 
     @property
     def modelo_documento(self):
         return self._campos[ChaveCFeSAT.MOD]
 
-
     @property
     def numero_serie(self):
         return self._campos[ChaveCFeSAT.NSERIESAT]
-
 
     @property
     def numero_cupom_fiscal(self):
         return self._campos[ChaveCFeSAT.NCF]
 
-
     @property
     def codigo_aleatorio(self):
         return self._campos[ChaveCFeSAT.CNF]
 
-
     @property
     def digito_verificador(self):
         return self._campos[ChaveCFeSAT.CDV]
-
 
     def partes(self, num_partes=11):
         """Particiona a chave do CF-e-SAT em uma lista de *n* segmentos.
@@ -247,9 +240,10 @@ class ChaveCFeSAT(object):
         :rtype: list
 
         """
-        assert 44 % num_partes == 0, 'O numero de partes nao produz um '\
-                'resultado inteiro (partes por 44 digitos): '\
-                'num_partes=%s' % num_partes
+        assert 44 % num_partes == 0, (
+                'O numero de partes nao produz um resultado inteiro (partes '
+                'por 44 digitos): num_partes={!r}'
+            ).format(num_partes)
 
         salto = 44 // num_partes
         return [self._campos[n:(n + salto)] for n in range(0, 44, salto)]

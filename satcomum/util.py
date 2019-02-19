@@ -28,7 +28,7 @@ def digitos(valor):
 def texto_decimal(valor, remover_zeros=True):
     """Converte um valor :py:class:`decimal.Decimal` para texto, com a opção de
     remover os zeros à direita não significativos. A conversão para texto irá
-    considerar o :py:module:`locale` para converter o texto pronto para
+    considerar o :mod:`locale` para converter o texto pronto para
     apresentação.
 
     :param decimal.Decimal valor: Valor a converter para texto.
@@ -79,6 +79,7 @@ def validar_casas_decimais(valor, minimo=1, maximo=2):
     """
     atributos = valor.as_tuple()
     if not (minimo <= abs(atributos.exponent) <= maximo):
-        raise ValueError('Numero de casas decimais fora dos limites esperados '
-                '(valor={!r}, minimo={!r}, maximo={!r}): {!r}'.format(
-                        valor, minimo, maximo, atributos))
+        raise ValueError((
+                'Numero de casas decimais fora dos limites esperados '
+                '(valor={!r}, minimo={!r}, maximo={!r}): {!r}'
+            ).format(valor, minimo, maximo, atributos))
