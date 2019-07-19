@@ -29,4 +29,3 @@ class Tests(TestCase):
 
     def test_02_validate_cpf(self):
         self.assertFalse(validate_cpf('734.419.622-07'))
-
