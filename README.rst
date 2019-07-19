@@ -19,7 +19,7 @@ Overview
     :target: https://readthedocs.org/projects/erpbrasil-base
     :alt: Documentation Status
 
-.. |travis| image:: https://travis-ci.org/erpbrasil/erpbrasil.base.svg?branch=master
+.. |travis| image:: https://api.travis-ci.org/erpbrasil/erpbrasil.base.svg?branch=master
     :alt: Travis-CI Build Status
     :target: https://travis-ci.org/erpbrasil/erpbrasil.base
 
@@ -31,7 +31,7 @@ Overview
     :alt: Requirements Status
     :target: https://requires.io/github/erpbrasil/erpbrasil.base/requirements/?branch=master
 
-.. |codecov| image:: https://codecov.io/github/erpbrasil/erpbrasil.base/coverage.svg?branch=master
+.. |codecov| image:: https://codecov.io/gh/erpbrasil/erpbrasil.base/branch/master/graphs/badge.svg?branch=master
     :alt: Coverage Status
     :target: https://codecov.io/github/erpbrasil/erpbrasil.base
 
