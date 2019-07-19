@@ -34,7 +34,7 @@ setup(
     ),
     author='Luis Felipe Mileo',
     author_email='mileo@kmee.com.br',
-    url='https://github.com/mileo/erpbrasil-base',
+    url='https://github.com/erpbrasil/erpbrasil.base',
     packages=find_packages('src'),
     package_dir={'': 'src'},
     py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
