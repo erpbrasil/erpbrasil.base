@@ -1,13 +1,14 @@
+# coding=utf-8
 # @ 2019 Akretion - www.akretion.com.br -
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
-from ..tools.misc import punctuation_rm, calc_price_ratio
-from odoo.tests.common import TransactionCase
+from erpbrasil.base.misc import punctuation_rm, calc_price_ratio
+from unittest import TestCase
 
 
-class Tests(TransactionCase):
+class Tests(TestCase):
 
     def test_punctution_rm(self):
         self.assertEquals(

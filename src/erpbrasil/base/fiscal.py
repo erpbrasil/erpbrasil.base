@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
@@ -31,11 +32,7 @@ PARAMETERS = {
 def validate_ie(uf, inscr_est):
     result = True
     try:
-        mod = __import__(
-            'odoo.addons.l10n_br_base.tools.fiscal',
-            globals(), locals(), 'fiscal')
-
-        validate = getattr(mod, 'validate_ie_%s' % uf)
+        validate = getattr(locals(), 'validate_ie_%s' % uf)
         if not validate(inscr_est):
             result = False
     except AttributeError:
