@@ -66,7 +66,7 @@ setup(
     project_urls={
         'Documentation': 'https://erpbrasil-base.readthedocs.io/',
         'Changelog': 'https://erpbrasil-base.readthedocs.io/en/latest/changelog.html',
-        'Issue Tracker': 'https://github.com/mileo/erpbrasil-base/issues',
+        'Issue Tracker': 'https://github.com/erpbrasil/erpbrasil.base/issues',
     },
     keywords=[
         # eg: 'keyword1', 'keyword2', 'keyword3',

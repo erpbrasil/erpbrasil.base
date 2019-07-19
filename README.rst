@@ -19,29 +19,29 @@ Overview
     :target: https://readthedocs.org/projects/erpbrasil-base
     :alt: Documentation Status
 
-.. |travis| image:: https://travis-ci.org/mileo/erpbrasil-base.svg?branch=master
+.. |travis| image:: https://travis-ci.org/erpbrasil/erpbrasil.base.svg?branch=master
     :alt: Travis-CI Build Status
-    :target: https://travis-ci.org/mileo/erpbrasil-base
+    :target: https://travis-ci.org/erpbrasil/erpbrasil.base
 
-.. |appveyor| image:: https://ci.appveyor.com/api/projects/status/github/mileo/erpbrasil-base?branch=master&svg=true
+.. |appveyor| image:: https://ci.appveyor.com/api/projects/status/github/erpbrasil/erpbrasil.base?branch=master&svg=true
     :alt: AppVeyor Build Status
-    :target: https://ci.appveyor.com/project/mileo/erpbrasil-base
+    :target: https://ci.appveyor.com/project/erpbrasil/erpbrasil.base
 
-.. |requires| image:: https://requires.io/github/mileo/erpbrasil-base/requirements.svg?branch=master
+.. |requires| image:: https://requires.io/github/erpbrasil/erpbrasil.base/requirements.svg?branch=master
     :alt: Requirements Status
-    :target: https://requires.io/github/mileo/erpbrasil-base/requirements/?branch=master
+    :target: https://requires.io/github/erpbrasil/erpbrasil.base/requirements/?branch=master
 
-.. |codecov| image:: https://codecov.io/github/mileo/erpbrasil-base/coverage.svg?branch=master
+.. |codecov| image:: https://codecov.io/github/erpbrasil/erpbrasil.base/coverage.svg?branch=master
     :alt: Coverage Status
-    :target: https://codecov.io/github/mileo/erpbrasil-base
+    :target: https://codecov.io/github/erpbrasil/erpbrasil.base
 
 .. |version| image:: https://img.shields.io/pypi/v/erpbrasil.base.svg
     :alt: PyPI Package latest release
     :target: https://pypi.org/project/erpbrasil.base
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/mileo/erpbrasil-base/v0.0.0.svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/erpbrasil/erpbrasil.base/v0.0.0.svg
     :alt: Commits since latest release
-    :target: https://github.com/mileo/erpbrasil-base/compare/v0.0.0...master
+    :target: https://github.com/erpbrasil/erpbrasil.base/compare/v0.0.0...master
 
 .. |wheel| image:: https://img.shields.io/pypi/wheel/erpbrasil.base.svg
     :alt: PyPI Wheel
