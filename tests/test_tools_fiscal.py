@@ -5,9 +5,9 @@
 
 from unittest import TestCase
 
-from erpbrasil.base.fiscal import (
-    validate_pis_pasep, validate_cnpj, validate_cpf
-)
+from erpbrasil.base.fiscal import validate_cnpj
+from erpbrasil.base.fiscal import validate_cpf
+from erpbrasil.base.fiscal import validate_pis_pasep
 
 
 class Tests(TestCase):

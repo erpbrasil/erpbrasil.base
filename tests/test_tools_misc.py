@@ -3,9 +3,10 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-
-from erpbrasil.base.misc import punctuation_rm, calc_price_ratio
 from unittest import TestCase
+
+from erpbrasil.base.misc import calc_price_ratio
+from erpbrasil.base.misc import punctuation_rm
 
 
 class Tests(TestCase):

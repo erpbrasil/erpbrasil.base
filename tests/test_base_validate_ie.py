@@ -3,8 +3,9 @@
 #   Clément Mombereau <clement.mombereau@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from erpbrasil.base.fiscal import validate_ie
 from unittest import TestCase
+
+from erpbrasil.base.fiscal import validate_ie
 
 # Create a dictionary with a list of invalid inscr_est for each state
 invalid_ie = {
