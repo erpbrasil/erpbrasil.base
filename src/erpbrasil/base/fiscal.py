@@ -32,10 +32,10 @@ PARAMETERS = {
 def validate_ie(uf, inscr_est):
     result = True
     try:
-        validate = getattr(locals(), 'validate_ie_%s' % uf)
+        validate = globals()['validate_ie_%s' % uf]
         if not validate(inscr_est):
             result = False
-    except AttributeError:
+    except KeyError:
         if not validate_ie_param(uf, inscr_est):
             result = False
     return result
