@@ -15,8 +15,8 @@ Overview
     * - package
       - | |version| |wheel| |supported-versions| |supported-implementations|
         | |commits-since|
-.. |docs| image:: https://readthedocs.org/projects/erpbrasil-base/badge/?style=flat
-    :target: https://readthedocs.org/projects/erpbrasil-base
+.. |docs| image:: https://readthedocs.org/projects/erpbrasilbase/badge/?style=flat
+    :target: https://readthedocs.org/projects/erpbrasilbase
     :alt: Documentation Status
 
 .. |travis| image:: https://api.travis-ci.org/erpbrasil/erpbrasil.base.svg?branch=master
