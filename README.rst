@@ -73,7 +73,7 @@ Documentation
 =============
 
 
-https://erpbrasil-base.readthedocs.io/
+https://erpbrasilbase.readthedocs.io/
 
 
 Development
