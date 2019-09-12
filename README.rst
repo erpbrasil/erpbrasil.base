@@ -27,10 +27,6 @@ Overview
     :alt: AppVeyor Build Status
     :target: https://ci.appveyor.com/project/erpbrasil/erpbrasil.base
 
-.. |requires| image:: https://requires.io/github/erpbrasil/erpbrasil.base/requirements.svg?branch=master
-    :alt: Requirements Status
-    :target: https://requires.io/github/erpbrasil/erpbrasil.base/requirements/?branch=master
-
 .. |codecov| image:: https://codecov.io/gh/erpbrasil/erpbrasil.base/branch/master/graphs/badge.svg?branch=master
     :alt: Coverage Status
     :target: https://codecov.io/github/erpbrasil/erpbrasil.base
