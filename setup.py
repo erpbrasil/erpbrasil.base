@@ -25,7 +25,7 @@ def read(*names, **kwargs):
 
 setup(
     name='erpbrasil.base',
-    version='1.0.0',
+    version='1.1.0',
     license='MIT license',
     description='Base',
     long_description='%s\n%s' % (
