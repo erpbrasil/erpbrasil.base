@@ -416,72 +416,6 @@ def validate_ie_to(inscr_est):
     return nova_ie == inscr_est
 
 
-def validate_cnpj(cnpj):
-    """ Rotina para validação do CNPJ - Cadastro Nacional
-    de Pessoa Juridica.
-    :param string cnpj: CNPJ para ser validado
-    :return bool: True or False
-    """
-    # Limpando o cnpj
-    if not cnpj.isdigit():
-        cnpj = re.sub('[^0-9]', '', cnpj)
-
-    # verificando o tamano do  cnpj
-    if len(cnpj) != 14:
-        return False
-
-    # Pega apenas os 12 primeiros dígitos do CNPJ e gera os digitos
-    cnpj = list(map(int, cnpj))
-    novo = cnpj[:12]
-
-    prod = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
-    while len(novo) < 14:
-        r = sum([x * y for (x, y) in zip(novo, prod)]) % 11
-        if r > 1:
-            f = 11 - r
-        else:
-            f = 0
-        novo.append(f)
-        prod.insert(0, 6)
-
-    # Se o número gerado coincidir com o número original, é válido
-    if novo == cnpj:
-        return True
-
-    return False
-
-
-def validate_cpf(cpf):
-    """Rotina para validação do CPF - Cadastro Nacional
-    de Pessoa Física.
-    :Return: True or False
-    :Parameters:
-      - 'cpf': CPF to be validate.
-    """
-    cpf = re.sub('[^0-9]', '', cpf)
-
-    if len(cpf) != 11 or cpf == cpf[0] * len(cpf):
-        return False
-
-    # Pega apenas os 9 primeiros dígitos do CPF e gera os 2 dígitos que faltam
-    cpf = list(map(int, cpf))
-    novo = cpf[:9]
-
-    while len(novo) < 11:
-        r = sum([(len(novo) + 1 - i) * v for i, v in enumerate(novo)]) % 11
-
-        if r > 1:
-            f = 11 - r
-        else:
-            f = 0
-        novo.append(f)
-
-    # Se o número gerado coincidir com o número original, é válido
-    if novo == cpf:
-        return True
-    return False
-
-
 def validate_pis_pasep(pis_pasep):
     digits = []
     for c in pis_pasep:
@@ -507,15 +441,3 @@ def validate_pis_pasep(pis_pasep):
     if rest == digits[10]:
         return True
     return False
-
-
-def format_cpf_cnpj(cnpj_cpf, country_code, is_company):
-    if cnpj_cpf and country_code.upper() == 'BR':
-        val = re.sub('[^0-9]', '', cnpj_cpf)
-        if not is_company and len(val) == 11:
-            return "%s.%s.%s-%s" % (
-                val[0:3], val[3:6], val[6:9], val[9:11])
-        elif is_company and len(val) == 14:
-            return "%s.%s.%s/%s-%s" % (
-                val[0:2], val[2:5], val[5:8], val[8:12], val[12:14])
-    return cnpj_cpf
