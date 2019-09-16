@@ -34,9 +34,9 @@ Overview
     :alt: PyPI Package latest release
     :target: https://pypi.org/project/erpbrasil.base
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/erpbrasil/erpbrasil.base/vv1.0.0..svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/erpbrasil/erpbrasil.base/vvv1.0.0...svg
     :alt: Commits since latest release
-    :target: https://github.com/erpbrasil/erpbrasil.base/compare/vv1.0.0....master
+    :target: https://github.com/erpbrasil/erpbrasil.base/compare/vvv1.0.0.....master
 
 .. |wheel| image:: https://img.shields.io/pypi/wheel/erpbrasil.base.svg
     :alt: PyPI Wheel
