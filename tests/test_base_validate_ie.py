@@ -5,7 +5,7 @@
 
 from unittest import TestCase
 
-from erpbrasil.base.fiscal import validate_ie
+from erpbrasil.base.fiscal import ie
 
 # Create a dictionary with a list of invalid inscr_est for each state
 invalid_ie = {
@@ -114,7 +114,7 @@ valid_ie = {
            '645098352117'],
     'se': ['271126973', '271233648', '271200634', '270622020', '271307986'],
     'to': ['290021014', '293799490', '290707544', '290655293', '293742782']
-    }
+}
 
 
 class ValidateIETest(TestCase):
@@ -123,14 +123,14 @@ class ValidateIETest(TestCase):
         for est in invalid_ie:
             for inscr_est in invalid_ie[est]:
                 self.assertFalse(
-                    validate_ie(est, inscr_est),
+                    ie.validar(est, inscr_est),
                     'Error on validate %s inscr_est' % est
-                    )
+                )
 
     def test_inscr_valid(self):
         for est in valid_ie:
             for inscr_est in valid_ie[est]:
                 self.assertTrue(
-                    validate_ie(est, inscr_est),
+                    ie.validar(est, inscr_est),
                     'Error on validate %s inscr_est' % est
-                    )
+                )
