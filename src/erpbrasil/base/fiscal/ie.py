@@ -29,19 +29,19 @@ PARAMETERS = {
 }
 
 
-def validate_ie(uf, inscr_est):
+def validar(uf, inscr_est):
     result = True
     try:
-        validate = globals()['validate_ie_%s' % uf]
-        if not validate(inscr_est):
+        validar_by_uf = globals()['validar_%s' % uf]
+        if not validar_by_uf(inscr_est):
             result = False
     except KeyError:
-        if not validate_ie_param(uf, inscr_est):
+        if not validar_param(uf, inscr_est):
             result = False
     return result
 
 
-def validate_ie_param(uf, inscr_est):
+def validar_param(uf, inscr_est):
 
     if uf not in PARAMETERS:
         return True
@@ -89,7 +89,7 @@ def validate_ie_param(uf, inscr_est):
     return nova_ie == inscr_est_ints
 
 
-def validate_ie_ap(inscr_est):
+def validar_ap(inscr_est):
     inscr_est = re.sub('[^0-9]', '', inscr_est)
 
     # verificando o tamanho da inscrição estadual
@@ -131,7 +131,7 @@ def validate_ie_ap(inscr_est):
     return nova_ie == inscr_est
 
 
-def validate_ie_ba(inscr_est):
+def validar_ba(inscr_est):
     inscr_est = re.sub('[^0-9]', '', inscr_est)
     inscr_est = list(map(int, inscr_est))
 
@@ -175,7 +175,7 @@ def validate_ie_ba(inscr_est):
     return nova_ie == inscr_est
 
 
-def validate_ie_go(inscr_est):
+def validar_go(inscr_est):
     inscr_est = re.sub('[^0-9]', '', inscr_est)
 
     # verificando o tamanho da inscrição estadual
@@ -212,7 +212,7 @@ def validate_ie_go(inscr_est):
     return nova_ie == inscr_est
 
 
-def validate_ie_mg(inscr_est):
+def validar_mg(inscr_est):
     inscr_est = re.sub('[^0-9]', '', inscr_est)
 
     # verificando o tamanho da inscrição estadual
@@ -250,7 +250,7 @@ def validate_ie_mg(inscr_est):
     return nova_ie == inscr_est
 
 
-def validate_ie_pe(inscr_est):
+def validar_pe(inscr_est):
     inscr_est = re.sub('[^0-9]', '', inscr_est)
 
     # verificando o tamanho da inscrição estadual
@@ -293,7 +293,7 @@ def validate_ie_pe(inscr_est):
     return nova_ie == inscr_est
 
 
-def validate_ie_ro(inscr_est):
+def validar_ro(inscr_est):
     def gera_digito_ro(nova_ie, prod):
         r = sum([x * y for (x, y) in zip(nova_ie, prod)]) % 11
         f = 11 - r
@@ -329,7 +329,7 @@ def validate_ie_ro(inscr_est):
     return nova_ie == inscr_est
 
 
-def validate_ie_sp(inscr_est):
+def validar_sp(inscr_est):
     def gera_digito_sp(nova_ie, prod):
         r = sum([x * y for (x, y) in zip(nova_ie, prod)]) % 11
         if r < 10:
@@ -389,7 +389,7 @@ def validate_ie_sp(inscr_est):
     return nova_ie == inscr_est
 
 
-def validate_ie_to(inscr_est):
+def validar_to(inscr_est):
     """
     Calculo a partir de junho de 2002
     http://www2.sefaz.to.gov.br/Servicos/Sintegra/calinse.htm
@@ -414,108 +414,3 @@ def validate_ie_to(inscr_est):
         f = 0
     nova_ie.append(f)
     return nova_ie == inscr_est
-
-
-def validate_cnpj(cnpj):
-    """ Rotina para validação do CNPJ - Cadastro Nacional
-    de Pessoa Juridica.
-    :param string cnpj: CNPJ para ser validado
-    :return bool: True or False
-    """
-    # Limpando o cnpj
-    if not cnpj.isdigit():
-        cnpj = re.sub('[^0-9]', '', cnpj)
-
-    # verificando o tamano do  cnpj
-    if len(cnpj) != 14:
-        return False
-
-    # Pega apenas os 12 primeiros dígitos do CNPJ e gera os digitos
-    cnpj = list(map(int, cnpj))
-    novo = cnpj[:12]
-
-    prod = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
-    while len(novo) < 14:
-        r = sum([x * y for (x, y) in zip(novo, prod)]) % 11
-        if r > 1:
-            f = 11 - r
-        else:
-            f = 0
-        novo.append(f)
-        prod.insert(0, 6)
-
-    # Se o número gerado coincidir com o número original, é válido
-    if novo == cnpj:
-        return True
-
-    return False
-
-
-def validate_cpf(cpf):
-    """Rotina para validação do CPF - Cadastro Nacional
-    de Pessoa Física.
-    :Return: True or False
-    :Parameters:
-      - 'cpf': CPF to be validate.
-    """
-    cpf = re.sub('[^0-9]', '', cpf)
-
-    if len(cpf) != 11 or cpf == cpf[0] * len(cpf):
-        return False
-
-    # Pega apenas os 9 primeiros dígitos do CPF e gera os 2 dígitos que faltam
-    cpf = list(map(int, cpf))
-    novo = cpf[:9]
-
-    while len(novo) < 11:
-        r = sum([(len(novo) + 1 - i) * v for i, v in enumerate(novo)]) % 11
-
-        if r > 1:
-            f = 11 - r
-        else:
-            f = 0
-        novo.append(f)
-
-    # Se o número gerado coincidir com o número original, é válido
-    if novo == cpf:
-        return True
-    return False
-
-
-def validate_pis_pasep(pis_pasep):
-    digits = []
-    for c in pis_pasep:
-        if c == '.' or c == ' ' or c == '\t':
-            continue
-        if c == '-':
-            if len(digits) != 10:
-                return False
-            continue
-        if c.isdigit():
-            digits.append(int(c))
-            continue
-        return False
-    if len(digits) != 11:
-        return False
-    height = [int(x) for x in "3298765432"]
-    total = 0
-    for i in range(10):
-        total += digits[i] * height[i]
-    rest = total % 11
-    if rest != 0:
-        rest = 11 - rest
-    if rest == digits[10]:
-        return True
-    return False
-
-
-def format_cpf_cnpj(cnpj_cpf, country_code, is_company):
-    if cnpj_cpf and country_code.upper() == 'BR':
-        val = re.sub('[^0-9]', '', cnpj_cpf)
-        if not is_company and len(val) == 11:
-            return "%s.%s.%s-%s" % (
-                val[0:3], val[3:6], val[6:9], val[9:11])
-        elif is_company and len(val) == 14:
-            return "%s.%s.%s/%s-%s" % (
-                val[0:2], val[2:5], val[5:8], val[8:12], val[12:14])
-    return cnpj_cpf
