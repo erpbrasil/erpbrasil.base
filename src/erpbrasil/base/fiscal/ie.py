@@ -5,27 +5,160 @@
 import re
 
 PARAMETERS = {
-    'ac': {'tam': 13, 'val_tam': 11, 'starts_with': '01'},
-    'al': {'tam': 9, 'starts_with': '24'},
-    'am': {'tam': 9},
-    'ce': {'tam': 9},
-    'df': {'tam': 13, 'val_tam': 11, 'starts_with': '07'},
-    'es': {'tam': 9},
-    'ma': {'tam': 9, 'starts_with': '12'},
-    'mt': {'tam': 11, 'prod': [3, 2, 9, 8, 7, 6, 5, 4, 3, 2]},
-    'ms': {'tam': 9, 'starts_with': '28'},
-    'pa': {'tam': 9, 'starts_with': '15'},
-    'pb': {'tam': 9},
-    'pr': {'tam': 10, 'val_tam': 8, 'prod': [3, 2, 7, 6, 5, 4, 3, 2]},
-    'pi': {'tam': 9},
-    'rj': {'tam': 8, 'prod': [2, 7, 6, 5, 4, 3, 2]},
-    'rn': {'tam': 10, 'val_tam': 9, 'prod': [10, 9, 8, 7, 6, 5, 4, 3, 2]},
-    'rs': {'tam': 10},
-    'rr': {'tam': 9, 'starts_with': '24', 'prod': [1, 2, 3, 4, 5, 6, 7, 8],
-           'div': 9},
-    'sc': {'tam': 9},
-    'se': {'tam': 9},
-    'to': {'tam': 9, 'prod': [9, 8, 7, 6, 5, 4, 3, 2]}
+    'ac': {
+        'tam': 13,
+        'val_tam': 11,
+        'starts_with': '01',
+        'format': lambda x: '{0}.{1}.{2}/{3}-{4}'.format(x[:2],
+                                                         x[2:5],
+                                                         x[5:8],
+                                                         x[8:11],
+                                                         x[11:13])
+    },
+    'al': {
+        'tam': 9,
+        'starts_with': '24',
+        'format': lambda x: '{0}.{1}.{2}-{3}'.format(x[:2],
+                                                     x[2:5],
+                                                     x[5:8],
+                                                     x[8:9])
+    },
+    'am': {
+        'tam': 9,
+        'format': lambda x: '{0}.{1}.{2}-{3}'.format(x[:2],
+                                                     x[2:5],
+                                                     x[5:8],
+                                                     x[8:9])
+    },
+    'ce': {
+        'tam': 9,
+        'format': lambda x: '{0}.{1}-{2}'.format(x[:2],
+                                                 x[2:8],
+                                                 x[8:9])
+    },
+    'df': {
+        'tam': 13,
+        'val_tam': 11,
+        'starts_with': '07',
+        'format': lambda x: '{0}-{1}.{2}/{3}-{4}'.format(x[:2],
+                                                         x[2:5],
+                                                         x[5:8],
+                                                         x[8:11],
+                                                         x[11:13])
+    },
+    'es': {
+        'tam': 9,
+        'format': lambda x: '{0}.{1}.{2}-{3}'.format(x[:3],
+                                                     x[3:6],
+                                                     x[6:8],
+                                                     x[8:9])
+    },
+    'ma': {
+        'tam': 9,
+        'starts_with': '12',
+        'format': lambda x: '{0}.{1}.{2}-{3}'.format(x[:2],
+                                                     x[2:5],
+                                                     x[5:8],
+                                                     x[8:9])
+    },
+    'mt': {
+        'tam': 11,
+        'prod': [3, 2, 9, 8, 7, 6, 5, 4, 3, 2],
+        'format': lambda x: '{0}.{1}.{2}.{3}-{4}'.format(x[:2],
+                                                         x[2:4],
+                                                         x[4:6],
+                                                         x[6:10],
+                                                         x[10:11])
+    },
+    'ms': {
+        'tam': 9,
+        'starts_with': '28',
+        'format': lambda x: '{0}.{1}.{2}-{3}'.format(x[:2],
+                                                     x[2:5],
+                                                     x[5:8],
+                                                     x[8:9])
+    },
+    'pa': {
+        'tam': 9,
+        'starts_with': '15',
+        'format': lambda x: '{0}.{1}.{2}-{3}'.format(x[:2],
+                                                     x[2:5],
+                                                     x[5:8],
+                                                     x[8:9])
+    },
+    'pb': {
+        'tam': 9,
+        'format': lambda x: '{0}.{1}.{2}-{3}'.format(x[:2],
+                                                     x[2:5],
+                                                     x[5:8],
+                                                     x[8:9])
+    },
+    'pr': {
+        'tam': 10,
+        'val_tam': 8,
+        'prod': [3, 2, 7, 6, 5, 4, 3, 2],
+        'format': lambda x: '{0}.{1}-{2}'.format(x[:3],
+                                                 x[3:7],
+                                                 x[7:9])
+    },
+    'pi': {
+        'tam': 9,
+        'format': lambda x: '{0}.{1}.{2}-{3}'.format(x[:2],
+                                                     x[2:5],
+                                                     x[5:8],
+                                                     x[8:9])
+    },
+    'rj': {
+        'tam': 8,
+        'prod': [2, 7, 6, 5, 4, 3, 2],
+        'format': lambda x: '{0}.{1}.{2}-{3}'.format(x[:2],
+                                                     x[2:5],
+                                                     x[5:7],
+                                                     x[7:8])
+    },
+    'rn': {
+        'tam': 10,
+        'val_tam': 9,
+        'prod': [10, 9, 8, 7, 6, 5, 4, 3, 2]
+    },
+    'rs': {
+        'tam': 10,
+        'format': lambda x: '{0}/{1}.{2}-{3}'.format(x[:3],
+                                                     x[3:6],
+                                                     x[6:9],
+                                                     x[9:10])
+    },
+    'rr': {
+        'tam': 9,
+        'starts_with': '24',
+        'prod': [1, 2, 3, 4, 5, 6, 7, 8],
+        'div': 9,
+        'format': lambda x: '{0}.{1}.{2}-{3}'.format(x[:2],
+                                                     x[2:5],
+                                                     x[5:8],
+                                                     x[8:9])
+    },
+    'sc': {
+        'tam': 9,
+        'format': lambda x: '{0}.{1}.{2}'.format(x[:3],
+                                                 x[3:6],
+                                                 x[6:9])
+    },
+    'se': {
+        'tam': 9,
+        'format': lambda x: '{0}.{1}.{2}-{3}'.format(x[:2],
+                                                     x[2:5],
+                                                     x[5:8],
+                                                     x[8:9])
+    },
+    'to': {
+        'tam': 9,
+        'prod': [9, 8, 7, 6, 5, 4, 3, 2],
+        'format': lambda x: '{0}.{1}.{2}-{3}'.format(x[:2],
+                                                     x[2:5],
+                                                     x[5:8],
+                                                     x[8:9])
+    }
 }
 
 
@@ -414,3 +547,101 @@ def validar_to(inscr_est):
         f = 0
     nova_ie.append(f)
     return nova_ie == inscr_est
+
+
+def formata(uf, inscr_est):
+
+    if uf not in PARAMETERS:
+        return inscr_est
+
+    tam = PARAMETERS[uf].get('tam', 0)
+    inscr_est = inscr_est.strip().rjust(int(tam), '0')
+    inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+    if len(inscr_est) == tam:
+        try:
+            formata_by_uf = globals()['formata_%s' % uf]
+            inscr_est = formata_by_uf(inscr_est)
+        except KeyError:
+            inscr_est = formata_param(uf, inscr_est)
+
+    return inscr_est
+
+
+def formata_param(uf, inscr_est):
+
+    if uf not in PARAMETERS:
+        return inscr_est
+
+    tam = PARAMETERS[uf].get('tam', 0)
+    inscr_est = inscr_est.strip().rjust(int(tam), '0')
+    inscr_est = re.sub('[^0-9]', '', inscr_est)
+
+    if len(inscr_est) == tam:
+        format_lambda = PARAMETERS[uf].get('format')
+        inscr_est = format_lambda(inscr_est)
+
+    return inscr_est
+
+def formata_ap(inscr_est):
+    tam = 9
+    inscr_est = inscr_est.strip().rjust(int(tam), '0')
+    inscr_est = re.sub('[^0-9]', '', inscr_est)
+    if len(inscr_est) == tam:
+        inscr_est = '{0}.{1}.{2}-{3}'.format(inscr_est[:2],
+                                             inscr_est[2:5],
+                                             inscr_est[5:8],
+                                             inscr_est[8:9])
+    return inscr_est
+
+
+def formata_ba(inscr_est):
+    inscr_est = re.sub('[^0-9]', '', inscr_est)
+    if len(inscr_est) == 8:
+        inscr_est = inscr_est.ljust(9, '0')
+    if len(inscr_est) == 9:
+        inscr_est = '{0}.{1}.{2}'.format(inscr_est[:3],
+                                         inscr_est[3:6],
+                                         inscr_est[6:9])
+
+    return inscr_est
+
+
+def formata_go(inscr_est):
+    tam = 9
+    inscr_est = inscr_est.strip().rjust(int(tam), '0')
+    inscr_est = re.sub('[^0-9]', '', inscr_est)
+    if len(inscr_est) == tam:
+        inscr_est = '{0}.{1}.{2}-{3}'.format(inscr_est[:2],
+                                             inscr_est[2:5],
+                                             inscr_est[5:8],
+                                             inscr_est[8:9])
+
+    return inscr_est
+
+
+def formata_mg(inscr_est):
+    inscr_est = re.sub('[^0-9]', '', inscr_est)
+    if len(inscr_est) == 13:
+        inscr_est = '{0}.{1}.{2}.{3}/{4}-{5}'.format(inscr_est[:3],
+                                                     inscr_est[3:6],
+                                                     inscr_est[6:9],
+                                                     inscr_est[9:11],
+                                                     inscr_est[11:13])
+
+    return inscr_est
+
+
+def formata_pe(inscr_est):
+    # TODO
+    return inscr_est
+
+
+def formata_rn(inscr_est):
+    # TODO
+    return inscr_est
+
+
+def formata_sp(inscr_est):
+    # TODO
+    return inscr_est
