@@ -36,7 +36,7 @@ Overview
 
 .. |commits-since| image:: https://img.shields.io/github/commits-since/erpbrasil/erpbrasil.base/vvv1.1.0...svg
     :alt: Commits since latest release
-    :target: https://github.com/erpbrasil/erpbrasil.base/compare/vvv1.1.0.....master
+    :target: https://github.com/erpbrasil/erpbrasil.base/compare/v1.0.0...master
 
 .. |wheel| image:: https://img.shields.io/pypi/wheel/erpbrasil.base.svg
     :alt: PyPI Wheel
