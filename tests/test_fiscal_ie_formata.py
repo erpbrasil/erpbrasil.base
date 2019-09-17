@@ -1,12 +1,11 @@
 # coding=utf-8
-# @ 2017 Akretion - www.akretion.com.br -
+# @ 2019 Akretion - www.akretion.com.br -
 #   Clément Mombereau <clement.mombereau@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from unittest import TestCase
 
 from erpbrasil.base.fiscal import ie
-
 
 # IEs sem formação
 ies_sem_formatacao = {
@@ -81,8 +80,8 @@ ies_formatadas = {
            '10.455.527-0'],
     'ma': ['12.149.829-8', '12.204.504-1', '12.321.428-9', '12.311.013-0',
            '12.317.052-4', '12.153.006-0'],
-    'mg': ['261.595.022.00-92', '700.054.746.00-67', '351.990.027.00-05',
-           '062.182.852.00-97', '578.029.716.00-05', '062.029.716.02-99'],
+    'mg': ['261.595.022/00-92', '700.054.746/00-67', '351.990.027/00-05',
+           '062.182.852/00-97', '578.029.716/00-05', '062.029.716/02-99'],
     'ms': ['28.337.064-5', '28.323.893-3', '28.323.556-0', '28.316.716-5',
            '28.326.708-9', '28.335.212-4'],
     'mt': ['00.13.33.3741-3', '00.13.31.1002-8', '00.13.20.4054-9',
@@ -100,8 +99,8 @@ ies_formatadas = {
            '19.401.040-6'],
     'rj': ['78.890.16-9', '78.724.99-4', '78.205.35-0', '85.190.88-1',
            '78.860.05-7', '78.873.65-5'],
-    'rn': ['0200887890', '0200395149', '0200653016', '0201199351',
-           '2074337760', '2010665163', '2075778442'],
+    'rn': ['20.088.789-0', '20.039.514-9', '20.065.301-6', '20.119.935-1',
+           '207.433.776-0', '201.066.516-3', '207.577.844-2'],
     'rs': ['024/013.011-1', '096/337.621-7', '029/028.900-9', '124/023.733-0',
            '057/012.020-9', '096/265.544-9', '096/200.367-0'],
     'ro': ['00000001656554', '00000001499394', '00000001727117',
@@ -124,6 +123,7 @@ class ValidateIETest(TestCase):
     def test_ie_formata(self):
         """Testa a formatação das IEs"""
         for uf in ies_sem_formatacao:
-            for ie in ies_sem_formatacao[uf]:
-                self.assertEquals(
-                    ie.formata(ue, ie) in ies_formatadas[uf])
+            for i in ies_sem_formatacao[uf]:
+                self.assertTrue(
+                    ie.formata(uf, i) in ies_formatadas[uf],
+                    'Erro ao formatar inscrição estadual para a UF: %s' % uf)

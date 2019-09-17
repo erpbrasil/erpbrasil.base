@@ -8,7 +8,7 @@ from unittest import TestCase
 from erpbrasil.base.fiscal import ie
 
 # Create a dictionary with a list of invalid inscr_est for each state
-invalid_ie = {
+ie_invalidas = {
     'ac': ['0102190200161', '0101296300282', '0100258700141', '0101296300101',
            '0101613200121', '0100662000131', '01006620001310'],
     'al': ['241065551', '248501412', '240916422', '248540982', '248429982',
@@ -65,7 +65,7 @@ invalid_ie = {
     }
 
 # Create a dictionary with a list of valid inscr_est for each state
-valid_ie = {
+ie_validas = {
     'ac': ['0102190200165', '0101296300289', '0100258700145', '0101296300106',
            '0101613200122', '0100662000133'],
     'al': ['241065550', '248501410', '240916425', '248540980', '248429981',
@@ -117,20 +117,20 @@ valid_ie = {
 }
 
 
-class ValidateIETest(TestCase):
+class ValidarIETest(TestCase):
 
-    def test_inscr_invalid(self):
-        for est in invalid_ie:
-            for inscr_est in invalid_ie[est]:
+    def test_ie_invalidas(self):
+        """Testa a validação de IEs Inválidas"""
+        for uf in ie_invalidas:
+            for i in ie_invalidas[uf]:
                 self.assertFalse(
-                    ie.validar(est, inscr_est),
-                    'Error on validate %s inscr_est' % est
-                )
+                    ie.validar(uf, i),
+                    'Erro a validar inscrição estadual para a UF: %s' % uf)
 
-    def test_inscr_valid(self):
-        for est in valid_ie:
-            for inscr_est in valid_ie[est]:
+    def test_ie_validas(self):
+        """Testa a validação de IEs válidas"""
+        for uf in ie_validas:
+            for i in ie_validas[uf]:
                 self.assertTrue(
-                    ie.validar(est, inscr_est),
-                    'Error on validate %s inscr_est' % est
-                )
+                    ie.validar(uf, i),
+                    'Erro a validar inscrição estadual para a UF: %s' % uf)

@@ -346,6 +346,7 @@ def validar_go(inscr_est):
 
 
 def validar_mg(inscr_est):
+    # TODO - Adicionar na validação para produtor rural
     inscr_est = re.sub('[^0-9]', '', inscr_est)
 
     # verificando o tamanho da inscrição estadual
@@ -463,6 +464,7 @@ def validar_ro(inscr_est):
 
 
 def validar_sp(inscr_est):
+    # TODO - Adicionar na validação para produtor rural
     def gera_digito_sp(nova_ie, prod):
         r = sum([x * y for (x, y) in zip(nova_ie, prod)]) % 11
         if r < 10:
@@ -551,19 +553,13 @@ def validar_to(inscr_est):
 
 def formata(uf, inscr_est):
 
-    if uf not in PARAMETERS:
-        return inscr_est
-
-    tam = PARAMETERS[uf].get('tam', 0)
-    inscr_est = inscr_est.strip().rjust(int(tam), '0')
     inscr_est = re.sub('[^0-9]', '', inscr_est)
 
-    if len(inscr_est) == tam:
-        try:
-            formata_by_uf = globals()['formata_%s' % uf]
-            inscr_est = formata_by_uf(inscr_est)
-        except KeyError:
-            inscr_est = formata_param(uf, inscr_est)
+    try:
+        formata_by_uf = globals()['formata_%s' % uf]
+        inscr_est = formata_by_uf(inscr_est)
+    except KeyError:
+        inscr_est = formata_param(uf, inscr_est)
 
     return inscr_est
 
@@ -583,6 +579,7 @@ def formata_param(uf, inscr_est):
 
     return inscr_est
 
+
 def formata_ap(inscr_est):
     tam = 9
     inscr_est = inscr_est.strip().rjust(int(tam), '0')
@@ -598,7 +595,7 @@ def formata_ap(inscr_est):
 def formata_ba(inscr_est):
     inscr_est = re.sub('[^0-9]', '', inscr_est)
     if len(inscr_est) == 8:
-        inscr_est = inscr_est.ljust(9, '0')
+        inscr_est = inscr_est.rjust(9, '0')
     if len(inscr_est) == 9:
         inscr_est = '{0}.{1}.{2}'.format(inscr_est[:3],
                                          inscr_est[3:6],
@@ -621,13 +618,14 @@ def formata_go(inscr_est):
 
 
 def formata_mg(inscr_est):
+    # TODO - Adicionar a formatação para produtor rural
     inscr_est = re.sub('[^0-9]', '', inscr_est)
     if len(inscr_est) == 13:
-        inscr_est = '{0}.{1}.{2}.{3}/{4}-{5}'.format(inscr_est[:3],
-                                                     inscr_est[3:6],
-                                                     inscr_est[6:9],
-                                                     inscr_est[9:11],
-                                                     inscr_est[11:13])
+        inscr_est = '{0}.{1}.{2}/{3}-{4}'.format(inscr_est[:3],
+                                                 inscr_est[3:6],
+                                                 inscr_est[6:9],
+                                                 inscr_est[9:11],
+                                                 inscr_est[11:13])
 
     return inscr_est
 
@@ -638,10 +636,21 @@ def formata_pe(inscr_est):
 
 
 def formata_rn(inscr_est):
-    # TODO
+    inscr_est = re.sub('[^0-9]', '', inscr_est)
+    if len(inscr_est) == 9:
+        inscr_est = '{0}.{1}.{2}-{3}'.format(inscr_est[:2],
+                                             inscr_est[2:5],
+                                             inscr_est[5:8],
+                                             inscr_est[8:9])
+
+    if len(inscr_est) == 10:
+        inscr_est = '{0}.{1}.{2}-{3}'.format(inscr_est[:3],
+                                             inscr_est[3:6],
+                                             inscr_est[6:9],
+                                             inscr_est[9:10])
     return inscr_est
 
 
 def formata_sp(inscr_est):
-    # TODO
+    # TODO - Adicionar a formatação para IEs normal e para produtor rural
     return inscr_est
