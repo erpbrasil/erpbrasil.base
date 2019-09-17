@@ -94,3 +94,13 @@ Note, to combine the coverage data from all the tox environments run:
       - ::
 
             PYTEST_ADDOPTS=--cov-append tox
+
+Upload to Pypi
+==============
+
+Use somente o comando: 
+```twine upload dist/*
+ or 
+ twine upload dist/erpbrasil.base-X.X.0.tar.gz --repository-url https://upload.pypi.org/legacy/ 
+``` 
+
