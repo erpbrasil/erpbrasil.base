@@ -99,8 +99,11 @@ Upload to Pypi
 ==============
 
 Use somente o comando: 
-```twine upload dist/*
- or 
- twine upload dist/erpbrasil.base-X.X.0.tar.gz --repository-url https://upload.pypi.org/legacy/ 
-``` 
+
+ ``twine upload dist/*``
+
+or
+
+ ``twine upload dist/erpbrasil.base-X.X.0.tar.gz --repository-url https://upload.pypi.org/legacy/``
+
 
