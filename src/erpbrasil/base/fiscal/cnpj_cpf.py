@@ -13,6 +13,8 @@ def validar(cnpj_cpf=None):
       - 'cnpj_cpf': CNPJ ou CPF para ser validado.
     :Return: True or False
     """
+    if not cnpj_cpf:
+        return
     cnpj_cpf = re.sub('[^0-9]', '', cnpj_cpf)
 
     if len(cnpj_cpf) == 14:
@@ -90,7 +92,9 @@ def validar_cpf(cpf):
     return False
 
 
-def formata(cnpj_cpf):
+def formata(cnpj_cpf=None):
+    if not cnpj_cpf:
+        return
     cnpj_cpf = re.sub('[^0-9]', '', cnpj_cpf)
     if len(cnpj_cpf) == 14:
         cnpj_cpf = formata_cnpj(cnpj_cpf)
