@@ -20,7 +20,7 @@ def calc_price_ratio(price_gross, amount_calc, amount_total):
         return 0.0
 
 
-def format_zipcode(zipcode, country_code):
+def format_zipcode(zipcode, country_code='BR'):
     if zipcode and country_code.upper() == 'BR':
         zipcode_br = ''
         val = re.sub('[^0-9]', '', zipcode)
