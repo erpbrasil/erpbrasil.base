@@ -53,20 +53,20 @@ class Tests(TestCase):
 
     def test_01_formata_cnpj_cpf(self):
         """Teste formatação de CNPJ/CPF correto"""
-        self.assertEquals(
+        self.assertEqual(
             cnpj_cpf.formata('02960895000131'), '02.960.895/0001-31')
 
     def test_02_formata_cnpj_cpf(self):
         """Teste formatação de CNPJ/CPF correto"""
-        self.assertEquals(
+        self.assertEqual(
             cnpj_cpf.formata('55394836000'), '553.948.360-00')
 
     def test_01_formata_cnpj(self):
         """Teste formatação de CNPJ correto"""
-        self.assertEquals(
+        self.assertEqual(
             cnpj_cpf.formata_cnpj('61103212000199'), '61.103.212/0001-99')
 
     def test_01_formata_cpf(self):
         """Teste formatação de CPF correto"""
-        self.assertEquals(
+        self.assertEqual(
             cnpj_cpf.formata_cpf('06853187024'), '068.531.870-24')
