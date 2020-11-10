@@ -53,7 +53,37 @@ Overview
 
 .. end-badges
 
-xBase
+erpbrasil.base
+##############
+
+Biblioteca python para auxiliar em operações corriqueiras dos ERPs Python Brasileiros:
+
+* Formatação/Validação de CPF/CNPJ, IE, PIS
+* Formatação de CEP
+* Rateio de Frete / Seguro e etc
+* Remoção de pontuação de documentos
+
+Esta biblioteca faz parte do projeto: https://erpbrasil.github.io/
+
+Documentação
+============
+
+https://erpbrasil.github.io/
+
+Créditos
+========
+
+Esta é uma biblioteca criada atravês do esforço de das empresas:
+
+* Akretion https://akretion.com/pt-BR/
+* KMEE https://www.kmee.com.br
+
+Parte do código foi extraido da localização brasileira do Odoo: https://github.com/oca/l10n-brazil/ favor consultar a lista de contribuidores:
+
+https://github.com/erpbrasil/erpbrasil.base/graphs/contributors
+
+Licença
+~~~~~~~
 
 * Free software: MIT license
 
@@ -98,7 +128,7 @@ Note, to combine the coverage data from all the tox environments run:
 Upload to Pypi
 ==============
 
-Use somente o comando: 
+Use somente o comando:
 
  ``twine upload dist/*``
 
