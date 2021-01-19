@@ -21,9 +21,9 @@ def calc_price_ratio(price_gross, amount_calc, amount_total):
 
 
 def format_zipcode(zipcode, country_code='BR'):
+    zipcode_formatted = zipcode or ''
     if zipcode and country_code.upper() == 'BR':
-        zipcode_br = ''
         val = re.sub('[^0-9]', '', zipcode)
         if len(val) == 8:
-            zipcode_br = "%s-%s" % (val[0:5], val[5:8])
-        return zipcode_br
+            zipcode_formatted = "%s-%s" % (val[0:5], val[5:8])
+    return zipcode_formatted
