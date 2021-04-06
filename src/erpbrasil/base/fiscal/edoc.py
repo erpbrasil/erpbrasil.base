@@ -17,6 +17,23 @@ EDOC_PREFIX = {
 }
 
 
+def detectar_chave_edoc(chave):
+    """ Converte a chave em texto no objeto correto"""
+    CHAVE_REGEX = re.compile(r'(?P<prefixo>\w+)(?P<campos>\d{44})$')
+    matcher = CHAVE_REGEX.match(chave)
+    if matcher:
+        campos = matcher.group('campos')
+        prefixo = matcher.group('prefixo')
+    if not matcher and not prefixo and not campos:
+        raise ValueError('Chave de acesso invalida: {!r}'.format(chave))
+
+    if prefixo in ('NFe', 'CTe', 'MDFe'):
+        return ChaveEdoc(chave=chave, validar=True)
+    elif prefixo == 'CFe':
+        return ChaveCFeSAT(chave=chave, validar=True)
+    raise ValueError('Chave de acesso invalida: {!r}'.format(chave))
+
+
 class ChaveEdoc(object):
     """
     Inspired on
@@ -32,11 +49,9 @@ class ChaveEdoc(object):
              |  |    |              |  |   |         | |        |
         NFe  43 1402 01098983010680 65 796 000000599 1 31447746 1 #NFC-e
              |  |    |              |  |   |         | |        |
-        CFe  35 1508 08723218000186 59 900 004019000 0 24111425 7
-
         NFe  35 2103 20695448000184 55 001 000003589 1 98183992 3
     """
-    CHAVE_REGEX = re.compile(r'^(CFe|NFe|CTe|MDFe)(?P<campos>\d{44})$')
+    CHAVE_REGEX = re.compile(r'^(NFe|CTe|MDFe)(?P<campos>\d{44})$')
 
     CUF = slice(0, 2)
     AAMM = slice(2, 6)
@@ -49,27 +64,27 @@ class ChaveEdoc(object):
     DV = slice(43, None)
 
     def __init__(self, chave=False, codigo_uf=False, ano_mes=False, cnpj_emitente=False, modelo_documento=False,
-                 numero_serie=False, numero_documento=False, forma_emissao=1):
+                 numero_serie=False, numero_documento=False, forma_emissao=1, validar=False):
 
         if not chave:
             if not (codigo_uf and ano_mes and cnpj_emitente and modelo_documento and numero_documento and
-                    numero_documento and forma_emissao):
+                    numero_documento):
                 raise ValueError('Impossível gerar a chave!!')
 
-            campos = str(codigo_uf).zfill(2)
+            campos = str(codigo_uf).zfill(self.CUF.stop - self.CUF.start)
 
             campos += ano_mes
 
-            campos += str(punctuation_rm(cnpj_emitente)).zfill(14)
-            campos += str(modelo_documento).zfill(2)
-            campos += str(numero_serie).zfill(3)
-            campos += str(numero_documento).zfill(9)
+            campos += str(punctuation_rm(cnpj_emitente)).zfill(self.CNPJ.stop - self.CNPJ.start)
+            campos += str(modelo_documento).zfill(self.MODELO.stop - self.MODELO.start)
+            campos += str(numero_serie).zfill(self.SERIE.stop - self.SERIE.start)
+            campos += str(numero_documento).zfill(self.NUMERO.stop - self.NUMERO.start)
 
             #
             # A inclusão do tipo de emissão na chave já torna a chave válida
             # também para a versão 2.00 da NF-e
             #
-            campos += str(forma_emissao).zfill(1)
+            campos += str(forma_emissao).zfill(self.FORMA.stop - self.FORMA.start)
 
             #
             # O código numério é um número aleatório
@@ -84,11 +99,13 @@ class ChaveEdoc(object):
             for c in campos:
                 soma += int(c) ** 3 ** 2
 
+            TAMANHO_CODIGO = self.CODIGO.stop - self.CODIGO.start
+
             codigo = str(soma)
-            if len(codigo) > 8:
-                codigo = codigo[-8:]
+            if len(codigo) > TAMANHO_CODIGO:
+                codigo = codigo[-TAMANHO_CODIGO:]
             else:
-                codigo = codigo.rjust(8, "0")
+                codigo = codigo.rjust(TAMANHO_CODIGO, "0")
 
             campos += codigo
 
@@ -105,18 +122,19 @@ class ChaveEdoc(object):
             if digito > 9:
                 digito = 0
             campos += str(digito)
-            self.campos = campos
-            self.prefixo = EDOC_PREFIX[self.modelo_documento]
-            self.chave = self.prefixo + self.campos
         else:
-            matcher = ChaveEdoc.CHAVE_REGEX.match(chave)
+            matcher = self.CHAVE_REGEX.match(chave)
             if matcher:
                 campos = matcher.group('campos')
             if not matcher or not campos:
                 raise ValueError('Chave de acesso invalida: {!r}'.format(chave))
-            self.chave = chave
-            self.prefixo, self.campos = self.prefixo_campos(chave)
-        self.validar()
+
+        self.campos = campos
+        self.prefixo = EDOC_PREFIX[self.modelo_documento]
+        self.chave = self.prefixo + self.campos
+
+        if validar:
+            self.validar()
 
     def validar(self):
         digito = modulo11(self.campos[:43])
@@ -149,15 +167,6 @@ class ChaveEdoc(object):
     def __repr__(self):
         return '{:s}({!r})'.format(self.__class__.__name__, self._chave)
 
-    @staticmethod
-    def prefixo_campos(chave):
-        matcher = ChaveEdoc.CHAVE_REGEX.match(chave)
-        if matcher:
-            campos = matcher.group('campos')
-        if not matcher or not campos:
-            raise ValueError('Chave de acesso invalida: {!r}'.format(chave))
-        return False, campos
-
     @property
     def chave(self):
         return self._chave
@@ -176,47 +185,47 @@ class ChaveEdoc(object):
 
     @property
     def codigo_uf(self):
-        return int(self._campos[ChaveEdoc.CUF])
+        return int(self._campos[self.CUF])
 
     @property
     def ano_mes(self):
-        return self._campos[ChaveEdoc.AAMM]
+        return self._campos[self.AAMM]
 
     @property
     def ano_emissao(self):
-        return int(self._campos[ChaveEdoc.AAMM][:2]) + 2000
+        return int(self._campos[self.AAMM][:2]) + 2000
 
     @property
     def mes_emissao(self):
-        return int(self._campos[ChaveEdoc.AAMM][2:])
+        return int(self._campos[self.AAMM][2:])
 
     @property
     def cnpj_emitente(self):
-        return cnpj_cpf.formata(self._campos[ChaveEdoc.CNPJ])
+        return cnpj_cpf.formata(self._campos[self.CNPJ])
 
     @property
     def modelo_documento(self):
-        return self._campos[ChaveEdoc.MODELO]
+        return self._campos[self.MODELO]
 
     @property
     def numero_serie(self):
-        return self._campos[ChaveEdoc.SERIE]
+        return self._campos[self.SERIE]
 
     @property
     def numero_documento(self):
-        return self._campos[ChaveEdoc.NUMERO]
+        return self._campos[self.NUMERO]
 
     @property
     def forma_emissao(self):
-        return self._campos[ChaveEdoc.FORMA]
+        return self._campos[self.FORMA]
 
     @property
     def codigo_aleatorio(self):
-        return self._campos[ChaveEdoc.CODIGO]
+        return self._campos[self.CODIGO]
 
     @property
     def digito_verificador(self):
-        return self._campos[ChaveEdoc.DV]
+        return self._campos[self.DV]
 
     def partes(self, num_partes=11):
         assert 44 % num_partes == 0, (
@@ -226,3 +235,14 @@ class ChaveEdoc(object):
 
         salto = 44 // num_partes
         return [self._campos[n:(n + salto)] for n in range(0, 44, salto)]
+
+
+class ChaveCFeSAT(ChaveEdoc):
+
+    CHAVE_REGEX = re.compile(r'^CFe(?P<campos>\d{44})$')
+
+    SERIE = slice(22, 31)
+    NUMERO = slice(31, 37)
+    FORMA = slice(0, 0)
+    CODIGO = slice(37, 43)  # CNF
+    DV = slice(43, None)
