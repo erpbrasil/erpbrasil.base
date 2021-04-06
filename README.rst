@@ -58,10 +58,14 @@ erpbrasil.base
 
 Biblioteca python para auxiliar em operações corriqueiras dos ERPs Python Brasileiros:
 
-* Formatação/Validação de CPF/CNPJ, IE, PIS
-* Formatação de CEP
-* Rateio de Frete / Seguro e etc
-* Remoção de pontuação de documentos
+* Formatação/Validação de CPF/CNPJ, IE, PIS;
+* Formatação de CEP;
+* Rateio de Frete / Seguro e etc;
+* Remoção de pontuação de documentos;
+* Chaves de documentos fiscais eletronicos:
+    * Geração
+    * Validação
+    * Conversão em objeto legível
 
 Esta biblioteca faz parte do projeto: https://erpbrasil.github.io/
 

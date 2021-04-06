@@ -19,3 +19,9 @@ Changelog
 
 * Fim do suporte ao python2
 * Estabilização dos testes
+
+
+2.0.1 (2021-04-06)
+~~~~~~~~~~~~~~~~~~
+
+* Chave documento fiscal
