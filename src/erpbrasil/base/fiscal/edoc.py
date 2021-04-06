@@ -85,43 +85,8 @@ class ChaveEdoc(object):
             # também para a versão 2.00 da NF-e
             #
             campos += str(forma_emissao).zfill(self.FORMA.stop - self.FORMA.start)
-
-            #
-            # O código numério é um número aleatório
-            #
-            # chave += str(random.randint(0, 99999999)).strip().rjust(8, '0')
-
-            #
-            # Mas, por segurança, é preferível que esse número não seja
-            # aleatório
-            #
-            soma = 0
-            for c in campos:
-                soma += int(c) ** 3 ** 2
-
-            TAMANHO_CODIGO = self.CODIGO.stop - self.CODIGO.start
-
-            codigo = str(soma)
-            if len(codigo) > TAMANHO_CODIGO:
-                codigo = codigo[-TAMANHO_CODIGO:]
-            else:
-                codigo = codigo.rjust(TAMANHO_CODIGO, "0")
-
-            campos += codigo
-
-            soma = 0
-            m = 2
-            for i in range(len(campos) - 1, -1, -1):
-                c = campos[i]
-                soma += int(c) * m
-                m += 1
-                if m > 9:
-                    m = 2
-
-            digito = 11 - (soma % 11)
-            if digito > 9:
-                digito = 0
-            campos += str(digito)
+            campos += self.calculo_codigo_aleatorio(campos)
+            campos += str(modulo11(campos))
         else:
             matcher = self.CHAVE_REGEX.match(chave)
             if matcher:
@@ -135,6 +100,29 @@ class ChaveEdoc(object):
 
         if validar:
             self.validar()
+
+    def calculo_codigo_aleatorio(self, campos):
+        #
+        # O código numério é um número aleatório
+        #
+        # chave += str(random.randint(0, 99999999)).strip().rjust(8, '0')
+
+        #
+        # Mas, por segurança, é preferível que esse número não seja
+        # aleatório
+        #
+        soma = 0
+        for c in campos:
+            soma += int(c) ** 3 ** 2
+
+        TAMANHO_CODIGO = self.CODIGO.stop - self.CODIGO.start
+
+        codigo = str(soma)
+        if len(codigo) > TAMANHO_CODIGO:
+            codigo = codigo[-TAMANHO_CODIGO:]
+        else:
+            codigo = codigo.rjust(TAMANHO_CODIGO, "0")
+        return codigo
 
     def validar(self):
         digito = modulo11(self.campos[:43])
