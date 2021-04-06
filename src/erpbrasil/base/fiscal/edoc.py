@@ -95,7 +95,7 @@ class ChaveEdoc(object):
                 raise ValueError('Chave de acesso invalida: {!r}'.format(chave))
 
         self.campos = campos
-        self.prefixo = EDOC_PREFIX[self.modelo_documento]
+        self.prefixo = EDOC_PREFIX.get(self.modelo_documento, '')
         self.chave = self.prefixo + self.campos
 
         if validar:

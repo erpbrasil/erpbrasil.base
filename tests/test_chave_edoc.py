@@ -258,7 +258,11 @@ class Tests(TestCase):
             'CFe35150808723218000187599000040190000241114259',
 
             # NF-E
-            'NFe35210320695448000184550010000035891981839924'
+            'NFe35210320695448000184550010000035891981839924',
+            # Modelo invalido - 54
+            'NFe35210320695448000184540010000035891981839924',
+            # NFE em maiusculo
+            'NFE35210320695448000184540010000035891981839924',
         ]
         for chave in chaves_invalidas:
             with self.assertRaises(ValueError):
