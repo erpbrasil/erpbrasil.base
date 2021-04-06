@@ -3,8 +3,18 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import re
+
 from ..misc import modulo11
+from ..misc import punctuation_rm
 from . import cnpj_cpf
+
+EDOC_PREFIX = {
+    '55': 'NFe',
+    '57': 'CTe',
+    '58': 'MDFe',
+    '59': 'CFe',
+    '65': 'NFe',
+}
 
 
 class ChaveEdoc(object):
@@ -23,6 +33,8 @@ class ChaveEdoc(object):
         NFe  43 1402 01098983010680 65 796 000000599 1 31447746 1 #NFC-e
              |  |    |              |  |   |         | |        |
         CFe  35 1508 08723218000186 59 900 004019000 0 24111425 7
+
+        NFe  35 2103 20695448000184 55 001 000003589 1 98183992 3
     """
     CHAVE_REGEX = re.compile(r'^(CFe|NFe|CTe|MDFe)(?P<campos>\d{44})$')
 
@@ -30,28 +42,81 @@ class ChaveEdoc(object):
     AAMM = slice(2, 6)
     CNPJ = slice(6, 20)
     MODELO = slice(20, 22)
-    SERIE = slice(22, 24)
-    NUMERO = slice(24, 33)
-    FORMA = slice(33, 34)
-    CODIGO = slice(34, 43)
+    SERIE = slice(22, 25)
+    NUMERO = slice(25, 34)
+    FORMA = slice(34, 35)
+    CODIGO = slice(35, 43)
     DV = slice(43, None)
 
-    def __init__(self, chave=False):
-        if chave:
+    def __init__(self, chave=False, codigo_uf=False, ano_mes=False, cnpj_emitente=False, modelo_documento=False,
+                 numero_serie=False, numero_documento=False, forma_emissao=1):
+
+        if not chave:
+            if not (codigo_uf and ano_mes and cnpj_emitente and modelo_documento and numero_documento and
+                    numero_documento and forma_emissao):
+                raise ValueError('Impossível gerar a chave!!')
+
+            campos = str(codigo_uf).zfill(2)
+
+            campos += ano_mes
+
+            campos += str(punctuation_rm(cnpj_emitente)).zfill(14)
+            campos += str(modelo_documento).zfill(2)
+            campos += str(numero_serie).zfill(3)
+            campos += str(numero_documento).zfill(9)
+
+            #
+            # A inclusão do tipo de emissão na chave já torna a chave válida
+            # também para a versão 2.00 da NF-e
+            #
+            campos += str(forma_emissao).zfill(1)
+
+            #
+            # O código numério é um número aleatório
+            #
+            # chave += str(random.randint(0, 99999999)).strip().rjust(8, '0')
+
+            #
+            # Mas, por segurança, é preferível que esse número não seja
+            # aleatório
+            #
+            soma = 0
+            for c in campos:
+                soma += int(c) ** 3 ** 2
+
+            codigo = str(soma)
+            if len(codigo) > 8:
+                codigo = codigo[-8:]
+            else:
+                codigo = codigo.rjust(8, "0")
+
+            campos += codigo
+
+            soma = 0
+            m = 2
+            for i in range(len(campos) - 1, -1, -1):
+                c = campos[i]
+                soma += int(c) * m
+                m += 1
+                if m > 9:
+                    m = 2
+
+            digito = 11 - (soma % 11)
+            if digito > 9:
+                digito = 0
+            campos += str(digito)
+            self.campos = campos
+            self.prefixo = EDOC_PREFIX[self.modelo_documento]
+            self.chave = self.prefixo + self.campos
+        else:
+            matcher = ChaveEdoc.CHAVE_REGEX.match(chave)
+            if matcher:
+                campos = matcher.group('campos')
+            if not matcher or not campos:
+                raise ValueError('Chave de acesso invalida: {!r}'.format(chave))
             self.chave = chave
             self.prefixo, self.campos = self.prefixo_campos(chave)
-            self.validar()
-        else:
-            pass
-
-    @staticmethod
-    def prefixo_campos(chave):
-        matcher = ChaveEdoc.CHAVE_REGEX.match(chave)
-        if matcher:
-            campos = matcher.group('campos')
-        if not matcher or not campos:
-            raise ValueError('Chave de acesso invalida: {!r}'.format(chave))
-        return False, campos
+        self.validar()
 
     def validar(self):
         digito = modulo11(self.campos[:43])
@@ -61,10 +126,10 @@ class ChaveEdoc(object):
                     'chave={!r}, digito calculado={!r}'
                 ).format(self.chave, digito))
 
-        # if not br.is_codigo_uf(int(campos[ChaveEdoc.CUF])):
+        # if not br.is_codigo_uf(int(self.campos[ChaveEdoc.CUF])):
         #     raise ValueError((
         #             'Chave de acesso invalida (codigo UF: {!r}): {!r}'
-        #         ).format(campos[ChaveEdoc.CUF], chave))
+        #         ).format(self.campos[ChaveEdoc.CUF], chave))
 
         if self.campos[ChaveEdoc.MODELO] not in ('55', '57', '58', '59', '65'):
             raise ValueError((
@@ -83,6 +148,15 @@ class ChaveEdoc(object):
 
     def __repr__(self):
         return '{:s}({!r})'.format(self.__class__.__name__, self._chave)
+
+    @staticmethod
+    def prefixo_campos(chave):
+        matcher = ChaveEdoc.CHAVE_REGEX.match(chave)
+        if matcher:
+            campos = matcher.group('campos')
+        if not matcher or not campos:
+            raise ValueError('Chave de acesso invalida: {!r}'.format(chave))
+        return False, campos
 
     @property
     def chave(self):
