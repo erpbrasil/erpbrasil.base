@@ -16,16 +16,18 @@ EDOC_PREFIX = {
     '65': 'NFe',
 }
 
+CHAVE_REGEX = re.compile(r'(?P<campos>\d{44})$')
+
 
 def detectar_chave_edoc(chave):
     """ Converte a chave em texto no objeto correto"""
-    CHAVE_REGEX = re.compile(r'(?P<prefixo>\w+)(?P<campos>\d{44})$')
     matcher = CHAVE_REGEX.match(chave)
     if matcher:
         campos = matcher.group('campos')
-        prefixo = matcher.group('prefixo')
-    if not matcher and not prefixo and not campos:
+    if not matcher and not campos:
         raise ValueError('Chave de acesso invalida: {!r}'.format(chave))
+
+    prefixo = EDOC_PREFIX.get(campos[20:22])
 
     if prefixo in ('NFe', 'CTe', 'MDFe'):
         return ChaveEdoc(chave=chave, validar=True)
@@ -51,8 +53,6 @@ class ChaveEdoc(object):
              |  |    |              |  |   |         | |        |
         NFe  35 2103 20695448000184 55 001 000003589 1 98183992 3
     """
-    CHAVE_REGEX = re.compile(r'^(NFe|CTe|MDFe)(?P<campos>\d{44})$')
-
     CUF = slice(0, 2)
     AAMM = slice(2, 6)
     CNPJ = slice(6, 20)
@@ -88,7 +88,7 @@ class ChaveEdoc(object):
             campos += self.calculo_codigo_aleatorio(campos)
             campos += str(modulo11(campos))
         else:
-            matcher = self.CHAVE_REGEX.match(chave)
+            matcher = CHAVE_REGEX.match(chave)
             if matcher:
                 campos = matcher.group('campos')
             if not matcher or not campos:
@@ -96,7 +96,7 @@ class ChaveEdoc(object):
 
         self.campos = campos
         self.prefixo = EDOC_PREFIX.get(self.modelo_documento, '')
-        self.chave = self.prefixo + self.campos
+        self.chave = self.campos
 
         if validar:
             self.validar()
@@ -162,6 +162,14 @@ class ChaveEdoc(object):
     @chave.setter
     def chave(self, value):
         self._chave = value
+
+    @property
+    def prefixo(self):
+        return self._prefixo
+
+    @property
+    def prefixo_chave(self):
+        return self._prefixo + self._chave
 
     @property
     def campos(self):
