@@ -26,7 +26,7 @@ project = 'erpbrasil.base'
 year = '2019'
 author = 'Luis Felipe Mileo'
 copyright = '{0}, {1}'.format(year, author)
-version = release = '2.2.0'
+version = release = '2.3.0'
 
 pygments_style = 'trac'
 templates_path = ['.']
