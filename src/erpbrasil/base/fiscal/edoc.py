@@ -167,6 +167,10 @@ class ChaveEdoc(object):
     def prefixo(self):
         return self._prefixo
 
+    @prefixo.setter
+    def prefixo(self, value):
+        self._prefixo = value
+
     @property
     def prefixo_chave(self):
         return self._prefixo + self._chave
