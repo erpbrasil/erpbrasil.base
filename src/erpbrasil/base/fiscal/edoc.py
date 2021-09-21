@@ -64,7 +64,7 @@ class ChaveEdoc(object):
     DV = slice(43, None)
 
     def __init__(self, chave=False, codigo_uf=False, ano_mes=False, cnpj_emitente=False, modelo_documento=False,
-                 numero_serie=False, numero_documento=False, forma_emissao=1, validar=False):
+                 numero_serie=False, numero_documento=False, forma_emissao=1, codigo_aleatorio=False, validar=False):
 
         if not chave:
             if not (codigo_uf and ano_mes and cnpj_emitente and modelo_documento and numero_documento and
@@ -85,7 +85,11 @@ class ChaveEdoc(object):
             # também para a versão 2.00 da NF-e
             #
             campos += str(forma_emissao).zfill(self.FORMA.stop - self.FORMA.start)
-            campos += self.calculo_codigo_aleatorio(campos)
+
+            if not codigo_aleatorio:
+                codigo_aleatorio = self.calculo_codigo_aleatorio(campos)
+
+            campos += str(codigo_aleatorio).zfill(self.CODIGO.stop - self.CODIGO.start)
             campos += str(modulo11(campos))
         else:
             matcher = CHAVE_REGEX.match(chave)
