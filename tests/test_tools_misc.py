@@ -7,9 +7,19 @@ from unittest import TestCase
 
 from erpbrasil.base.misc import calc_price_ratio
 from erpbrasil.base.misc import punctuation_rm
+from erpbrasil.base.misc import only_digits
 
 
 class Tests(TestCase):
+
+    def test_only_digits(self):
+        self.assertEqual(
+            only_digits('485WD99495-7!'), '485994957',
+            'The function only_digits failed.')
+
+        self.assertEqual(
+            only_digits('8363833424'), '8363833424',
+            'The function only_digits failed.')
 
     def test_punctution_rm(self):
         self.assertEqual(

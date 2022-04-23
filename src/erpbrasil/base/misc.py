@@ -8,7 +8,17 @@ import re
 import string
 
 
+def only_digits(string_value):
+    """Retorna somente os números de uma string"""
+    if string_value.isdigit():
+        tmp_value = string_value
+    else:
+        tmp_value = re.sub("[^0-9]", "", string_value)
+    return tmp_value
+
+
 def punctuation_rm(string_value):
+    """Remove pontuações de uma string: !"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~"""
     tmp_value = (
         re.sub('[%s]' % re.escape(string.punctuation), '', string_value or ''))
     return tmp_value
