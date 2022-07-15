@@ -24,6 +24,8 @@ def detectar_chave_edoc(chave):
     matcher = CHAVE_REGEX.match(chave)
     if matcher:
         campos = matcher.group('campos')
+    else:
+        campos = False
     if not matcher and not campos:
         raise ValueError('Chave de acesso invalida: {!r}'.format(chave))
 
