@@ -22,7 +22,7 @@ class Tests(TestCase):
         edoc_1 = ChaveEdoc(chave=chave)
 
         self.assertEqual(edoc_1.ano_mes, ano_mes, 'Key: ano_mes failed')
-        self.assertEqual(edoc_1.cnpj_emitente, cnpj, 'Key: cnpj_emitente failed')
+        self.assertEqual(edoc_1.cnpj_cpf_emitente, cnpj, 'Key: cnpj_cpf_emitente failed')
         self.assertEqual(edoc_1.codigo_uf, codigo_uf, 'Key: codigo_uf failed')
         self.assertEqual(edoc_1.forma_emissao, forma_emissao, 'Key: forma_emissao failed')
         self.assertEqual(edoc_1.modelo_documento, modelo_documento, 'Key: modelo_documento failed')
@@ -36,7 +36,7 @@ class Tests(TestCase):
 
         edoc_2 = ChaveEdoc(
             ano_mes=ano_mes,
-            cnpj_emitente=cnpj,
+            cnpj_cpf_emitente=cnpj,
             codigo_uf=codigo_uf,
             forma_emissao=forma_emissao,
             modelo_documento=modelo_documento,
@@ -66,7 +66,7 @@ class Tests(TestCase):
         edoc_1 = ChaveEdoc(chave=chave)
 
         self.assertEqual(edoc_1.ano_mes, ano_mes, 'Key: ano_mes failed')
-        self.assertEqual(edoc_1.cnpj_emitente, cnpj, 'Key: cnpj_emitente failed')
+        self.assertEqual(edoc_1.cnpj_cpf_emitente, cnpj, 'Key: cnpj_cpf_emitente failed')
         self.assertEqual(edoc_1.codigo_uf, codigo_uf, 'Key: codigo_uf failed')
         self.assertEqual(edoc_1.forma_emissao, forma_emissao, 'Key: forma_emissao failed')
         self.assertEqual(edoc_1.modelo_documento, modelo_documento, 'Key: modelo_documento failed')
@@ -80,7 +80,7 @@ class Tests(TestCase):
 
         edoc_2 = ChaveEdoc(
             ano_mes=ano_mes,
-            cnpj_emitente=cnpj,
+            cnpj_cpf_emitente=cnpj,
             codigo_uf=codigo_uf,
             forma_emissao=forma_emissao,
             modelo_documento=modelo_documento,
@@ -110,7 +110,7 @@ class Tests(TestCase):
         edoc_1 = ChaveEdoc(chave=chave)
 
         self.assertEqual(edoc_1.ano_mes, ano_mes, 'Key: ano_mes failed')
-        self.assertEqual(edoc_1.cnpj_emitente, cnpj, 'Key: cnpj_emitente failed')
+        self.assertEqual(edoc_1.cnpj_cpf_emitente, cnpj, 'Key: cnpj_cpf_emitente failed')
         self.assertEqual(edoc_1.codigo_uf, codigo_uf, 'Key: codigo_uf failed')
         self.assertEqual(edoc_1.forma_emissao, forma_emissao, 'Key: forma_emissao failed')
         self.assertEqual(edoc_1.modelo_documento, modelo_documento, 'Key: modelo_documento failed')
@@ -124,7 +124,7 @@ class Tests(TestCase):
 
         edoc_2 = ChaveEdoc(
             ano_mes=ano_mes,
-            cnpj_emitente=cnpj,
+            cnpj_cpf_emitente=cnpj,
             codigo_uf=codigo_uf,
             forma_emissao=forma_emissao,
             modelo_documento=modelo_documento,
@@ -154,7 +154,7 @@ class Tests(TestCase):
         edoc_1 = ChaveEdoc(chave=chave)
 
         self.assertEqual(edoc_1.ano_mes, ano_mes, 'Key: ano_mes failed')
-        self.assertEqual(edoc_1.cnpj_emitente, cnpj, 'Key: cnpj_emitente failed')
+        self.assertEqual(edoc_1.cnpj_cpf_emitente, cnpj, 'Key: cnpj_cpf_emitente failed')
         self.assertEqual(edoc_1.codigo_uf, codigo_uf, 'Key: codigo_uf failed')
         self.assertEqual(edoc_1.forma_emissao, forma_emissao, 'Key: forma_emissao failed')
         self.assertEqual(edoc_1.modelo_documento, modelo_documento, 'Key: modelo_documento failed')
@@ -168,7 +168,7 @@ class Tests(TestCase):
 
         edoc_2 = ChaveEdoc(
             ano_mes=ano_mes,
-            cnpj_emitente=cnpj,
+            cnpj_cpf_emitente=cnpj,
             codigo_uf=codigo_uf,
             forma_emissao=forma_emissao,
             modelo_documento=modelo_documento,
@@ -198,7 +198,7 @@ class Tests(TestCase):
         edoc_1 = ChaveEdoc(chave=chave)
 
         self.assertEqual(edoc_1.ano_mes, ano_mes, 'Key: ano_mes failed')
-        self.assertEqual(edoc_1.cnpj_emitente, cnpj, 'Key: cnpj_emitente failed')
+        self.assertEqual(edoc_1.cnpj_cpf_emitente, cnpj, 'Key: cnpj_cpf_emitente failed')
         self.assertEqual(edoc_1.codigo_uf, codigo_uf, 'Key: codigo_uf failed')
         self.assertEqual(edoc_1.forma_emissao, forma_emissao, 'Key: forma_emissao failed')
         self.assertEqual(edoc_1.modelo_documento, modelo_documento, 'Key: modelo_documento failed')
@@ -212,7 +212,7 @@ class Tests(TestCase):
 
         edoc_2 = ChaveEdoc(
             ano_mes=ano_mes,
-            cnpj_emitente=cnpj,
+            cnpj_cpf_emitente=cnpj,
             codigo_uf=codigo_uf,
             forma_emissao=forma_emissao,
             modelo_documento=modelo_documento,
@@ -243,7 +243,7 @@ class Tests(TestCase):
         edoc_1 = ChaveCFeSAT(chave=chave)
 
         self.assertEqual(edoc_1.ano_mes, ano_mes, 'Key: ano_mes failed')
-        self.assertEqual(edoc_1.cnpj_emitente, cnpj, 'Key: cnpj_emitente failed')
+        self.assertEqual(edoc_1.cnpj_cpf_emitente, cnpj, 'Key: cnpj_cpf_emitente failed')
         self.assertEqual(edoc_1.codigo_uf, codigo_uf, 'Key: codigo_uf failed')
         self.assertEqual(edoc_1.forma_emissao, forma_emissao, 'Key: forma_emissao failed')
         self.assertEqual(edoc_1.modelo_documento, modelo_documento, 'Key: modelo_documento failed')
@@ -276,7 +276,7 @@ class Tests(TestCase):
         edoc_1 = ChaveCFeSAT(chave=chave)
 
         self.assertEqual(edoc_1.ano_mes, ano_mes, 'Key: ano_mes failed')
-        self.assertEqual(edoc_1.cnpj_emitente, cnpj, 'Key: cnpj_emitente failed')
+        self.assertEqual(edoc_1.cnpj_cpf_emitente, cnpj, 'Key: cnpj_cpf_emitente failed')
         self.assertEqual(edoc_1.codigo_uf, codigo_uf, 'Key: codigo_uf failed')
         self.assertEqual(edoc_1.forma_emissao, forma_emissao, 'Key: forma_emissao failed')
         self.assertEqual(edoc_1.modelo_documento, modelo_documento, 'Key: modelo_documento failed')
@@ -308,6 +308,11 @@ class Tests(TestCase):
             '35210320695448000184540010000035891981839924',
             # NFE em maiusculo
             '35210320695448000184540010000035891981839924',
+            # UF Inválida
+            '99150808723218000186599000040190000241114257',
+            # Chave com série de CNPJ mas com CPF emitente
+            '42221200050690671849558890000000811540256167',
+
         ]
         for chave in chaves_invalidas:
             with self.assertRaises(ValueError):
@@ -321,7 +326,8 @@ class Tests(TestCase):
             '35210320695448000184550010000035891981839923',
             '32171232438772000104570010001990751153183825',
             '35150808723218000186599000040190000241114257',
-            '35150808723218000186599000040190000557255950'
+            '35150808723218000186599000040190000557255950',
+            '42221200050690671849559100000000811540256167',
         ]
         for chave in chaves_validas:
             edoc = detectar_chave_edoc(chave=chave)
