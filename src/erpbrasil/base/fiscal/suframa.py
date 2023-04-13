@@ -4,6 +4,8 @@
 def validar(suframa):
     if not suframa.isdigit():
         return False
+    if len(suframa) > 9:
+        return False
     if len(suframa) < 8:
         suframa.zfill(8)
 
