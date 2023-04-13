@@ -15,7 +15,7 @@ def validar(cnpj_cpf=None):
     """
     if not cnpj_cpf:
         return
-    cnpj_cpf = re.sub('[^0-9]', '', cnpj_cpf)
+    cnpj_cpf = re.sub("[^0-9]", "", cnpj_cpf)
 
     if len(cnpj_cpf) == 14:
         return validar_cnpj(cnpj_cpf)
@@ -25,14 +25,14 @@ def validar(cnpj_cpf=None):
 
 
 def validar_cnpj(cnpj):
-    """ Rotina para validação do CNPJ - Cadastro Nacional
+    """Rotina para validação do CNPJ - Cadastro Nacional
     de Pessoa Juridica.
     :param string cnpj: CNPJ para ser validado
     :return bool: True or False
     """
     # Limpando o cnpj
     if not cnpj.isdigit():
-        cnpj = re.sub('[^0-9]', '', cnpj)
+        cnpj = re.sub("[^0-9]", "", cnpj)
 
     # verificando o tamano do  cnpj
     if len(cnpj) != 14:
@@ -68,7 +68,7 @@ def validar_cpf(cpf):
     """
     # Limpando o cpf
     if not cpf.isdigit():
-        cpf = re.sub('[^0-9]', '', cpf)
+        cpf = re.sub("[^0-9]", "", cpf)
 
     if len(cpf) != 11 or cpf == cpf[0] * len(cpf):
         return False
@@ -95,7 +95,7 @@ def validar_cpf(cpf):
 def formata(cnpj_cpf=None):
     if not cnpj_cpf:
         return
-    cnpj_cpf = re.sub('[^0-9]', '', cnpj_cpf)
+    cnpj_cpf = re.sub("[^0-9]", "", cnpj_cpf)
     if len(cnpj_cpf) == 14:
         cnpj_cpf = formata_cnpj(cnpj_cpf)
 
@@ -106,23 +106,22 @@ def formata(cnpj_cpf=None):
 
 
 def formata_cnpj(cnpj=None):
-    cnpj = re.sub('[^0-9]', '', cnpj)
+    cnpj = re.sub("[^0-9]", "", cnpj)
     if len(cnpj) == 14:
-        cnpj = "%s.%s.%s/%s-%s" % (cnpj[0:2],
-                                   cnpj[2:5],
-                                   cnpj[5:8],
-                                   cnpj[8:12],
-                                   cnpj[12:14])
+        cnpj = "%s.%s.%s/%s-%s" % (
+            cnpj[0:2],
+            cnpj[2:5],
+            cnpj[5:8],
+            cnpj[8:12],
+            cnpj[12:14],
+        )
 
     return cnpj
 
 
 def formata_cpf(cpf=None):
-    cpf = re.sub('[^0-9]', '', cpf)
+    cpf = re.sub("[^0-9]", "", cpf)
     if len(cpf) == 11:
-        cpf = "%s.%s.%s-%s" % (cpf[0:3],
-                               cpf[3:6],
-                               cpf[6:9],
-                               cpf[9:11])
+        cpf = "%s.%s.%s-%s" % (cpf[0:3], cpf[3:6], cpf[6:9], cpf[9:11])
 
     return cpf

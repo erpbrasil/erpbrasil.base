@@ -6,9 +6,9 @@
 def validar(pis_pasep):
     digits = []
     for c in pis_pasep:
-        if c == '.' or c == ' ' or c == '\t':
+        if c == "." or c == " " or c == "\t":
             continue
-        if c == '-':
+        if c == "-":
             if len(digits) != 10:
                 return False
             continue

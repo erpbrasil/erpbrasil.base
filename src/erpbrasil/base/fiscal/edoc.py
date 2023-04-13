@@ -41,35 +41,35 @@ ESTADOS_IBGE = {
 CODIGO_ESTADOS_IBGE = list(ESTADOS_IBGE.keys())
 
 EDOC_PREFIX = {
-    '55': 'NFe',
-    '57': 'CTe',
-    '58': 'MDFe',
-    '59': 'CFe',
-    '65': 'NFe',
+    "55": "NFe",
+    "57": "CTe",
+    "58": "MDFe",
+    "59": "CFe",
+    "65": "NFe",
 }
 
 CODIGO_MODELOS_EDOC = list(EDOC_PREFIX.keys())
 
-CHAVE_REGEX = re.compile(r'(?P<campos>\d{44})$')
+CHAVE_REGEX = re.compile(r"(?P<campos>\d{44})$")
 
 
 def detectar_chave_edoc(chave):
-    """ Converte a chave em texto no objeto correto"""
+    """Converte a chave em texto no objeto correto"""
     matcher = CHAVE_REGEX.match(chave)
     if matcher:
-        campos = matcher.group('campos')
+        campos = matcher.group("campos")
     else:
         campos = False
     if not matcher and not campos:
-        raise ValueError('Chave de acesso invalida: {!r}'.format(chave))
+        raise ValueError("Chave de acesso invalida: {!r}".format(chave))
 
     prefixo = EDOC_PREFIX.get(campos[20:22])
 
-    if prefixo in ('NFe', 'CTe', 'MDFe'):
+    if prefixo in ("NFe", "CTe", "MDFe"):
         return ChaveEdoc(chave=chave, validar=True)
-    elif prefixo == 'CFe':
+    elif prefixo == "CFe":
         return ChaveCFeSAT(chave=chave, validar=True)
-    raise ValueError('Chave de acesso invalida: {!r}'.format(chave))
+    raise ValueError("Chave de acesso invalida: {!r}".format(chave))
 
 
 class ChaveEdoc(object):
@@ -89,6 +89,7 @@ class ChaveEdoc(object):
              |  |    |              |  |   |         | |        |
         NFe  35 2103 20695448000184 55 001 000003589 1 98183992 3
     """
+
     CUF = slice(0, 2)
     AAMM = slice(2, 6)
     CNPJ_CPF = slice(6, 20)
@@ -99,19 +100,37 @@ class ChaveEdoc(object):
     CODIGO = slice(35, 43)
     DV = slice(43, None)
 
-    def __init__(self, chave=False, codigo_uf=False, ano_mes=False, cnpj_cpf_emitente=False, modelo_documento=False,
-                 numero_serie=False, numero_documento=False, forma_emissao=1, codigo_aleatorio=False, validar=False):
-
+    def __init__(
+        self,
+        chave=False,
+        codigo_uf=False,
+        ano_mes=False,
+        cnpj_cpf_emitente=False,
+        modelo_documento=False,
+        numero_serie=False,
+        numero_documento=False,
+        forma_emissao=1,
+        codigo_aleatorio=False,
+        validar=False,
+    ):
         if not chave:
-            if not (codigo_uf and ano_mes and cnpj_cpf_emitente and modelo_documento and numero_documento and
-                    numero_documento):
-                raise ValueError('Impossível gerar a chave!!')
+            if not (
+                codigo_uf
+                and ano_mes
+                and cnpj_cpf_emitente
+                and modelo_documento
+                and numero_documento
+                and numero_documento
+            ):
+                raise ValueError("Impossível gerar a chave!!")
 
             campos = str(codigo_uf).zfill(self.CUF.stop - self.CUF.start)
 
             campos += ano_mes
 
-            campos += str(punctuation_rm(cnpj_cpf_emitente)).zfill(self.CNPJ_CPF.stop - self.CNPJ_CPF.start)
+            campos += str(punctuation_rm(cnpj_cpf_emitente)).zfill(
+                self.CNPJ_CPF.stop - self.CNPJ_CPF.start
+            )
             campos += str(modelo_documento).zfill(self.MODELO.stop - self.MODELO.start)
             campos += str(numero_serie).zfill(self.SERIE.stop - self.SERIE.start)
             campos += str(numero_documento).zfill(self.NUMERO.stop - self.NUMERO.start)
@@ -130,12 +149,12 @@ class ChaveEdoc(object):
         else:
             matcher = CHAVE_REGEX.match(chave)
             if matcher:
-                campos = matcher.group('campos')
+                campos = matcher.group("campos")
             if not matcher or not campos:
-                raise ValueError('Chave de acesso invalida: {!r}'.format(chave))
+                raise ValueError("Chave de acesso invalida: {!r}".format(chave))
 
         self.campos = campos
-        self.prefixo = EDOC_PREFIX.get(self.modelo_documento, '')
+        self.prefixo = EDOC_PREFIX.get(self.modelo_documento, "")
         self.chave = self.campos
 
         if validar:
@@ -153,7 +172,7 @@ class ChaveEdoc(object):
         #
         soma = 0
         for c in campos:
-            soma += int(c) ** 3 ** 2
+            soma += int(c) ** 3**2
 
         TAMANHO_CODIGO = self.CODIGO.stop - self.CODIGO.start
 
@@ -188,17 +207,18 @@ class ChaveEdoc(object):
         # O valor deve ser o código do IBGE da UF
         if int(self.campos[ChaveEdoc.CUF]) not in CODIGO_ESTADOS_IBGE:
             raise ValueError(
-                ('Chave de acesso invalida (codigo UF: {!r}): {!r}').format(
+                ("Chave de acesso invalida (codigo UF: {!r}): {!r}").format(
                     self.campos[ChaveEdoc.CUF], self.chave
                 )
             )
 
         # Verifica se o valor do campo MODELO é válido
         if self.campos[ChaveEdoc.MODELO] not in CODIGO_MODELOS_EDOC:
-            raise ValueError((
-                'Chave de acesso invalida '
-                '(Modelos não permitidos: {!r}): {!r}'
-                ).format(self.campos[ChaveEdoc.MODELO], self.chave))
+            raise ValueError(
+                (
+                    "Chave de acesso invalida " "(Modelos não permitidos: {!r}): {!r}"
+                ).format(self.campos[ChaveEdoc.MODELO], self.chave)
+            )
 
         # Verifica se o valor do campo Série é válido
         series_cnpj = list(range(0, 889 + 1)) + list(range(900, 909 + 1))
@@ -208,10 +228,11 @@ class ChaveEdoc(object):
 
         serie_number = int(self.campos[ChaveEdoc.SERIE])
         if serie_number not in series_geral:
-            raise ValueError((
-                    'Chave de acesso invalida '
-                    '(Série: {!r}): {!r}'
-                ).format(self.campos[ChaveEdoc.SERIE], self.chave))
+            raise ValueError(
+                ("Chave de acesso invalida " "(Série: {!r}): {!r}").format(
+                    self.campos[ChaveEdoc.SERIE], self.chave
+                )
+            )
 
         # Por padrão o documento do emitente é o CNPJ
         doc_emitente = ["CNPJ", self.campos[ChaveEdoc.CNPJ_CPF]]
@@ -220,39 +241,32 @@ class ChaveEdoc(object):
         # deve ser CPF
         # Caso a série esteja entre 890 e 899 o documento do emitente
         # pode ser CPF ou CNPJ
-        if (
-                (serie_number in series_cpf) or
-                (
-                    serie_number in series_cnpj_cpf
-                    and not cnpj_cpf.validar(self.campos[ChaveEdoc.CNPJ_CPF])
-                )
+        if (serie_number in series_cpf) or (
+            serie_number in series_cnpj_cpf
+            and not cnpj_cpf.validar(self.campos[ChaveEdoc.CNPJ_CPF])
         ):
             doc_emitente = ["CPF", self.campos[ChaveEdoc.CNPJ_CPF][3:]]
 
         if not cnpj_cpf.validar(doc_emitente[1]):
             raise ValueError(
-                (
-                    'Chave de acesso invalida '
-                    '({!r} emitente: {!r}): {!r}'
-                ).format(
-                    doc_emitente[0],
-                    cnpj_cpf.formata(doc_emitente[1]),
-                    self.chave
+                ("Chave de acesso invalida " "({!r} emitente: {!r}): {!r}").format(
+                    doc_emitente[0], cnpj_cpf.formata(doc_emitente[1]), self.chave
                 )
             )
 
         digito = modulo11(self.campos[:43])
         if not (digito == int(self.campos[-1])):
-            raise ValueError((
-                    'Digito verificador invalido: '
-                    'chave={!r}, digito calculado={!r}'
-                ).format(self.chave, digito))
+            raise ValueError(
+                (
+                    "Digito verificador invalido: " "chave={!r}, digito calculado={!r}"
+                ).format(self.chave, digito)
+            )
 
     def __str__(self):
         return self.chaveMOD
 
     def __repr__(self):
-        return '{:s}({!r})'.format(self.__class__.__name__, self._chave)
+        return "{:s}({!r})".format(self.__class__.__name__, self._chave)
 
     @property
     def chave(self):
@@ -328,17 +342,16 @@ class ChaveEdoc(object):
 
     def partes(self, num_partes=11):
         assert 44 % num_partes == 0, (
-            'O numero de partes nao produz um resultado inteiro (partes '
-            'por 44 digitos): num_partes={!r}'
+            "O numero de partes nao produz um resultado inteiro (partes "
+            "por 44 digitos): num_partes={!r}"
         ).format(num_partes)
 
         salto = 44 // num_partes
-        return [self._campos[n:(n + salto)] for n in range(0, 44, salto)]
+        return [self._campos[n: (n + salto)] for n in range(0, 44, salto)]
 
 
 class ChaveCFeSAT(ChaveEdoc):
-
-    CHAVE_REGEX = re.compile(r'^CFe(?P<campos>\d{44})$')
+    CHAVE_REGEX = re.compile(r"^CFe(?P<campos>\d{44})$")
 
     SERIE = slice(22, 31)
     NUMERO = slice(31, 37)

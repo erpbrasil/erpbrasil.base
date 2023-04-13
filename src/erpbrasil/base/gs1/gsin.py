@@ -2,11 +2,8 @@
 # Copyright (C) 2022  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import re
-import random
-
-from .gtin import calcula_dv
 from ..misc import only_digits
+from .gtin import calcula_dv
 
 GS1_GSIN_LENGTH = 17
 

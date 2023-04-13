@@ -6,30 +6,35 @@
 from unittest import TestCase
 
 from erpbrasil.base.misc import calc_price_ratio
-from erpbrasil.base.misc import punctuation_rm
 from erpbrasil.base.misc import only_digits
+from erpbrasil.base.misc import punctuation_rm
 
 
 class Tests(TestCase):
-
     def test_only_digits(self):
         self.assertEqual(
-            only_digits('485WD99495-7!'), '485994957',
-            'The function only_digits failed.')
+            only_digits("485WD99495-7!"),
+            "485994957",
+            "The function only_digits failed.",
+        )
 
         self.assertEqual(
-            only_digits('8363833424'), '8363833424',
-            'The function only_digits failed.')
+            only_digits("8363833424"), "8363833424", "The function only_digits failed."
+        )
 
     def test_punctution_rm(self):
         self.assertEqual(
-            punctuation_rm('496.85994.95-7'), '49685994957',
-            'The function punctuation_rm failed.')
+            punctuation_rm("496.85994.95-7"),
+            "49685994957",
+            "The function punctuation_rm failed.",
+        )
 
     def test_calc_price_ratio(self):
         self.assertEqual(
-            calc_price_ratio(10, 100, 1000), 1.0,
-            'The function calc_price_ratio failed.')
+            calc_price_ratio(10, 100, 1000),
+            1.0,
+            "The function calc_price_ratio failed.",
+        )
         self.assertEqual(
-            calc_price_ratio(10, 100, 0), 0,
-            'The function calc_price_ratio failed.')
+            calc_price_ratio(10, 100, 0), 0, "The function calc_price_ratio failed."
+        )
