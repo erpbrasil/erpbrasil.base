@@ -139,5 +139,3 @@ Use somente o comando:
 or
 
  ``twine upload dist/erpbrasil.base-X.X.0.tar.gz --repository-url https://upload.pypi.org/legacy/``
-
-

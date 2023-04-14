@@ -19,8 +19,7 @@ def only_digits(string_value):
 
 def punctuation_rm(string_value):
     """Remove pontuações de uma string: !"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~"""
-    tmp_value = (
-        re.sub('[%s]' % re.escape(string.punctuation), '', string_value or ''))
+    tmp_value = re.sub("[%s]" % re.escape(string.punctuation), "", string_value or "")
     return tmp_value
 
 
@@ -31,10 +30,10 @@ def calc_price_ratio(price_gross, amount_calc, amount_total):
         return 0.0
 
 
-def format_zipcode(zipcode, country_code='BR'):
-    zipcode_formatted = zipcode or ''
-    if zipcode and country_code.upper() == 'BR':
-        val = re.sub('[^0-9]', '', zipcode)
+def format_zipcode(zipcode, country_code="BR"):
+    zipcode_formatted = zipcode or ""
+    if zipcode and country_code.upper() == "BR":
+        val = re.sub("[^0-9]", "", zipcode)
         if len(val) == 8:
             zipcode_formatted = "%s-%s" % (val[0:5], val[5:8])
     return zipcode_formatted
@@ -50,7 +49,7 @@ def modulo11(base):
 
     :rtype: int
     """
-    pesos = '23456789' * ((len(base) // 8) + 1)
+    pesos = "23456789" * ((len(base) // 8) + 1)
     acumulado = sum([int(a) * int(b) for a, b in zip(base[::-1], pesos)])
     digito = 11 - (acumulado % 11)
     return 0 if digito >= 10 else digito

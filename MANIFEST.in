@@ -4,9 +4,14 @@ graft ci
 graft tests
 
 include .bumpversion.cfg
-include .coveragerc
 include .cookiecutterrc
+include .coveragerc
 include .editorconfig
+include .github/workflows/github-actions.yml
+include .pre-commit-config.yaml
+include .readthedocs.yml
+include pytest.ini
+include tox.ini
 
 include AUTHORS.rst
 include CHANGELOG.rst
@@ -14,6 +19,4 @@ include CONTRIBUTING.rst
 include LICENSE
 include README.rst
 
-include tox.ini .travis.yml appveyor.yml
-
-global-exclude *.py[cod] __pycache__ *.so *.dylib
+global-exclude *.py[cod] __pycache__/* *.so *.dylib

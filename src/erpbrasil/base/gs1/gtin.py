@@ -2,7 +2,6 @@
 # Copyright (C) 2022  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import re
 import random
 
 from ..misc import only_digits
@@ -11,7 +10,6 @@ GS1_GTIN_LENGTH = 14
 
 
 def calcula_dv(gs1_code, code_length):
-
     if type(gs1_code) is not list:
         gs1_code = list(map(int, gs1_code))
     prod = [3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3]
@@ -73,7 +71,7 @@ def validar(gtin):
     GTIN-13 	6	2	9	1	0	4	1	5	0	0	2	1	-
     Multiplica	x	x	x	x	x	x	x	x	x	x	x	x	-
     por     	1	3	1	3	1	3	1	3	1	3	1	3	-
-            	=	=	=	=	=	=	=	=	=	=	=	=	-
+                =	=	=	=	=	=	=	=	=	=	=	=	-
     Soma        6	6	9	3	0	12	1	15	0	0	2	3	-
 
     Soma todos os resultados:
@@ -108,8 +106,8 @@ def validar(gtin):
 
     return False
 
-def gerar_gs1_code(gs1_code_length, prefill=1):
 
+def gerar_gs1_code(gs1_code_length, prefill=1):
     gs1_codes = []
     for _ in range(prefill):
         code = [random.randint(0, 9) for x in range(gs1_code_length - 1)]

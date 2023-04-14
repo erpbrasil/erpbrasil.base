@@ -2,11 +2,8 @@
 # Copyright (C) 2022  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import re
-import random
-
-from .gtin import calcula_dv, gerar_gs1_code
 from ..misc import only_digits
+from .gtin import calcula_dv
 
 GS1_SSCC_LENGTH = 18
 

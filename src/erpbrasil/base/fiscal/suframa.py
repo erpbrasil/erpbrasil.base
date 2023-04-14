@@ -1,8 +1,11 @@
 # Copyright (C) 2023  Breno Dias - KMEE
 # License MIT - See https://opensource.org/license/mit
 
+
 def validar(suframa):
     if not suframa.isdigit():
+        return False
+    if len(suframa) > 9:
         return False
     if len(suframa) < 8:
         suframa.zfill(8)
@@ -23,7 +26,7 @@ def VerifDig(suframa):
         verificador += pesos[x] * cod
     resto = verificador % 11
 
-    if (resto == 1 or resto == 0):
+    if resto == 1 or resto == 0:
         verificador = 0
     else:
         verificador = 11 - resto
@@ -31,4 +34,3 @@ def VerifDig(suframa):
         return True
     else:
         return False
-
