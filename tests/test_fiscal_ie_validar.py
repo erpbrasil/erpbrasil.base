@@ -1,6 +1,7 @@
 # coding=utf-8
 # @ 2017 Akretion - www.akretion.com.br -
 #   Clément Mombereau <clement.mombereau@akretion.com.br>
+# Copyright (C) 2023  Gabriel Krauss - KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from unittest import TestCase
@@ -8,7 +9,7 @@ from unittest import TestCase
 from erpbrasil.base.fiscal import ie
 
 # Create a dictionary with a list of invalid inscr_est for each state
-invalid_ie = {
+ie_invalidas = {
     "ac": [
         "0102190200161",
         "0101296300282",
@@ -55,7 +56,6 @@ invalid_ie = {
         "0748774800131",
         "0747987900101",
         "07479879001010",
-        "0803592300143",
     ],
     "es": [
         "082376121",
@@ -215,8 +215,8 @@ invalid_ie = {
         "645274188111",
         "645169551111",
         "649005952110",
-        "645098352111",
-        "6450983521110",
+        "P645098352111",
+        "P0450983521110",
     ],
     "se": [
         "271126971",
@@ -237,7 +237,7 @@ invalid_ie = {
 }
 
 # Create a dictionary with a list of valid inscr_est for each state
-valid_ie = {
+ie_validas = {
     "ac": [
         "0102190200165",
         "0101296300289",
@@ -279,7 +279,6 @@ valid_ie = {
         "0744409300183",
         "0748774800134",
         "0747987900103",
-        "0803592300140",
     ],
     "es": [
         "082376123",
@@ -388,27 +387,31 @@ valid_ie = {
     ],
     "sp": [
         "692015742119",
-        "645274188118",
+        "P045274182118",
         "645169551117",
         "649005952111",
-        "645098352117",
+        "P045098357117",
     ],
     "se": ["271126973", "271233648", "271200634", "270622020", "271307986"],
     "to": ["290021014", "293799490", "290707544", "290655293", "293742782"],
 }
 
 
-class ValidateIETest(TestCase):
-    def test_inscr_invalid(self):
-        for est in invalid_ie:
-            for inscr_est in invalid_ie[est]:
+class ValidarIETest(TestCase):
+    def test_ie_invalidas(self):
+        """Testa a validação de IEs Inválidas"""
+        for uf in ie_invalidas:
+            for i in ie_invalidas[uf]:
                 self.assertFalse(
-                    ie.validar(est, inscr_est), "Error on validate %s inscr_est" % est
+                    ie.validar(uf, i),
+                    "Erro a validar inscrição estadual para a UF: %s" % uf,
                 )
 
-    def test_inscr_valid(self):
-        for est in valid_ie:
-            for inscr_est in valid_ie[est]:
+    def test_ie_validas(self):
+        """Testa a validação de IEs válidas"""
+        for uf in ie_validas:
+            for i in ie_validas[uf]:
                 self.assertTrue(
-                    ie.validar(est, inscr_est), "Error on validate %s inscr_est" % est
+                    ie.validar(uf, i),
+                    "Erro a validar inscrição estadual para a UF: %s" % uf,
                 )
