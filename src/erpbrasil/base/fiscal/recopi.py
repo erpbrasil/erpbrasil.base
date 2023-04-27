@@ -75,7 +75,7 @@ def _check_recopi_date(recopi):
             return True
 
         return False
-    except:
+    except Exception:
         return False
 
 
@@ -98,7 +98,7 @@ def _check_recopi_time(recopi):
             second=recopi_second,
         )
         return True
-    except:
+    except Exception:
         return False
 
 
