@@ -256,7 +256,8 @@ def validar_go(inscr_est):
         return False
 
     # verificando os dois primeiros dígitos
-    if not inscr_est[:2] in ["10", "11", "15"]:
+    # https://agenciacoradenoticias.go.gov.br/63140-empreendedorismo-governo-de-goias-altera-no-de-inscricao-estadual-para-novos-cadastros
+    if inscr_est[:2] not in ["10", "11", "20"]:
         return False
 
     # Pega apenas os 8 primeiros dígitos da inscrição estadual e
