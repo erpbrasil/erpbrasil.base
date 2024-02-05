@@ -15,7 +15,7 @@ def calcula_dv(gs1_code, code_length):
     prod = [3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3]
 
     # get the product with some gs1_code length
-    gs1_prod = prod[len(prod) - len(gs1_code):]
+    gs1_prod = prod[len(prod) - len(gs1_code) :]
 
     while len(gs1_code) < code_length:
         r = sum([x * y for (x, y) in zip(gs1_code, gs1_prod)]) % 10
