@@ -1,0 +1,111 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "erpbrasil.base"
+description = "erpbrasil.base - Biblioteca python para auxiliar em operações corriqueiras dos ERPs Python Brasileiros."
+readme = "README.rst"
+authors = [
+  {name = "Luis Felipe Mileo", email = "mileo@kmee.com.br"}
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: MIT License",
+]
+requires-python = ">=3.7"
+dependencies = [
+    "manifestoo-core>=1.1",
+    "wheel",
+    "tomli; python_version<'3.11'",
+    "importlib_metadata; python_version<'3.8'",
+]
+scripts = {"erpbrasil.base" = "erpbrasil.base.cli:main"}
+dynamic = ["version"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/erpbrasil"]
+
+#[tool.hatch.build.target.sdist.force-include]
+#"src/cli.py" = "src/project_name/cli.py"
+
+#[project.scripts]
+#executive = "erpbrasil.base.cli:main"
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "coverage[toml]",
+    "mypy",
+]
+doc = [
+    "sphinx",
+    "furo",
+    "myst-parser",
+    "towncrier",
+    "sphinxcontrib-towncrier",
+]
+
+[project.urls]
+Homepage = "https://github.com/erpbrasil/erpbrasil.base"
+Documentation = "https://erpbrasilbase.readthedocs.io/"
+Changelog = "https://erpbrasilbase.readthedocs.io/en/latest/changelog.html"
+Source = "https://github.com/erpbrasil/erpbrasil.base"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build]
+exclude = [
+    "/.github",
+]
+
+# mypy
+
+[tool.mypy]
+strict = true
+show_error_codes = true
+
+# coverage
+
+[tool.coverage.run]
+branch = true
+source_pkgs = ["erpbrasil.base"]
+
+[tool.coverage.paths]
+source = ["src", ".tox/*/site-packages"]
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+]
+
+# towncrier
+
+[tool.towncrier]
+name = "erpbrasil.base"
+directory = "news"
+filename = "CHANGELOG.md"
+title_format = "## [{version}](https://github.com/erpbrasil/erpbrasil.base/tree/{version}) - {project_date}"
+issue_format = "[#{issue}](https://github.com/erpbrasil/erpbrasil.base/issues/{issue})"
+underlines = ["", "", ""]
+
+# ruff
+
+[tool.ruff]
+fix = true
+select = [
+    "E", "F", "W", "C90", "B", "I", "UP", "RUF", "TCH"
+]
+target-version = "py37"
+
+[tool.ruff.per-file-ignores]
+"__main__.py" = ["B008"]
+
+[tool.ruff.mccabe]
+max-complexity = 13
+
+[tool.ruff.isort]
+known-first-party = ["erpbrasil.base"]
+combine-as-imports = true
