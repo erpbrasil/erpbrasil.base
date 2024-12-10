@@ -347,7 +347,7 @@ class ChaveEdoc(object):
         ).format(num_partes)
 
         salto = 44 // num_partes
-        return [self._campos[n: (n + salto)] for n in range(0, 44, salto)]
+        return [self._campos[n : (n + salto)] for n in range(0, 44, salto)]
 
 
 class ChaveCFeSAT(ChaveEdoc):
