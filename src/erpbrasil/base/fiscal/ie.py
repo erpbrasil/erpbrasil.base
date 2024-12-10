@@ -27,8 +27,7 @@ PARAMETERS = {
     "df": {
         "tam": 13,
         "val_tam": 11,
-        "starts_with": "07",
-        "format": lambda x: "{0}-{1}.{2}/{3}-{4}".format(
+        "format": lambda x: "{0}.{1}.{2}/{3}-{4}".format(
             x[:2], x[2:5], x[5:8], x[8:11], x[11:13]
         ),
     },
