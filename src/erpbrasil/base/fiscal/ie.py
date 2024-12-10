@@ -300,13 +300,15 @@ def validar_mg(inscr_est):
     inscr_est = re.sub("[^0-9]", "", inscr_est)
 
     # verificando o tamanho da inscrição estadual
-    if len(inscr_est) != 13:
+    if len(inscr_est) not in [13, 11]:
         return False
 
     # Pega apenas os 11 primeiros dígitos da inscrição estadual e
     # gera os dígitos verificadores
     inscr_est = list(map(int, inscr_est))
     nova_ie = inscr_est[:11]
+    if len(inscr_est) == 11:
+        nova_ie = inscr_est
 
     nova_ie_aux = list(nova_ie)
     nova_ie_aux.insert(3, 0)
