@@ -22,6 +22,9 @@ dependencies = [
 scripts = {"erpbrasil.base" = "erpbrasil.base.cli:main"}
 dynamic = ["version"]
 
+[tool.setuptools]
+packages = ["erpbrasil.base"]
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/erpbrasil"]
 
