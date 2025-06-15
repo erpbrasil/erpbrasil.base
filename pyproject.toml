@@ -13,7 +13,7 @@ classifiers = [
     "Development Status :: 5 - Production/Stable",
     "License :: OSI Approved :: MIT License",
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.7"
 dependencies = [
     "wheel",
     "tomli; python_version<'3.11'",
@@ -25,15 +25,10 @@ dynamic = ["version"]
 [tool.hatch.build.targets.wheel]
 packages = ["src/erpbrasil"]
 
-#[tool.hatch.build.target.sdist.force-include]
-#"src/cli.py" = "src/project_name/cli.py"
-
-#[project.scripts]
-#executive = "erpbrasil.base.cli:main"
-
 [project.optional-dependencies]
 test = [
     "pytest",
+    "pytest-cov",
     "coverage[toml]",
     "mypy",
 ]
@@ -108,3 +103,20 @@ max-complexity = 13
 [tool.ruff.isort]
 known-first-party = ["erpbrasil.base"]
 combine-as-imports = true
+
+# pytest
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+norecursedirs = ["migrations"]
+python_files = [
+    "test_*.py",
+    "*_test.py",
+    "tests.py",
+]
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--doctest-modules",
+    "--doctest-glob=*.rst",
+    "--tb=short",
+]
