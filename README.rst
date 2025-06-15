@@ -10,17 +10,13 @@ Overview
     * - docs
       - |docs|
     * - tests
-      - | |travis| |appveyor| |codecov|
+      - | |travis| |codecov|
     * - package
       - | |version| |wheel| |supported-versions| |supported-implementations|
         | |commits-since|
 .. |docs| image:: https://readthedocs.org/projects/erpbrasilbase/badge/?style=flat
     :target: https://readthedocs.org/projects/erpbrasilbase
     :alt: Documentation Status
-
-.. |appveyor| image:: https://ci.appveyor.com/api/projects/status/github/erpbrasil/erpbrasil.base?branch=master&svg=true
-    :alt: AppVeyor Build Status
-    :target: https://ci.appveyor.com/project/erpbrasil/erpbrasil.base
 
 .. |codecov| image:: https://codecov.io/gh/erpbrasil/erpbrasil.base/branch/master/graphs/badge.svg?branch=master
     :alt: Coverage Status
