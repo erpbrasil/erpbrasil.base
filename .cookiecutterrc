@@ -18,7 +18,7 @@ default_context:
 
     _extensions:               ['jinja2_time.TimeExtension']
     _template:                 'gh:ionelmc/cookiecutter-pylibrary'
-    appveyor:                  'yes'
+    appveyor:                  'no'
     c_extension_function:      'longest'
     c_extension_module:        '_erpbrasil.base'
     c_extension_optional:      'no'
