@@ -6,6 +6,7 @@ from unittest import TestCase
 from erpbrasil.base.fiscal.edoc import ChaveCFeSAT
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.base.fiscal.edoc import detectar_chave_edoc
+from erpbrasil.base.misc import modulo11
 
 
 class Tests(TestCase):
@@ -415,3 +416,36 @@ class Tests(TestCase):
         for chave in chaves_validas:
             edoc = detectar_chave_edoc(chave=chave)
             self.assertTrue(edoc, "Erro chave edoc")
+
+    def test_nfe_chave_com_secret_key(self):
+        cnpj = "20.695.448/0001-84"
+        ano_mes = "2103"
+        codigo_uf = 35
+        forma_emissao = "1"
+        modelo_documento = "55"
+        numero_documento = "000003589"
+        numero_serie = "001"
+        secret_key = "my-secret-key"
+        campos_chave = "35210320695448000184550010000035891"
+
+        edoc = ChaveEdoc(
+            ano_mes=ano_mes,
+            cnpj_cpf_emitente=cnpj,
+            codigo_uf=codigo_uf,
+            forma_emissao=forma_emissao,
+            modelo_documento=modelo_documento,
+            numero_documento=numero_documento,
+            numero_serie=numero_serie,
+            secret_key=secret_key,
+        )
+
+        codigo_aleatorio_gerado = edoc.codigo_aleatorio
+        chave_sem_dv = campos_chave + codigo_aleatorio_gerado
+        dv = modulo11(chave_sem_dv)
+        chave_completa = chave_sem_dv + str(dv)
+
+        self.assertEqual(edoc.chave, chave_completa)
+
+        # Verify that the key is valid
+        edoc_validado = detectar_chave_edoc(chave=chave_completa)
+        self.assertTrue(edoc_validado)
