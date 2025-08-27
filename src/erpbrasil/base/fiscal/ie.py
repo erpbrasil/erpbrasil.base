@@ -102,6 +102,8 @@ PARAMETERS = {
 
 
 def validar(uf, inscr_est):
+    if inscr_est.upper() == "ISENTO":
+        return True
     result = True
     try:
         validar_by_uf = globals()["validar_%s" % uf]
