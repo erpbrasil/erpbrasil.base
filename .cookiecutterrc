@@ -51,7 +51,7 @@ default_context:
     test_matrix_configurator:  'no'
     test_matrix_separate_coverage: 'no'
     test_runner:               'pytest'
-    travis:                    'yes'
+    travis:                    'no'
     version:                   '0.0.0'
     website:                   'https://www.kmee.com.br'
     year_from:                 '2019'
