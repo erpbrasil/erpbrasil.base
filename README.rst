@@ -10,7 +10,7 @@ Overview
     * - docs
       - |docs|
     * - tests
-      - | |travis| |codecov|
+      - | |ci| |codecov|
     * - package
       - | |version| |wheel| |supported-versions| |supported-implementations|
         | |commits-since|
@@ -42,6 +42,9 @@ Overview
     :alt: Supported implementations
     :target: https://pypi.org/project/erpbrasil.base
 
+.. |ci| image:: https://github.com/erpbrasil/erpbrasil.base/actions/workflows/github-actions.yml/badge.svg
+   :target: https://github.com/erpbrasil/erpbrasil.base/actions/workflows/github-actions.yml
+   :alt: Build (GitHub Actions)
 
 .. end-badges
 
