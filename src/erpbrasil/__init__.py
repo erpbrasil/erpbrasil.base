@@ -1,4 +1,2 @@
-# See http://peak.telecommunity.com/DevCenter/setuptools#namespace-packages
-from pkgutil import extend_path
-
-__path__ = extend_path(__path__, __name__)
+# Modern namespace package implementation (PEP 420)
+# Python 3.3+ implicit namespace package - no code needed
