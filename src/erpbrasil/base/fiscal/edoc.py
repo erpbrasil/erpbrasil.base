@@ -120,7 +120,7 @@ class ChaveEdoc(object):
                 and cnpj_cpf_emitente
                 and modelo_documento
                 and numero_documento
-                and numero_documento
+                and numero_serie
             ):
                 raise ValueError("Impossível gerar a chave!!")
 
