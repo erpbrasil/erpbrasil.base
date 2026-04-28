@@ -1,7 +1,8 @@
 # Copyright (C) 2015  Base4 Sistemas Ltda ME
 # Copyright (C) 2020  Luis Felipe Mileo - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
-
+import hashlib
+import hmac
 import re
 
 from ..misc import modulo11
@@ -112,7 +113,9 @@ class ChaveEdoc(object):
         forma_emissao=1,
         codigo_aleatorio=False,
         validar=False,
+        secret_key=None,
     ):
+        self.secret_key = secret_key
         if not chave:
             if not (
                 codigo_uf
@@ -161,20 +164,18 @@ class ChaveEdoc(object):
             self.validar()
 
     def calculo_codigo_aleatorio(self, campos):
-        #
-        # O código numério é um número aleatório
-        #
-        # chave += str(random.randint(0, 99999999)).strip().rjust(8, '0')
+        TAMANHO_CODIGO = self.CODIGO.stop - self.CODIGO.start
+        if self.secret_key:
+            mac = hmac.new(
+                self.secret_key.encode(), campos.encode(), hashlib.sha256
+            ).hexdigest()
+            numeric_hash = str(int(mac, 16))
+            codigo = numeric_hash[-TAMANHO_CODIGO:]
+            return codigo.zfill(TAMANHO_CODIGO)
 
-        #
-        # Mas, por segurança, é preferível que esse número não seja
-        # aleatório
-        #
         soma = 0
         for c in campos:
             soma += int(c) ** 3**2
-
-        TAMANHO_CODIGO = self.CODIGO.stop - self.CODIGO.start
 
         codigo = str(soma)
         if len(codigo) > TAMANHO_CODIGO:
