@@ -65,3 +65,25 @@ class Tests(TestCase):
     def test_01_formata_cpf(self):
         """Teste formatação de CPF correto"""
         self.assertEqual(cnpj_cpf.formata_cpf("06853187024"), "068.531.870-24")
+
+    def test_01_validar_cnpj_alfanumerico(self):
+        """Teste validação de CNPJ alfanumérico correto"""
+        self.assertTrue(cnpj_cpf.validar("AKRETION123401"))
+
+    def test_02_validar_cnpj_alfanumerico(self):
+        """Teste validação de CNPJ alfanumérico incorreto"""
+        self.assertFalse(cnpj_cpf.validar("AKRETION123402"))
+
+    def test_03_validar_cnpj_alfanumerico_dv_invalido(self):
+        """Teste validação de CNPJ alfanumérico com DV inválido"""
+        self.assertFalse(cnpj_cpf.validar("AKRETION12340A"))
+
+    def test_04_validar_cnpj_alfanumerico_caracter_invalido(self):
+        """Teste validação de CNPJ alfanumérico com caracter inválido"""
+        self.assertFalse(cnpj_cpf.validar("AKRETION123!01"))
+
+    def test_01_formata_cnpj_alfanumerico(self):
+        """Teste formatação de CNPJ alfanumérico correto"""
+        self.assertEqual(
+            cnpj_cpf.formata("AKRETION123401"), "AK.RET.ION/1234-01"
+        )
