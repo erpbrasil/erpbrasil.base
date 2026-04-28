@@ -409,6 +409,14 @@ class ValidarIETest(TestCase):
                     "Erro a validar inscrição estadual para a UF: %s" % uf,
                 )
 
+    def test_ie_isentas(self):
+        """Testa a validação de IEs Isentas"""
+        for uf in ie_validas:
+            self.assertTrue(
+                ie.validar(uf, "ISENTO"),
+                "Erro a validar inscrição estadual para a UF: %s" % uf,
+            )
+
     def test_ie_validas(self):
         """Testa a validação de IEs válidas"""
         for uf in ie_validas:
