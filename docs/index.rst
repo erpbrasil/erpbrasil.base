@@ -8,6 +8,7 @@ Contents
    readme
    installation
    usage
+   edoc
    reference/index
    contributing
    authors
