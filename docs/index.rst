@@ -8,6 +8,7 @@ Contents
    readme
    installation
    usage
+   cnpj
    reference/index
    contributing
    authors
