@@ -383,6 +383,58 @@ class Tests(TestCase):
             "Key: partes failed",
         )
 
+    def test_cte_os_chave_objeto(self):
+        cnpj = "32.438.772/0001-04"
+        ano_mes = "1712"
+        codigo_uf = 32
+        forma_emissao = "1"
+        modelo_documento = "67"
+        numero_documento = "000199075"
+        numero_serie = "001"
+
+        chave = "32171232438772000104670010001990751234429533"
+        edoc_1 = ChaveEdoc(chave=chave)
+
+        self.assertEqual(edoc_1.ano_mes, ano_mes, "Key: ano_mes failed")
+        self.assertEqual(
+            edoc_1.cnpj_cpf_emitente, cnpj, "Key: cnpj_cpf_emitente failed"
+        )
+        self.assertEqual(edoc_1.codigo_uf, codigo_uf, "Key: codigo_uf failed")
+        self.assertEqual(
+            edoc_1.forma_emissao, forma_emissao, "Key: forma_emissao failed"
+        )
+        self.assertEqual(
+            edoc_1.modelo_documento, modelo_documento, "Key: modelo_documento failed"
+        )
+        self.assertEqual(
+            edoc_1.numero_documento, numero_documento, "Key: numero_documento failed"
+        )
+        self.assertEqual(edoc_1.numero_serie, numero_serie, "Key: numero_serie failed")
+
+        self.assertEqual(edoc_1.ano_emissao, 2017, "Key: ano_emissao failed")
+        self.assertEqual(
+            edoc_1.codigo_aleatorio, "23442953", "Key: codigo_aleatorio failed"
+        )
+        self.assertEqual(
+            edoc_1.digito_verificador, "3", "Key: digito_verificador failed"
+        )
+        self.assertEqual(edoc_1.mes_emissao, 12, "Key: mes_emissao failed")
+
+        edoc_2 = ChaveEdoc(
+            ano_mes=ano_mes,
+            cnpj_cpf_emitente=cnpj,
+            codigo_uf=codigo_uf,
+            forma_emissao=forma_emissao,
+            modelo_documento=modelo_documento,
+            numero_documento=numero_documento,
+            numero_serie=numero_serie,
+        )
+
+        self.assertEqual(chave, edoc_2.chave)
+        self.assertEqual(edoc_1.chave, chave)
+
+        self.assertEqual(edoc_1.partes(), edoc_2.partes(), "Key: partes failed")
+
     def test_invalid_key(self):
         chaves_invalidas = [
             # número do CNPJ emitente inválido
@@ -411,6 +463,7 @@ class Tests(TestCase):
             "35150808723218000186599000040190000241114257",
             "35150808723218000186599000040190000557255950",
             "42221200050690671849559100000000811540256167",
+            "32171232438772000104670010001990751234429533",
         ]
         for chave in chaves_validas:
             edoc = detectar_chave_edoc(chave=chave)
