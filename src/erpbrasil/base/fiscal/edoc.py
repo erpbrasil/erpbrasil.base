@@ -46,6 +46,7 @@ EDOC_PREFIX = {
     "58": "MDFe",
     "59": "CFe",
     "65": "NFe",
+    "67": "CTeOS",
 }
 
 CODIGO_MODELOS_EDOC = list(EDOC_PREFIX.keys())
@@ -65,7 +66,7 @@ def detectar_chave_edoc(chave):
 
     prefixo = EDOC_PREFIX.get(campos[20:22])
 
-    if prefixo in ("NFe", "CTe", "MDFe"):
+    if prefixo in ("NFe", "CTe", "CTeOS", "MDFe"):
         return ChaveEdoc(chave=chave, validar=True)
     elif prefixo == "CFe":
         return ChaveCFeSAT(chave=chave, validar=True)
