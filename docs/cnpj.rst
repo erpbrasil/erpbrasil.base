@@ -77,21 +77,18 @@ Algoritmo (módulo 11):
 4. Repita o processo incluindo ``dv1`` com peso 2 → ``soma_dv2``.
 5. ``dv2 = 0`` se ``soma_dv2 % 11 < 2``, senão ``dv2 = 11 - (soma_dv2 % 11)``.
 
-Letras não permitidas
----------------------
+Letras permitidas
+-----------------
 
-Algumas letras **não devem ser aceitas** no CNPJ Alfa por solicitação do ENCAT à
-Receita Federal:
-
-* ``I`` (letra i maiúscula)
-* ``O`` (letra o maiúscula)
-* ``U`` (letra u maiúscula)
-* ``Q`` (letra q maiúscula)
-* ``F`` (letra f maiúscula)
+As 12 primeiras posições aceitam os números de 0 a 9 e qualquer uma das 26 letras
+maiúsculas de A a Z. Não há letras vedadas.
 
 .. note::
-   Esta exclusão faz parte das solicitações feitas pela equipe técnica do ENCAT para a
-   Receita Federal do Brasil e precisa ser confirmada em versão posterior da nota técnica.
+   A NT 2025.001 v1.00 cita a exclusão das letras ``I``, ``O``, ``U``, ``Q`` e ``F``
+   como solicitação do ENCAT à Receita Federal, pendente de confirmação. A Receita
+   Federal não confirmou a exclusão: o documento de Perguntas e Respostas sobre o CNPJ
+   Alfanumérico informa que o CNPJ é composto por "números de 0 a 9 e quaisquer uma
+   das 26 letras de A até Z". Por isso a biblioteca aceita todas as letras.
 
 Campos do Tipo CNPJ nos DFe
 ============================
@@ -323,5 +320,7 @@ Referência
 
 * **Instrução Normativa RFB nº 2229**, de 15 de outubro de 2024 — modifica a regra de
   formação do CNPJ no Brasil.
+* **Perguntas e Respostas sobre o CNPJ Alfanumérico** (Receita Federal):
+  https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/publicacoes/perguntas-e-respostas/cnpj/cnpj-alfanumerico.pdf
 * **Nota Técnica Conjunta 2025.001 v1.00** (25 de abril de 2025) — especificação do
   CNPJ Alfanumérico para DFe sob coordenação do ENCAT.
