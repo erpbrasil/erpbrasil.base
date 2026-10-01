@@ -135,9 +135,15 @@ primeiras posições do CNPJ::
 
     [0-9]{6}[A-Z0-9]{12}[0-9]{26}
 
-.. note::
-   Se algumas letras forem vedadas na composição do CNPJ Alfa, isso deve ser considerado
-   também para a chave de acesso.
+As demais posições (cUF, AAMM, DV do CNPJ, modelo, série, número, forma de emissão,
+código numérico e DV da chave) continuam exclusivamente numéricas. Como a Receita
+Federal não veda nenhuma letra no CNPJ, todas as 26 letras são aceitas também na chave.
+
+Na biblioteca, ``erpbrasil.base.fiscal.edoc.CHAVE_REGEX`` segue essa expressão e
+``erpbrasil.base.misc.modulo11`` usa o valor ``ord(c) - 48`` de cada caractere, o que
+mantém o mesmo resultado para chaves puramente numéricas. A chave do CF-e SAT
+(modelo 59) usa a mesma expressão, pois o CNPJ do emitente ocupa as mesmas posições
+(o CF-e SAT não consta da lista de documentos da NT 2025.001).
 
 Cálculo do DV da Chave de Acesso
 ----------------------------------
