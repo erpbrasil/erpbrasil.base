@@ -53,6 +53,7 @@ class Tests(TestCase):
             modelo_documento=modelo_documento,
             numero_documento=numero_documento,
             numero_serie=numero_serie,
+            codigo_aleatorio=edoc_1.codigo_aleatorio,
         )
 
         self.assertEqual(chave, edoc_2.chave)
@@ -105,6 +106,7 @@ class Tests(TestCase):
             modelo_documento=modelo_documento,
             numero_documento=numero_documento,
             numero_serie=numero_serie,
+            codigo_aleatorio=edoc_1.codigo_aleatorio,
         )
 
         self.assertEqual(chave, edoc_2.chave)
@@ -157,6 +159,7 @@ class Tests(TestCase):
             modelo_documento=modelo_documento,
             numero_documento=numero_documento,
             numero_serie=numero_serie,
+            codigo_aleatorio=edoc_1.codigo_aleatorio,
         )
 
         self.assertEqual(chave, edoc_2.chave)
@@ -209,6 +212,7 @@ class Tests(TestCase):
             modelo_documento=modelo_documento,
             numero_documento=numero_documento,
             numero_serie=numero_serie,
+            codigo_aleatorio=edoc_1.codigo_aleatorio,
         )
 
         self.assertEqual(chave, edoc_2.chave)
@@ -261,6 +265,7 @@ class Tests(TestCase):
             modelo_documento=modelo_documento,
             numero_documento=numero_documento,
             numero_serie=numero_serie,
+            codigo_aleatorio=edoc_1.codigo_aleatorio,
         )
 
         self.assertEqual(chave, edoc_2.chave)
@@ -428,6 +433,7 @@ class Tests(TestCase):
             modelo_documento=modelo_documento,
             numero_documento=numero_documento,
             numero_serie=numero_serie,
+            codigo_aleatorio=edoc_1.codigo_aleatorio,
         )
 
         self.assertEqual(chave, edoc_2.chave)

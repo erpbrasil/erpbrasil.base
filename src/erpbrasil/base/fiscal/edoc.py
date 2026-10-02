@@ -3,6 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import re
+import secrets
 
 from ..misc import modulo11
 from ..misc import punctuation_rm
@@ -143,7 +144,7 @@ class ChaveEdoc(object):
             campos += str(forma_emissao).zfill(self.FORMA.stop - self.FORMA.start)
 
             if not codigo_aleatorio:
-                codigo_aleatorio = self.calculo_codigo_aleatorio(campos)
+                codigo_aleatorio = self.gerar_codigo_aleatorio(campos)
 
             campos += str(codigo_aleatorio).zfill(self.CODIGO.stop - self.CODIGO.start)
             campos += str(modulo11(campos))
@@ -162,6 +163,9 @@ class ChaveEdoc(object):
             self.validar()
 
     def calculo_codigo_aleatorio(self, campos):
+        """Legado: derivado dos campos públicos da chave, portanto
+        previsível. Mantido por compatibilidade; o padrão agora é
+        gerar_codigo_aleatorio."""
         #
         # O código numério é um número aleatório
         #
@@ -183,6 +187,27 @@ class ChaveEdoc(object):
         else:
             codigo = codigo.rjust(TAMANHO_CODIGO, "0")
         return codigo
+
+    def gerar_codigo_aleatorio(self, campos):
+        """Gera o código numérico da chave (cNF, cCT, cMDF) com o módulo
+        secrets, como pede o MOC da NF-e (campo B03: número aleatório
+        gerado pelo emitente para evitar acessos indevidos).
+
+        Descarta os valores rejeitados pela regra de validação B03-10 da
+        NT 2019.001 (rejeição 897): dígitos todos iguais, sequência
+        crescente (12345678, 90123456...) e código igual ao número do
+        documento.
+        """
+        tamanho = self.CODIGO.stop - self.CODIGO.start
+        numero = int(campos[self.NUMERO])
+        while True:
+            codigo = str(secrets.randbelow(10**tamanho)).zfill(tamanho)
+            if (
+                len(set(codigo)) > 1
+                and codigo not in "0123456789" * 2
+                and int(codigo) != numero
+            ):
+                return codigo
 
     def validar(self):
         """Validação da chave do documento fiscal
