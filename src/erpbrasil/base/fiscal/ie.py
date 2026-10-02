@@ -54,7 +54,7 @@ PARAMETERS = {
     },
     "pa": {
         "tam": 9,
-        "starts_with": "15",
+        "starts_with": ("15", "75", "76", "77", "78", "79"),
         "format": lambda x: "{0}.{1}.{2}-{3}".format(x[:2], x[2:5], x[5:8], x[8:9]),
     },
     "pb": {
