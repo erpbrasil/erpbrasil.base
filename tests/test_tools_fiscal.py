@@ -112,26 +112,37 @@ class TestCNPJAlfa(TestCase):
         """CNPJ alfa com DV errado deve ser inválido."""
         self.assertFalse(cnpj_cpf.validar_cnpj("12ABC34D000199"))
 
-    def test_cnpj_alfa_letra_proibida_I(self):
-        """Letra 'I' é proibida no CNPJ Alfa."""
-        # Substitui 'A'(pos 2) por 'I'
-        self.assertFalse(cnpj_cpf.validar_cnpj("12IBC34D000144"))
+    def test_cnpj_alfa_exemplo_receita(self):
+        """Exemplo do Perguntas e Respostas da Receita Federal."""
+        self.assertTrue(cnpj_cpf.validar_cnpj("12.ABC.345/01DE-35"))
+        self.assertFalse(cnpj_cpf.validar_cnpj("12.ABC.345/01DE-36"))
 
-    def test_cnpj_alfa_letra_proibida_O(self):
-        """Letra 'O' é proibida no CNPJ Alfa."""
-        self.assertFalse(cnpj_cpf.validar_cnpj("12OBC34D000144"))
+    def test_cnpj_alfa_letras_iouqf_validas(self):
+        """I, O, U, Q e F sao letras validas: a Receita nao confirmou a
+        exclusao pedida pelo ENCAT (NT 2025.001)."""
+        validos = {
+            "I": "12IBC34D000140",
+            "O": "12OBC34D000181",
+            "U": "12UBC34D000112",
+            "Q": "12QBC34D000125",
+            "F": "12FBC34D000125",
+        }
+        for letra, cnpj in validos.items():
+            with self.subTest(letra=letra):
+                self.assertTrue(cnpj_cpf.validar_cnpj(cnpj))
+                self.assertTrue(cnpj_cpf.validar(cnpj))
 
-    def test_cnpj_alfa_letra_proibida_U(self):
-        """Letra 'U' é proibida no CNPJ Alfa."""
-        self.assertFalse(cnpj_cpf.validar_cnpj("12UBC34D000144"))
-
-    def test_cnpj_alfa_letra_proibida_Q(self):
-        """Letra 'Q' é proibida no CNPJ Alfa."""
-        self.assertFalse(cnpj_cpf.validar_cnpj("12QBC34D000144"))
-
-    def test_cnpj_alfa_letra_proibida_F(self):
-        """Letra 'F' é proibida no CNPJ Alfa."""
-        self.assertFalse(cnpj_cpf.validar_cnpj("12FBC34D000144"))
+    def test_cnpj_alfa_letras_iouqf_dv_incorreto(self):
+        """Com DV errado, CNPJ com I, O, U, Q ou F continua invalido."""
+        for cnpj in (
+            "12IBC34D000144",
+            "12OBC34D000144",
+            "12UBC34D000144",
+            "12QBC34D000144",
+            "12FBC34D000144",
+        ):
+            with self.subTest(cnpj=cnpj):
+                self.assertFalse(cnpj_cpf.validar_cnpj(cnpj))
 
     def test_cnpj_alfa_letra_minuscula_invalida(self):
         """Letras minúsculas não são permitidas no CNPJ."""

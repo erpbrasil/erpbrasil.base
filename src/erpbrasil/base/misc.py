@@ -39,10 +39,25 @@ def format_zipcode(zipcode, country_code="BR"):
     return zipcode_formatted
 
 
+def _valor_modulo11(caractere):
+    """Valor de um caractere no cálculo do módulo 11: ``ord(c) - 48``.
+
+    Dígitos mantêm o próprio valor (0 a 9) e letras maiúsculas valem
+    A=17, B=18, ... Z=42, conforme a NT Conjunta 2025.001 (CNPJ
+    Alfanumérico), item 5, "Cálculo do DV da Chave de Acesso".
+    """
+    if not ("0" <= caractere <= "9" or "A" <= caractere <= "Z"):
+        raise ValueError("Caractere invalido para o modulo 11: {!r}".format(caractere))
+    return ord(caractere) - 48
+
+
 def modulo11(base):
     """Calcula o dígito verificador (DV) para o argumento usando "Módulo 11".
-    :param str base: String contendo os dígitos sobre os quais o DV será
+    :param str base: String contendo os caracteres sobre os quais o DV será
         calculado, assumindo que o DV não está incluído no argumento.
+        Aceita dígitos e letras maiúsculas (chave de acesso com CNPJ
+        alfanumérico, NT 2025.001): cada caractere vale ``ord(c) - 48``,
+        o que preserva o resultado para bases puramente numéricas.
     :return: O dígito verificador calculado.
 
     Source: https://github.com/base4sistemas/satcomum/blob/f45da5b100a63511b9c455cbd6895b630e121866/satcomum/util.py
@@ -50,6 +65,6 @@ def modulo11(base):
     :rtype: int
     """
     pesos = "23456789" * ((len(base) // 8) + 1)
-    acumulado = sum([int(a) * int(b) for a, b in zip(base[::-1], pesos)])
+    acumulado = sum([_valor_modulo11(a) * int(b) for a, b in zip(base[::-1], pesos)])
     digito = 11 - (acumulado % 11)
     return 0 if digito >= 10 else digito

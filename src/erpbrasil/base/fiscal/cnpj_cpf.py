@@ -15,8 +15,9 @@ Algoritmo de DV (módulo 11 com valores ASCII):
     os dígitos numéricos com seus valores habituais (0–9) e mapeia letras
     como  A=17, B=18, C=19 …
 
-Letras proibidas (solicitação ENCAT à RFB, pendente confirmação):
-    I, O, U, Q, F
+Todas as 26 letras de A a Z são aceitas. A exclusão de I, O, U, Q e F
+citada na NT 2025.001 era apenas uma solicitação do ENCAT, não confirmada
+pela Receita Federal (Perguntas e Respostas sobre o CNPJ Alfanumérico).
 """
 
 import re
@@ -24,9 +25,6 @@ import re
 # ---------------------------------------------------------------------------
 # Constantes
 # ---------------------------------------------------------------------------
-
-# Letras proibidas no CNPJ Alfa (conforme solicitação ENCAT/RFB — NT 2025.001)
-_LETRAS_PROIBIDAS = frozenset("IOUQF")
 
 # Regex: primeiras 12 posições alfanuméricas + 2 dígitos verificadores
 _RE_CNPJ_ALFA = re.compile(r"^[A-Z0-9]{12}[0-9]{2}$")
@@ -130,7 +128,6 @@ def validar_cnpj(cnpj):
     A validação inclui:
     - Tamanho: exatamente 14 caracteres após remoção de máscara.
     - Formato: ``[A-Z0-9]{12}[0-9]{2}``
-    - Letras proibidas: ``I, O, U, Q, F`` não são permitidas (NT 2025.001).
     - CNPJ zerado (``00000000000000``) é inválido.
     - Dígitos verificadores calculados pelo módulo 11 com valores ASCII-48.
 
@@ -154,10 +151,6 @@ def validar_cnpj(cnpj):
 
     # Valida formato: 12 alfanuméricos + 2 dígitos
     if not _RE_CNPJ_ALFA.match(cnpj):
-        return False
-
-    # Verifica letras proibidas nas 12 primeiras posições
-    if _LETRAS_PROIBIDAS & set(cnpj[:12]):
         return False
 
     # Verifica dígitos verificadores

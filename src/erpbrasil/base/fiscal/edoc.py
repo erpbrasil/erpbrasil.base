@@ -51,7 +51,12 @@ EDOC_PREFIX = {
 
 CODIGO_MODELOS_EDOC = list(EDOC_PREFIX.keys())
 
-CHAVE_REGEX = re.compile(r"(?P<campos>\d{44})$")
+# NT Conjunta 2025.001 (CNPJ Alfanumérico), item 5: as 12 primeiras
+# posições do CNPJ do emitente (posições 7 a 18 da chave) aceitam letras
+# maiúsculas; todas as demais posições continuam numéricas.
+CHAVE_PADRAO = r"[0-9]{6}[A-Z0-9]{12}[0-9]{26}"
+
+CHAVE_REGEX = re.compile(r"(?P<campos>" + CHAVE_PADRAO + r")$")
 
 
 def detectar_chave_edoc(chave):
@@ -129,8 +134,10 @@ class ChaveEdoc(object):
 
             campos += ano_mes
 
-            campos += str(punctuation_rm(cnpj_cpf_emitente)).zfill(
-                self.CNPJ_CPF.stop - self.CNPJ_CPF.start
+            campos += (
+                str(punctuation_rm(cnpj_cpf_emitente))
+                .upper()
+                .zfill(self.CNPJ_CPF.stop - self.CNPJ_CPF.start)
             )
             campos += str(modelo_documento).zfill(self.MODELO.stop - self.MODELO.start)
             campos += str(numero_serie).zfill(self.SERIE.stop - self.SERIE.start)
@@ -147,6 +154,8 @@ class ChaveEdoc(object):
 
             campos += str(codigo_aleatorio).zfill(self.CODIGO.stop - self.CODIGO.start)
             campos += str(modulo11(campos))
+            if not CHAVE_REGEX.match(campos):
+                raise ValueError("Impossível gerar a chave: {!r}".format(campos))
         else:
             matcher = CHAVE_REGEX.match(chave)
             if matcher:
@@ -171,9 +180,11 @@ class ChaveEdoc(object):
         # Mas, por segurança, é preferível que esse número não seja
         # aleatório
         #
+        # ord(c) - 48 em vez de int(c): aceita letras do CNPJ alfanumérico
+        # e mantém o mesmo resultado para campos numéricos
         soma = 0
         for c in campos:
-            soma += int(c) ** 3**2
+            soma += (ord(c) - 48) ** 3**2
 
         TAMANHO_CODIGO = self.CODIGO.stop - self.CODIGO.start
 
@@ -352,7 +363,7 @@ class ChaveEdoc(object):
 
 
 class ChaveCFeSAT(ChaveEdoc):
-    CHAVE_REGEX = re.compile(r"^CFe(?P<campos>\d{44})$")
+    CHAVE_REGEX = re.compile(r"^CFe(?P<campos>" + CHAVE_PADRAO + r")$")
 
     SERIE = slice(22, 31)
     NUMERO = slice(31, 37)
