@@ -9,6 +9,7 @@ Contents
    installation
    usage
    cnpj
+   dfe
    reference/index
    contributing
    authors
