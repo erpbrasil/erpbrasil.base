@@ -537,9 +537,17 @@ class TestChaveCNPJAlfanumerico(TestCase):
                     modelo_documento=modelo,
                     numero_serie=serie,
                     numero_documento=numero,
+                    codigo_aleatorio=self.CHAVES_ALFA[modelo][35:43],
                     validar=True,
                 )
                 self.assertEqual(edoc.chave, self.CHAVES_ALFA[modelo])
+
+    def test_calculo_codigo_aleatorio_alfa(self):
+        for modelo in ("55", "57", "58", "65"):
+            chave = self.CHAVES_ALFA[modelo]
+            with self.subTest(modelo=modelo):
+                edoc = ChaveEdoc(chave=chave)
+                self.assertEqual(edoc.calculo_codigo_aleatorio(chave[:35]), chave[35:43])
 
     def test_chave_alfa_dv_errado(self):
         for modelo, chave in self.CHAVES_ALFA.items():
