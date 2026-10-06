@@ -23,11 +23,14 @@ year = "2019"
 author = "Luis Felipe Mileo"
 copyright = f"{year}, {author}"
 try:
-    from importlib.metadata import version as _version
+    from importlib.metadata import PackageNotFoundError, version as _version
 except ImportError:  # Python 3.7
-    from importlib_metadata import version as _version
+    from importlib_metadata import PackageNotFoundError, version as _version
 
-version = release = _version("erpbrasil.base")
+try:
+    version = release = _version("erpbrasil.base")
+except PackageNotFoundError:  # Python < 3.10 nao normaliza o nome
+    version = release = _version("erpbrasil_base")
 
 pygments_style = "trac"
 templates_path = ["."]
