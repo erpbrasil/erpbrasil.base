@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import os
 
 extensions = [
@@ -24,8 +21,13 @@ master_doc = "index"
 project = "erpbrasil.base"
 year = "2019"
 author = "Luis Felipe Mileo"
-copyright = "{0}, {1}".format(year, author)
-version = release = "2.4.2"
+copyright = f"{year}, {author}"
+try:
+    from importlib.metadata import version as _version
+except ImportError:  # Python 3.7
+    from importlib_metadata import version as _version
+
+version = release = _version("erpbrasil.base")
 
 pygments_style = "trac"
 templates_path = ["."]
@@ -45,7 +47,7 @@ html_split_index = False
 html_sidebars = {
     "**": ["searchbox.html", "globaltoc.html", "sourcelink.html"],
 }
-html_short_title = "%s-%s" % (project, version)
+html_short_title = f"{project}-{version}"
 
 napoleon_use_ivar = True
 napoleon_use_rtype = False

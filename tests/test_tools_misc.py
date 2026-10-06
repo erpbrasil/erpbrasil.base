@@ -1,13 +1,10 @@
-# coding=utf-8
 # @ 2019 Akretion - www.akretion.com.br -
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from unittest import TestCase
 
-from erpbrasil.base.misc import calc_price_ratio
-from erpbrasil.base.misc import only_digits
-from erpbrasil.base.misc import punctuation_rm
+from erpbrasil.base.misc import calc_price_ratio, only_digits, punctuation_rm
 
 
 class Tests(TestCase):
@@ -18,9 +15,7 @@ class Tests(TestCase):
             "The function only_digits failed.",
         )
 
-        self.assertEqual(
-            only_digits("8363833424"), "8363833424", "The function only_digits failed."
-        )
+        self.assertEqual(only_digits("8363833424"), "8363833424", "The function only_digits failed.")
 
     def test_punctution_rm(self):
         self.assertEqual(
@@ -35,6 +30,4 @@ class Tests(TestCase):
             1.0,
             "The function calc_price_ratio failed.",
         )
-        self.assertEqual(
-            calc_price_ratio(10, 100, 0), 0, "The function calc_price_ratio failed."
-        )
+        self.assertEqual(calc_price_ratio(10, 100, 0), 0, "The function calc_price_ratio failed.")
