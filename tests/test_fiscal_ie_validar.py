@@ -1,4 +1,3 @@
-# coding=utf-8
 # @ 2017 Akretion - www.akretion.com.br -
 #   Clément Mombereau <clement.mombereau@akretion.com.br>
 # Copyright (C) 2023  Gabriel Krauss - KMEE

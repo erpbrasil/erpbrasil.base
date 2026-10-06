@@ -1,4 +1,3 @@
-# coding=utf-8
 # Copyright (C) 2023  Daniel Venancio - KMEE
 # License MIT - See https://opensource.org/license/mit
 from unittest import TestCase

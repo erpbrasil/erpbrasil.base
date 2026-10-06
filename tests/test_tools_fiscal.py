@@ -1,12 +1,10 @@
-# coding=utf-8
 # @ 2016 KMEE - www.kmee.com.br -
 #   Luis Felipe Miléo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from unittest import TestCase
 
-from erpbrasil.base.fiscal import cnpj_cpf
-from erpbrasil.base.fiscal import pis
+from erpbrasil.base.fiscal import cnpj_cpf, pis
 
 
 class Tests(TestCase):
@@ -83,6 +81,7 @@ class TestCNPJAlfa(TestCase):
     def _calcular_dv(self, cnpj12):
         """Helper para calcular DV via módulo."""
         from erpbrasil.base.fiscal.cnpj_cpf import _calcular_dv_cnpj
+
         return _calcular_dv_cnpj(cnpj12)
 
     def test_calcula_dv_numerico_igual_ao_algoritmo_antigo(self):
@@ -159,13 +158,14 @@ class TestCNPJAlfa(TestCase):
     def test_char_value_digitos(self):
         """Dígitos numéricos mantêm os mesmos valores (ord('0')-48=0)."""
         from erpbrasil.base.fiscal.cnpj_cpf import _char_value
+
         self.assertEqual(_char_value("0"), 0)
         self.assertEqual(_char_value("9"), 9)
 
     def test_char_value_letras(self):
         """Letras mapeiam conforme ASCII-48: A=17, B=18, Z=42."""
         from erpbrasil.base.fiscal.cnpj_cpf import _char_value
+
         self.assertEqual(_char_value("A"), 17)
         self.assertEqual(_char_value("B"), 18)
         self.assertEqual(_char_value("Z"), 42)
-

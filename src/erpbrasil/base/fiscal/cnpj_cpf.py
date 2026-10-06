@@ -1,10 +1,9 @@
-# coding=utf-8
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 """Validação e formatação de CNPJ (numérico e alfanumérico) e CPF.
 
-CNPJ Alfanumérico — NT Conjunta 2025.001 (IN RFB nº 2229/2024)
+CNPJ Alfanumérico ,  NT Conjunta 2025.001 (IN RFB nº 2229/2024)
 ---------------------------------------------------------------
 A partir de julho de 2026 o CNPJ passa a aceitar letras maiúsculas nas
 primeiras 12 posições (raiz de 8 + ordem de 4). Os dois últimos dígitos
@@ -12,8 +11,8 @@ continuam sendo verificadores numéricos.
 
 Algoritmo de DV (módulo 11 com valores ASCII):
     Cada caractere é convertido pelo valor  ``ord(c) - 48``, o que mantém
-    os dígitos numéricos com seus valores habituais (0–9) e mapeia letras
-    como  A=17, B=18, C=19 …
+    os dígitos numéricos com seus valores habituais (0-9) e mapeia letras
+    como  A=17, B=18, C=19 ...
 
 Letras proibidas (solicitação ENCAT à RFB, pendente confirmação):
     I, O, U, Q, F
@@ -25,7 +24,7 @@ import re
 # Constantes
 # ---------------------------------------------------------------------------
 
-# Letras proibidas no CNPJ Alfa (conforme solicitação ENCAT/RFB — NT 2025.001)
+# Letras proibidas no CNPJ Alfa (conforme solicitação ENCAT/RFB ,  NT 2025.001)
 _LETRAS_PROIBIDAS = frozenset("IOUQF")
 
 # Regex: primeiras 12 posições alfanuméricas + 2 dígitos verificadores
@@ -43,12 +42,13 @@ _PESOS_DV = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
 # Funções internas
 # ---------------------------------------------------------------------------
 
+
 def _char_value(c):
     """Retorna o valor numérico de um caractere para cálculo de DV.
 
     Equivalente a ``ord(c) - 48``:
-        - Dígitos '0'-'9' → 0-9  (sem alteração em relação ao cálculo antigo)
-        - Letras 'A'-'Z'  → 17-42
+        - Dígitos '0'-'9' -> 0-9  (sem alteração em relação ao cálculo antigo)
+        - Letras 'A'-'Z'  -> 17-42
 
     Args:
         c (str): Um único caractere (dígito ou letra maiúscula).
@@ -63,7 +63,7 @@ def _calcular_dv_cnpj(cnpj12):
     """Calcula os dois dígitos verificadores de um CNPJ (sem os DVs).
 
     Suporta CNPJ puramente numérico e CNPJ alfanumérico.  O algoritmo é
-    idêntico — a diferença está no valor atribuído a cada caractere
+    idêntico ,  a diferença está no valor atribuído a cada caractere
     (``ord(c) - 48`` em vez de ``int(c)`` direto).
 
     Args:
@@ -78,24 +78,16 @@ def _calcular_dv_cnpj(cnpj12):
             contiver caracteres não permitidos.
     """
     if len(cnpj12) != 12:
-        raise ValueError(
-            "cnpj12 deve ter 12 caracteres, recebido: {!r}".format(cnpj12)
-        )
+        raise ValueError(f"cnpj12 deve ter 12 caracteres, recebido: {cnpj12!r}")
 
-    soma_dv1 = sum(
-        _char_value(c) * _PESOS_DV[i + 1]
-        for i, c in enumerate(cnpj12)
-    )
+    soma_dv1 = sum(_char_value(c) * _PESOS_DV[i + 1] for i, c in enumerate(cnpj12))
     dv1 = 0 if soma_dv1 % 11 < 2 else 11 - (soma_dv1 % 11)
 
-    soma_dv2 = sum(
-        _char_value(c) * _PESOS_DV[i]
-        for i, c in enumerate(cnpj12)
-    )
+    soma_dv2 = sum(_char_value(c) * _PESOS_DV[i] for i, c in enumerate(cnpj12))
     soma_dv2 += dv1 * _PESOS_DV[12]
     dv2 = 0 if soma_dv2 % 11 < 2 else 11 - (soma_dv2 % 11)
 
-    return "{:d}{:d}".format(dv1, dv2)
+    return f"{dv1:d}{dv2:d}"
 
 
 def _normalizar_cnpj(cnpj):
@@ -118,6 +110,7 @@ def _normalizar_cnpj(cnpj):
 # ---------------------------------------------------------------------------
 # API pública
 # ---------------------------------------------------------------------------
+
 
 def validar_cnpj(cnpj):
     """Valida um CNPJ numérico ou alfanumérico.
@@ -167,7 +160,7 @@ def validar_cnpj(cnpj):
 
 
 def validar_cpf(cpf):
-    """Valida um CPF — Cadastro de Pessoa Física.
+    """Valida um CPF ,  Cadastro de Pessoa Física.
 
     Args:
         cpf (str): CPF a ser validado (com ou sem pontuação).
@@ -241,13 +234,7 @@ def formata_cnpj(cnpj=None):
 
     cnpj = _normalizar_cnpj(cnpj)
     if len(cnpj) == 14:
-        return "{}.{}.{}/{}-{}".format(
-            cnpj[0:2],
-            cnpj[2:5],
-            cnpj[5:8],
-            cnpj[8:12],
-            cnpj[12:14],
-        )
+        return f"{cnpj[0:2]}.{cnpj[2:5]}.{cnpj[5:8]}/{cnpj[8:12]}-{cnpj[12:14]}"
     return cnpj
 
 
@@ -265,7 +252,7 @@ def formata_cpf(cpf=None):
 
     cpf = re.sub(r"[^0-9]", "", cpf)
     if len(cpf) == 11:
-        return "{}.{}.{}-{}".format(cpf[0:3], cpf[3:6], cpf[6:9], cpf[9:11])
+        return f"{cpf[0:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:11]}"
     return cpf
 
 

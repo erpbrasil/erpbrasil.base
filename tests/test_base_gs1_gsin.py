@@ -1,11 +1,9 @@
-# coding=utf-8
 # Copyright (C) 2022  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from unittest import TestCase
 
-from erpbrasil.base.gs1 import gsin
-from erpbrasil.base.gs1 import gtin
+from erpbrasil.base.gs1 import gsin, gtin
 
 VALID_GSIN = [
     "71192721913505061",
