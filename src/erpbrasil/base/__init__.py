@@ -1,3 +1,6 @@
+from erpbrasil.base.fiscal import *  # noqa: F403
+from erpbrasil.base.misc import *  # noqa: F403
+
 try:
     from importlib.metadata import PackageNotFoundError, version as _version
 except ImportError:  # Python 3.7
@@ -17,6 +20,3 @@ def _versao():
 
 
 __version__ = _versao()
-
-from erpbrasil.base.fiscal import *  # noqa: F403
-from erpbrasil.base.misc import *  # noqa: F403
