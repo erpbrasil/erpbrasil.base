@@ -17,7 +17,7 @@ jobs:
       matrix:
         python: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13', '3.14']
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0  # hatch-vcs le a versao das tags
       - name: Set up Python ${{ matrix.python }}
@@ -50,7 +50,7 @@ jobs:
       matrix:
         python: ['3.7']
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0  # hatch-vcs le a versao das tags
       - name: Install
@@ -66,7 +66,7 @@ jobs:
     name: Pre-commit Hooks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0  # hatch-vcs le a versao das tags
       - uses: actions/setup-python@v5
@@ -80,7 +80,7 @@ jobs:
     name: Build & Inspect Package
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0  # hatch-vcs le a versao das tags
       - uses: actions/setup-python@v5
