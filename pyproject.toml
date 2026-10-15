@@ -7,7 +7,8 @@ name = "erpbrasil.base"
 description = "erpbrasil.base - Biblioteca python para auxiliar em operações corriqueiras dos ERPs Python Brasileiros."
 readme = "README.rst"
 authors = [
-  {name = "Luis Felipe Mileo", email = "mileo@kmee.com.br"}
+  {name = "Luis Felipe Mileo", email = "mileo@kmee.com.br"},
+  {name = "Renato Lima", email = "renato.lima@akretion.com.br"},
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
