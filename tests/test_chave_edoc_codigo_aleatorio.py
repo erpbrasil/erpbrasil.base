@@ -5,7 +5,7 @@ from unittest import TestCase, mock
 from erpbrasil.base.fiscal.edoc import ChaveEdoc, detectar_chave_edoc
 from erpbrasil.base.misc import modulo11
 
-RANDBELOW = "erpbrasil.base.fiscal.edoc.secrets.randbelow"
+RANDBELOW = "erpbrasil.base.fiscal.dfe.secrets.randbelow"
 
 CAMPOS_NFE = dict(
     codigo_uf=35,
