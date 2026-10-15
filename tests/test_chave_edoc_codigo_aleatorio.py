@@ -1,10 +1,8 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from unittest import TestCase
-from unittest import mock
+from unittest import TestCase, mock
 
-from erpbrasil.base.fiscal.edoc import ChaveEdoc
-from erpbrasil.base.fiscal.edoc import detectar_chave_edoc
+from erpbrasil.base.fiscal.edoc import ChaveEdoc, detectar_chave_edoc
 from erpbrasil.base.misc import modulo11
 
 RANDBELOW = "erpbrasil.base.fiscal.edoc.secrets.randbelow"

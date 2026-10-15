@@ -1,0 +1,102 @@
+name: tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  tests:
+    # Python 3.8 a 3.14 pelo setup-python. Cobre do Odoo 14 (3.8) ao Odoo 20 (3.14).
+    # (3.7 so em container, abaixo: o ubuntu-latest nao oferece esse interpretador.)
+    name: Python ${{ matrix.python }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13', '3.14']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # hatch-vcs le a versao das tags
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install .[test]
+          python -m pip list | grep -iE "^erpbrasil"
+      - name: Test
+        run: |
+          pytest --cov --cov-report=xml --cov-branch
+      - name: Upload coverage to Codecov
+        if: matrix.python == '3.12'
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+          verbose: true
+
+  tests-legacy:
+    # Python 3.7 (Odoo 13; o piso da lib, por causa de `from __future__ import annotations`).
+    name: Python ${{ matrix.python }} (container)
+    runs-on: ubuntu-latest
+    container: python:${{ matrix.python }}-bullseye
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.7']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # hatch-vcs le a versao das tags
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install .[test]
+          python -m pip list | grep -iE "^erpbrasil"
+      - name: Test
+        run: |
+          pytest
+
+  pre-commit:
+    name: Pre-commit Hooks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # hatch-vcs le a versao das tags
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: pre-commit/action@v3.0.1
+
+  check-package:
+    # Constroi o pacote, confere o conteudo do wheel e a convivencia do namespace
+    # `erpbrasil` com as outras libs publicadas no PyPI.
+    name: Build & Inspect Package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # hatch-vcs le a versao das tags
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build
+        run: |
+          python -m pip install --upgrade pip build check-wheel-contents twine
+          python -m build
+          check-wheel-contents dist/*.whl --ignore W002
+          twine check --strict dist/*
+      - name: Namespace check with assinatura, transmissao and edoc from PyPI
+        run: |
+          python -m venv /tmp/ns && . /tmp/ns/bin/activate
+          python -m pip install --upgrade pip
+          python -m pip install dist/*.whl erpbrasil.assinatura erpbrasil.transmissao erpbrasil.edoc
+          python -c "import erpbrasil.base, erpbrasil.assinatura, erpbrasil.transmissao, erpbrasil.edoc; from erpbrasil.base.fiscal import cnpj_cpf; print(erpbrasil.base.__version__)"
+          python -m pip uninstall -y erpbrasil.assinatura
+          python -c "import erpbrasil.base, erpbrasil.edoc; print('namespace ok sem a assinatura')"

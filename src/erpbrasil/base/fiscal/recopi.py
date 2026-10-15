@@ -1,4 +1,3 @@
-# coding=utf-8
 # Copyright (C) 2023  Daniel Venancio - KMEE
 # License MIT - See https://opensource.org/license/mit
 import datetime as dt
@@ -40,9 +39,7 @@ def generate_valid_recopi():
     recopi_date = _generate_recopi_date()
     recopi_hour = _generate_recopi_hour()
     recopi_four_digits = _generate_recopi_four_digits()
-    recopi_verification_digits = _generate_recopi_verification_digits(
-        recopi_date + recopi_hour + recopi_four_digits
-    )
+    recopi_verification_digits = _generate_recopi_verification_digits(recopi_date + recopi_hour + recopi_four_digits)
     recopi = recopi_date + recopi_hour + recopi_four_digits + recopi_verification_digits
     return recopi
 
@@ -54,19 +51,13 @@ def _check_recopi_size(recopi):
 
 
 def _check_recopi_format(recopi):
-    return (
-        _check_recopi_date(recopi)
-        and _check_recopi_time(recopi)
-        and _check_recopi_verification_digits(recopi)
-    )
+    return _check_recopi_date(recopi) and _check_recopi_time(recopi) and _check_recopi_verification_digits(recopi)
 
 
 def _check_recopi_date(recopi):
     recopi_year, recopi_month, recopi_day = get_recopi_date(recopi)
     try:
-        dt.date(
-            year=recopi_year, month=recopi_month, day=recopi_day
-        )  # _check if it's a calendar date
+        dt.date(year=recopi_year, month=recopi_month, day=recopi_day)  # _check if it's a calendar date
         if recopi_year > CURRENT_YEAR:
             return True
         elif recopi_year == CURRENT_YEAR and recopi_month > CURRENT_MONTH:
@@ -110,9 +101,7 @@ def get_recopi_time(recopi):
 
 
 def _check_recopi_verification_digits(recopi):
-    return _check_recopi_first_verification_digit(
-        recopi
-    ) and _check_recopi_second_verification_digit(recopi)
+    return _check_recopi_first_verification_digit(recopi) and _check_recopi_second_verification_digit(recopi)
 
 
 def _check_recopi_first_verification_digit(recopi):
@@ -155,8 +144,6 @@ def _generate_recopi_four_digits():
 
 def _generate_recopi_verification_digits(inicial_digits):
     first_verification_digit = str(calculate_first_verification_digit(inicial_digits))
-    second_verification_digit = str(
-        calculate_second_verification_digit(inicial_digits + first_verification_digit)
-    )
+    second_verification_digit = str(calculate_second_verification_digit(inicial_digits + first_verification_digit))
 
     return first_verification_digit + second_verification_digit

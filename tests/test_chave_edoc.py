@@ -3,9 +3,7 @@
 
 from unittest import TestCase
 
-from erpbrasil.base.fiscal.edoc import ChaveCFeSAT
-from erpbrasil.base.fiscal.edoc import ChaveEdoc
-from erpbrasil.base.fiscal.edoc import detectar_chave_edoc
+from erpbrasil.base.fiscal.edoc import ChaveCFeSAT, ChaveEdoc, detectar_chave_edoc
 
 
 class Tests(TestCase):
@@ -21,28 +19,16 @@ class Tests(TestCase):
         edoc_1 = ChaveEdoc(chave=chave)
 
         self.assertEqual(edoc_1.ano_mes, ano_mes, "Key: ano_mes failed")
-        self.assertEqual(
-            edoc_1.cnpj_cpf_emitente, cnpj, "Key: cnpj_cpf_emitente failed"
-        )
+        self.assertEqual(edoc_1.cnpj_cpf_emitente, cnpj, "Key: cnpj_cpf_emitente failed")
         self.assertEqual(edoc_1.codigo_uf, codigo_uf, "Key: codigo_uf failed")
-        self.assertEqual(
-            edoc_1.forma_emissao, forma_emissao, "Key: forma_emissao failed"
-        )
-        self.assertEqual(
-            edoc_1.modelo_documento, modelo_documento, "Key: modelo_documento failed"
-        )
-        self.assertEqual(
-            edoc_1.numero_documento, numero_documento, "Key: numero_documento failed"
-        )
+        self.assertEqual(edoc_1.forma_emissao, forma_emissao, "Key: forma_emissao failed")
+        self.assertEqual(edoc_1.modelo_documento, modelo_documento, "Key: modelo_documento failed")
+        self.assertEqual(edoc_1.numero_documento, numero_documento, "Key: numero_documento failed")
         self.assertEqual(edoc_1.numero_serie, numero_serie, "Key: numero_serie failed")
 
         self.assertEqual(edoc_1.ano_emissao, 2013, "Key: ano_emissao failed")
-        self.assertEqual(
-            edoc_1.codigo_aleatorio, "34595274", "Key: codigo_aleatorio failed"
-        )
-        self.assertEqual(
-            edoc_1.digito_verificador, "5", "Key: digito_verificador failed"
-        )
+        self.assertEqual(edoc_1.codigo_aleatorio, "34595274", "Key: codigo_aleatorio failed")
+        self.assertEqual(edoc_1.digito_verificador, "5", "Key: digito_verificador failed")
         self.assertEqual(edoc_1.mes_emissao, 12, "Key: mes_emissao failed")
 
         edoc_2 = ChaveEdoc(
@@ -74,28 +60,16 @@ class Tests(TestCase):
         edoc_1 = ChaveEdoc(chave=chave)
 
         self.assertEqual(edoc_1.ano_mes, ano_mes, "Key: ano_mes failed")
-        self.assertEqual(
-            edoc_1.cnpj_cpf_emitente, cnpj, "Key: cnpj_cpf_emitente failed"
-        )
+        self.assertEqual(edoc_1.cnpj_cpf_emitente, cnpj, "Key: cnpj_cpf_emitente failed")
         self.assertEqual(edoc_1.codigo_uf, codigo_uf, "Key: codigo_uf failed")
-        self.assertEqual(
-            edoc_1.forma_emissao, forma_emissao, "Key: forma_emissao failed"
-        )
-        self.assertEqual(
-            edoc_1.modelo_documento, modelo_documento, "Key: modelo_documento failed"
-        )
-        self.assertEqual(
-            edoc_1.numero_documento, numero_documento, "Key: numero_documento failed"
-        )
+        self.assertEqual(edoc_1.forma_emissao, forma_emissao, "Key: forma_emissao failed")
+        self.assertEqual(edoc_1.modelo_documento, modelo_documento, "Key: modelo_documento failed")
+        self.assertEqual(edoc_1.numero_documento, numero_documento, "Key: numero_documento failed")
         self.assertEqual(edoc_1.numero_serie, numero_serie, "Key: numero_serie failed")
 
         self.assertEqual(edoc_1.ano_emissao, 2017, "Key: ano_emissao failed")
-        self.assertEqual(
-            edoc_1.codigo_aleatorio, "15318382", "Key: codigo_aleatorio failed"
-        )
-        self.assertEqual(
-            edoc_1.digito_verificador, "5", "Key: digito_verificador failed"
-        )
+        self.assertEqual(edoc_1.codigo_aleatorio, "15318382", "Key: codigo_aleatorio failed")
+        self.assertEqual(edoc_1.digito_verificador, "5", "Key: digito_verificador failed")
         self.assertEqual(edoc_1.mes_emissao, 12, "Key: mes_emissao failed")
 
         edoc_2 = ChaveEdoc(
@@ -127,28 +101,16 @@ class Tests(TestCase):
         edoc_1 = ChaveEdoc(chave=chave)
 
         self.assertEqual(edoc_1.ano_mes, ano_mes, "Key: ano_mes failed")
-        self.assertEqual(
-            edoc_1.cnpj_cpf_emitente, cnpj, "Key: cnpj_cpf_emitente failed"
-        )
+        self.assertEqual(edoc_1.cnpj_cpf_emitente, cnpj, "Key: cnpj_cpf_emitente failed")
         self.assertEqual(edoc_1.codigo_uf, codigo_uf, "Key: codigo_uf failed")
-        self.assertEqual(
-            edoc_1.forma_emissao, forma_emissao, "Key: forma_emissao failed"
-        )
-        self.assertEqual(
-            edoc_1.modelo_documento, modelo_documento, "Key: modelo_documento failed"
-        )
-        self.assertEqual(
-            edoc_1.numero_documento, numero_documento, "Key: numero_documento failed"
-        )
+        self.assertEqual(edoc_1.forma_emissao, forma_emissao, "Key: forma_emissao failed")
+        self.assertEqual(edoc_1.modelo_documento, modelo_documento, "Key: modelo_documento failed")
+        self.assertEqual(edoc_1.numero_documento, numero_documento, "Key: numero_documento failed")
         self.assertEqual(edoc_1.numero_serie, numero_serie, "Key: numero_serie failed")
 
         self.assertEqual(edoc_1.ano_emissao, 2014, "Key: ano_emissao failed")
-        self.assertEqual(
-            edoc_1.codigo_aleatorio, "14812744", "Key: codigo_aleatorio failed"
-        )
-        self.assertEqual(
-            edoc_1.digito_verificador, "6", "Key: digito_verificador failed"
-        )
+        self.assertEqual(edoc_1.codigo_aleatorio, "14812744", "Key: codigo_aleatorio failed")
+        self.assertEqual(edoc_1.digito_verificador, "6", "Key: digito_verificador failed")
         self.assertEqual(edoc_1.mes_emissao, 2, "Key: mes_emissao failed")
 
         edoc_2 = ChaveEdoc(
@@ -180,28 +142,16 @@ class Tests(TestCase):
         edoc_1 = ChaveEdoc(chave=chave)
 
         self.assertEqual(edoc_1.ano_mes, ano_mes, "Key: ano_mes failed")
-        self.assertEqual(
-            edoc_1.cnpj_cpf_emitente, cnpj, "Key: cnpj_cpf_emitente failed"
-        )
+        self.assertEqual(edoc_1.cnpj_cpf_emitente, cnpj, "Key: cnpj_cpf_emitente failed")
         self.assertEqual(edoc_1.codigo_uf, codigo_uf, "Key: codigo_uf failed")
-        self.assertEqual(
-            edoc_1.forma_emissao, forma_emissao, "Key: forma_emissao failed"
-        )
-        self.assertEqual(
-            edoc_1.modelo_documento, modelo_documento, "Key: modelo_documento failed"
-        )
-        self.assertEqual(
-            edoc_1.numero_documento, numero_documento, "Key: numero_documento failed"
-        )
+        self.assertEqual(edoc_1.forma_emissao, forma_emissao, "Key: forma_emissao failed")
+        self.assertEqual(edoc_1.modelo_documento, modelo_documento, "Key: modelo_documento failed")
+        self.assertEqual(edoc_1.numero_documento, numero_documento, "Key: numero_documento failed")
         self.assertEqual(edoc_1.numero_serie, numero_serie, "Key: numero_serie failed")
 
         self.assertEqual(edoc_1.ano_emissao, 2021, "Key: ano_emissao failed")
-        self.assertEqual(
-            edoc_1.codigo_aleatorio, "98183992", "Key: codigo_aleatorio failed"
-        )
-        self.assertEqual(
-            edoc_1.digito_verificador, "3", "Key: digito_verificador failed"
-        )
+        self.assertEqual(edoc_1.codigo_aleatorio, "98183992", "Key: codigo_aleatorio failed")
+        self.assertEqual(edoc_1.digito_verificador, "3", "Key: digito_verificador failed")
         self.assertEqual(edoc_1.mes_emissao, 3, "Key: mes_emissao failed")
 
         edoc_2 = ChaveEdoc(
@@ -233,28 +183,16 @@ class Tests(TestCase):
         edoc_1 = ChaveEdoc(chave=chave)
 
         self.assertEqual(edoc_1.ano_mes, ano_mes, "Key: ano_mes failed")
-        self.assertEqual(
-            edoc_1.cnpj_cpf_emitente, cnpj, "Key: cnpj_cpf_emitente failed"
-        )
+        self.assertEqual(edoc_1.cnpj_cpf_emitente, cnpj, "Key: cnpj_cpf_emitente failed")
         self.assertEqual(edoc_1.codigo_uf, codigo_uf, "Key: codigo_uf failed")
-        self.assertEqual(
-            edoc_1.forma_emissao, forma_emissao, "Key: forma_emissao failed"
-        )
-        self.assertEqual(
-            edoc_1.modelo_documento, modelo_documento, "Key: modelo_documento failed"
-        )
-        self.assertEqual(
-            edoc_1.numero_documento, numero_documento, "Key: numero_documento failed"
-        )
+        self.assertEqual(edoc_1.forma_emissao, forma_emissao, "Key: forma_emissao failed")
+        self.assertEqual(edoc_1.modelo_documento, modelo_documento, "Key: modelo_documento failed")
+        self.assertEqual(edoc_1.numero_documento, numero_documento, "Key: numero_documento failed")
         self.assertEqual(edoc_1.numero_serie, numero_serie, "Key: numero_serie failed")
 
         self.assertEqual(edoc_1.ano_emissao, 2021, "Key: ano_emissao failed")
-        self.assertEqual(
-            edoc_1.codigo_aleatorio, "98183992", "Key: codigo_aleatorio failed"
-        )
-        self.assertEqual(
-            edoc_1.digito_verificador, "3", "Key: digito_verificador failed"
-        )
+        self.assertEqual(edoc_1.codigo_aleatorio, "98183992", "Key: codigo_aleatorio failed")
+        self.assertEqual(edoc_1.digito_verificador, "3", "Key: digito_verificador failed")
         self.assertEqual(edoc_1.mes_emissao, 3, "Key: mes_emissao failed")
 
         edoc_2 = ChaveEdoc(
@@ -287,28 +225,16 @@ class Tests(TestCase):
         edoc_1 = ChaveCFeSAT(chave=chave)
 
         self.assertEqual(edoc_1.ano_mes, ano_mes, "Key: ano_mes failed")
-        self.assertEqual(
-            edoc_1.cnpj_cpf_emitente, cnpj, "Key: cnpj_cpf_emitente failed"
-        )
+        self.assertEqual(edoc_1.cnpj_cpf_emitente, cnpj, "Key: cnpj_cpf_emitente failed")
         self.assertEqual(edoc_1.codigo_uf, codigo_uf, "Key: codigo_uf failed")
-        self.assertEqual(
-            edoc_1.forma_emissao, forma_emissao, "Key: forma_emissao failed"
-        )
-        self.assertEqual(
-            edoc_1.modelo_documento, modelo_documento, "Key: modelo_documento failed"
-        )
-        self.assertEqual(
-            edoc_1.numero_documento, numero_documento, "Key: numero_documento failed"
-        )
+        self.assertEqual(edoc_1.forma_emissao, forma_emissao, "Key: forma_emissao failed")
+        self.assertEqual(edoc_1.modelo_documento, modelo_documento, "Key: modelo_documento failed")
+        self.assertEqual(edoc_1.numero_documento, numero_documento, "Key: numero_documento failed")
         self.assertEqual(edoc_1.numero_serie, numero_serie, "Key: numero_serie failed")
 
-        self.assertEqual(
-            edoc_1.codigo_aleatorio, "725595", "Key: codigo_aleatorio failed"
-        )
+        self.assertEqual(edoc_1.codigo_aleatorio, "725595", "Key: codigo_aleatorio failed")
         self.assertEqual(edoc_1.ano_emissao, 2015, "Key: ano_emissao failed")
-        self.assertEqual(
-            edoc_1.digito_verificador, "0", "Key: digito_verificador failed"
-        )
+        self.assertEqual(edoc_1.digito_verificador, "0", "Key: digito_verificador failed")
         self.assertEqual(edoc_1.mes_emissao, 8, "Key: mes_emissao failed")
 
         self.assertEqual(edoc_1.chave, chave)
@@ -344,28 +270,16 @@ class Tests(TestCase):
         edoc_1 = ChaveCFeSAT(chave=chave)
 
         self.assertEqual(edoc_1.ano_mes, ano_mes, "Key: ano_mes failed")
-        self.assertEqual(
-            edoc_1.cnpj_cpf_emitente, cnpj, "Key: cnpj_cpf_emitente failed"
-        )
+        self.assertEqual(edoc_1.cnpj_cpf_emitente, cnpj, "Key: cnpj_cpf_emitente failed")
         self.assertEqual(edoc_1.codigo_uf, codigo_uf, "Key: codigo_uf failed")
-        self.assertEqual(
-            edoc_1.forma_emissao, forma_emissao, "Key: forma_emissao failed"
-        )
-        self.assertEqual(
-            edoc_1.modelo_documento, modelo_documento, "Key: modelo_documento failed"
-        )
-        self.assertEqual(
-            edoc_1.numero_documento, numero_documento, "Key: numero_documento failed"
-        )
+        self.assertEqual(edoc_1.forma_emissao, forma_emissao, "Key: forma_emissao failed")
+        self.assertEqual(edoc_1.modelo_documento, modelo_documento, "Key: modelo_documento failed")
+        self.assertEqual(edoc_1.numero_documento, numero_documento, "Key: numero_documento failed")
         self.assertEqual(edoc_1.numero_serie, numero_serie, "Key: numero_serie failed")
 
         self.assertEqual(edoc_1.ano_emissao, 2015, "Key: ano_emissao failed")
-        self.assertEqual(
-            edoc_1.codigo_aleatorio, "111425", "Key: codigo_aleatorio failed"
-        )
-        self.assertEqual(
-            edoc_1.digito_verificador, "7", "Key: digito_verificador failed"
-        )
+        self.assertEqual(edoc_1.codigo_aleatorio, "111425", "Key: codigo_aleatorio failed")
+        self.assertEqual(edoc_1.digito_verificador, "7", "Key: digito_verificador failed")
         self.assertEqual(edoc_1.mes_emissao, 8, "Key: mes_emissao failed")
 
         self.assertEqual(edoc_1.chave, chave)
@@ -401,28 +315,16 @@ class Tests(TestCase):
         edoc_1 = ChaveEdoc(chave=chave)
 
         self.assertEqual(edoc_1.ano_mes, ano_mes, "Key: ano_mes failed")
-        self.assertEqual(
-            edoc_1.cnpj_cpf_emitente, cnpj, "Key: cnpj_cpf_emitente failed"
-        )
+        self.assertEqual(edoc_1.cnpj_cpf_emitente, cnpj, "Key: cnpj_cpf_emitente failed")
         self.assertEqual(edoc_1.codigo_uf, codigo_uf, "Key: codigo_uf failed")
-        self.assertEqual(
-            edoc_1.forma_emissao, forma_emissao, "Key: forma_emissao failed"
-        )
-        self.assertEqual(
-            edoc_1.modelo_documento, modelo_documento, "Key: modelo_documento failed"
-        )
-        self.assertEqual(
-            edoc_1.numero_documento, numero_documento, "Key: numero_documento failed"
-        )
+        self.assertEqual(edoc_1.forma_emissao, forma_emissao, "Key: forma_emissao failed")
+        self.assertEqual(edoc_1.modelo_documento, modelo_documento, "Key: modelo_documento failed")
+        self.assertEqual(edoc_1.numero_documento, numero_documento, "Key: numero_documento failed")
         self.assertEqual(edoc_1.numero_serie, numero_serie, "Key: numero_serie failed")
 
         self.assertEqual(edoc_1.ano_emissao, 2017, "Key: ano_emissao failed")
-        self.assertEqual(
-            edoc_1.codigo_aleatorio, "23442953", "Key: codigo_aleatorio failed"
-        )
-        self.assertEqual(
-            edoc_1.digito_verificador, "3", "Key: digito_verificador failed"
-        )
+        self.assertEqual(edoc_1.codigo_aleatorio, "23442953", "Key: codigo_aleatorio failed")
+        self.assertEqual(edoc_1.digito_verificador, "3", "Key: digito_verificador failed")
         self.assertEqual(edoc_1.mes_emissao, 12, "Key: mes_emissao failed")
 
         edoc_2 = ChaveEdoc(

@@ -37,7 +37,7 @@ sob a coordenação do ENCAT:
 Nova Lei de Formação do CNPJ
 =============================
 
-O novo número de identificação — **CNPJ Alfanumérico** — terá o mesmo tamanho que o
+O novo número de identificação ,  **CNPJ Alfanumérico** ,  terá o mesmo tamanho que o
 número atual, com **14 posições**, distribuídas da seguinte forma:
 
 +-------------------+--------------------+-------------------+
@@ -60,8 +60,8 @@ o modo de obtenção dos valores usados no cálculo:
 
 * Cada caractere (numérico ou alfabético) é substituído pelo valor decimal correspondente
   ao seu código ASCII menos 48.
-* Desta forma, os dígitos numéricos mantêm os mesmos valores (``'0'`` → 0, ``'9'`` → 9).
-* As letras assumem os valores: ``A`` = 17, ``B`` = 18, ``C`` = 19 … e assim por diante.
+* Desta forma, os dígitos numéricos mantêm os mesmos valores (``'0'`` -> 0, ``'9'`` -> 9).
+* As letras assumem os valores: ``A`` = 17, ``B`` = 18, ``C`` = 19 ... e assim por diante.
 
 Pesos utilizados no cálculo (posições 1 a 13, da esquerda para a direita)::
 
@@ -72,9 +72,9 @@ Pesos utilizados no cálculo (posições 1 a 13, da esquerda para a direita)::
 Algoritmo (módulo 11):
 
 1. Para cada um dos 12 primeiros caracteres (sem os DVs), calcule ``valor_ascii - 48``.
-2. Multiplique pelo peso correspondente e some os resultados → ``soma_dv1``.
+2. Multiplique pelo peso correspondente e some os resultados -> ``soma_dv1``.
 3. ``dv1 = 0`` se ``soma_dv1 % 11 < 2``, senão ``dv1 = 11 - (soma_dv1 % 11)``.
-4. Repita o processo incluindo ``dv1`` com peso 2 → ``soma_dv2``.
+4. Repita o processo incluindo ``dv1`` com peso 2 -> ``soma_dv2``.
 5. ``dv2 = 0`` se ``soma_dv2 % 11 < 2``, senão ``dv2 = 11 - (soma_dv2 % 11)``.
 
 Letras não permitidas
@@ -168,8 +168,8 @@ Novo Padrão Híbrido CODE-128A/C
 
 Para suportar o CNPJ Alfa, adota-se um **modelo híbrido**:
 
-* **CODE-128C**: codifica pares de dígitos numéricos (00–99), usado nas partes numéricas.
-* **CODE-128A**: aceita números e letras maiúsculas (ASCII 00–95), ativado na ocorrência
+* **CODE-128C**: codifica pares de dígitos numéricos (00-99), usado nas partes numéricas.
+* **CODE-128A**: aceita números e letras maiúsculas (ASCII 00-95), ativado na ocorrência
   de caracteres não numéricos.
 * A alternância entre os modos é feita com o código ``100`` (CODE A ↔ CODE C).
 
@@ -214,13 +214,13 @@ Orientações para alternância entre CODE-128C e CODE-128A
    dígito ímpar.
 3. Se **4 ou mais dígitos** aparecerem em sequência enquanto no modo ``A``:
 
-   * Par de dígitos → insira ``Code C`` antes do primeiro dígito.
-   * Ímpar de dígitos → insira ``Code C`` após o primeiro dígito (o primeiro permanece em ``A``).
+   * Par de dígitos -> insira ``Code C`` antes do primeiro dígito.
+   * Ímpar de dígitos -> insira ``Code C`` após o primeiro dígito (o primeiro permanece em ``A``).
 
 4. Quando **no modo C** e um caractere não numérico ocorrer: insira ``Code A`` antes do
    caractere não numérico.
 
-Exemplo de Validação — CNPJ Alfa (JavaScript)
+Exemplo de Validação ,  CNPJ Alfa (JavaScript)
 =============================================
 
 O exemplo abaixo implementa a validação do CNPJ Alfa conforme a NT 2025.001:
@@ -275,7 +275,7 @@ O exemplo abaixo implementa a validação do CNPJ Alfa conforme a NT 2025.001:
      }
    }
 
-Exemplo de Validação — Chave de Acesso (Visual Basic .NET)
+Exemplo de Validação ,  Chave de Acesso (Visual Basic .NET)
 ==========================================================
 
 .. code-block:: vbnet
@@ -321,7 +321,7 @@ Exemplo de Validação — Chave de Acesso (Visual Basic .NET)
 Referência
 ==========
 
-* **Instrução Normativa RFB nº 2229**, de 15 de outubro de 2024 — modifica a regra de
+* **Instrução Normativa RFB nº 2229**, de 15 de outubro de 2024 ,  modifica a regra de
   formação do CNPJ no Brasil.
-* **Nota Técnica Conjunta 2025.001 v1.00** (25 de abril de 2025) — especificação do
+* **Nota Técnica Conjunta 2025.001 v1.00** (25 de abril de 2025) ,  especificação do
   CNPJ Alfanumérico para DFe sob coordenação do ENCAT.

@@ -1,4 +1,3 @@
-# coding=utf-8
 # Copyright (C) 2014  Renato Lima - Akretion
 # Copyright (C) 2015  Luis Felipe Mileo - KMEE
 # Copyright (C) 2015  Base4 Sistemas Ltda ME

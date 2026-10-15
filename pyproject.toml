@@ -11,29 +11,55 @@ authors = [
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Utilities",
 ]
+# Piso 3.7: o codigo usa `from __future__ import annotations`. O Odoo 12 (Python 3.6)
+# fica com a ultima versao que o pip resolve para ele (2.4.2 ainda nao, 2.3.x).
 requires-python = ">=3.7"
 dependencies = [
-    "wheel",
-    "tomli; python_version<'3.11'",
     "importlib_metadata; python_version<'3.8'",
 ]
 scripts = {"erpbrasil.base" = "erpbrasil.base.cli:main"}
 dynamic = ["version"]
 
-[tool.setuptools]
-packages = ["erpbrasil.base"]
-
+# O namespace `erpbrasil` e compartilhado com erpbrasil.assinatura, erpbrasil.transmissao e
+# erpbrasil.edoc; o wheel leva src/erpbrasil/__init__.py com pkgutil.extend_path.
 [tool.hatch.build.targets.wheel]
 packages = ["src/erpbrasil"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src",
+    "tests",
+    "docs",
+    "CHANGELOG.rst",
+    "CONTRIBUTING.rst",
+    "LICENSE",
+    "README.rst",
+    "tox.ini",
+]
+
 
 [project.optional-dependencies]
 test = [
     "pytest",
     "pytest-cov",
     "coverage[toml]",
-    "mypy",
 ]
 doc = [
     "sphinx",
@@ -67,7 +93,7 @@ show_error_codes = true
 
 [tool.coverage.run]
 branch = true
-source = ["src"]
+source = ["erpbrasil.base"]
 
 [tool.coverage.paths]
 source = ["src", ".tox/*/site-packages"]
@@ -92,10 +118,14 @@ underlines = ["", "", ""]
 
 [tool.ruff]
 fix = true
+line-length = 120
 select = [
     "E", "F", "W", "C90", "B", "I", "UP", "RUF", "TCH"
 ]
-target-version = "py310"
+# piso da lib; o UP so sugere sintaxe que o 3.7 aceita
+target-version = "py37"
+# UP031 (troca de % por format) mexe em codigo que funciona; fica para quando o modulo for tocado
+ignore = ["UP031"]
 
 [tool.ruff.per-file-ignores]
 "__main__.py" = ["B008"]

@@ -1,4 +1,3 @@
-# coding=utf-8
 # Copyright (C) 2013  Renato Lima - Akretion
 # Copyright (C) 2023  Gabriel Krauss - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
@@ -10,93 +9,87 @@ PARAMETERS = {
         "tam": 13,
         "val_tam": 11,
         "starts_with": "01",
-        "format": lambda x: "{0}.{1}.{2}/{3}-{4}".format(
-            x[:2], x[2:5], x[5:8], x[8:11], x[11:13]
-        ),
+        "format": lambda x: f"{x[:2]}.{x[2:5]}.{x[5:8]}/{x[8:11]}-{x[11:13]}",
     },
     "al": {
         "tam": 9,
         "starts_with": "24",
-        "format": lambda x: "{0}.{1}.{2}-{3}".format(x[:2], x[2:5], x[5:8], x[8:9]),
+        "format": lambda x: f"{x[:2]}.{x[2:5]}.{x[5:8]}-{x[8:9]}",
     },
     "am": {
         "tam": 9,
-        "format": lambda x: "{0}.{1}.{2}-{3}".format(x[:2], x[2:5], x[5:8], x[8:9]),
+        "format": lambda x: f"{x[:2]}.{x[2:5]}.{x[5:8]}-{x[8:9]}",
     },
-    "ce": {"tam": 9, "format": lambda x: "{0}.{1}-{2}".format(x[:2], x[2:8], x[8:9])},
+    "ce": {"tam": 9, "format": lambda x: f"{x[:2]}.{x[2:8]}-{x[8:9]}"},
     "df": {
         "tam": 13,
         "val_tam": 11,
-        "format": lambda x: "{0}.{1}.{2}/{3}-{4}".format(
-            x[:2], x[2:5], x[5:8], x[8:11], x[11:13]
-        ),
+        "format": lambda x: f"{x[:2]}.{x[2:5]}.{x[5:8]}/{x[8:11]}-{x[11:13]}",
     },
     "es": {
         "tam": 9,
-        "format": lambda x: "{0}.{1}.{2}-{3}".format(x[:3], x[3:6], x[6:8], x[8:9]),
+        "format": lambda x: f"{x[:3]}.{x[3:6]}.{x[6:8]}-{x[8:9]}",
     },
     "ma": {
         "tam": 9,
         "starts_with": "12",
-        "format": lambda x: "{0}.{1}.{2}-{3}".format(x[:2], x[2:5], x[5:8], x[8:9]),
+        "format": lambda x: f"{x[:2]}.{x[2:5]}.{x[5:8]}-{x[8:9]}",
     },
     "mt": {
         "tam": 11,
         "prod": [3, 2, 9, 8, 7, 6, 5, 4, 3, 2],
-        "format": lambda x: "{0}.{1}.{2}.{3}-{4}".format(
-            x[:2], x[2:4], x[4:6], x[6:10], x[10:11]
-        ),
+        "format": lambda x: f"{x[:2]}.{x[2:4]}.{x[4:6]}.{x[6:10]}-{x[10:11]}",
     },
     "ms": {
         "tam": 9,
         "starts_with": "28",
-        "format": lambda x: "{0}.{1}.{2}-{3}".format(x[:2], x[2:5], x[5:8], x[8:9]),
+        "format": lambda x: f"{x[:2]}.{x[2:5]}.{x[5:8]}-{x[8:9]}",
     },
     "pa": {
         "tam": 9,
         "starts_with": ("15", "75", "76", "77", "78", "79"),
-        "format": lambda x: "{0}.{1}.{2}-{3}".format(x[:2], x[2:5], x[5:8], x[8:9]),
+        "format": lambda x: f"{x[:2]}.{x[2:5]}.{x[5:8]}-{x[8:9]}",
     },
     "pb": {
         "tam": 9,
-        "format": lambda x: "{0}.{1}.{2}-{3}".format(x[:2], x[2:5], x[5:8], x[8:9]),
+        "format": lambda x: f"{x[:2]}.{x[2:5]}.{x[5:8]}-{x[8:9]}",
     },
     "pr": {
         "tam": 10,
         "val_tam": 8,
         "prod": [3, 2, 7, 6, 5, 4, 3, 2],
-        "format": lambda x: "{0}.{1}-{2}".format(x[:3], x[3:7], x[7:9]),
+        "format": lambda x: f"{x[:3]}.{x[3:7]}-{x[7:9]}",
     },
     "pi": {
         "tam": 9,
-        "format": lambda x: "{0}.{1}.{2}-{3}".format(x[:2], x[2:5], x[5:8], x[8:9]),
+        "format": lambda x: f"{x[:2]}.{x[2:5]}.{x[5:8]}-{x[8:9]}",
     },
     "rj": {
         "tam": 8,
         "prod": [2, 7, 6, 5, 4, 3, 2],
-        "format": lambda x: "{0}.{1}.{2}-{3}".format(x[:2], x[2:5], x[5:7], x[7:8]),
+        "format": lambda x: f"{x[:2]}.{x[2:5]}.{x[5:7]}-{x[7:8]}",
     },
     "rn": {"tam": 10, "val_tam": 9, "prod": [10, 9, 8, 7, 6, 5, 4, 3, 2]},
     "rs": {
         "tam": 10,
-        "format": lambda x: "{0}/{1}.{2}-{3}".format(x[:3], x[3:6], x[6:9], x[9:10]),
+        "format": lambda x: f"{x[:3]}/{x[3:6]}.{x[6:9]}-{x[9:10]}",
     },
     "rr": {
         "tam": 9,
         "starts_with": "24",
         "prod": [1, 2, 3, 4, 5, 6, 7, 8],
         "div": 9,
-        "format": lambda x: "{0}.{1}.{2}-{3}".format(x[:2], x[2:5], x[5:8], x[8:9]),
+        "format": lambda x: f"{x[:2]}.{x[2:5]}.{x[5:8]}-{x[8:9]}",
     },
-    "sc": {"tam": 9, "format": lambda x: "{0}.{1}.{2}".format(x[:3], x[3:6], x[6:9])},
+    "sc": {"tam": 9, "format": lambda x: f"{x[:3]}.{x[3:6]}.{x[6:9]}"},
     "se": {
         "tam": 9,
-        "format": lambda x: "{0}.{1}.{2}-{3}".format(x[:2], x[2:5], x[5:8], x[8:9]),
+        "format": lambda x: f"{x[:2]}.{x[2:5]}.{x[5:8]}-{x[8:9]}",
     },
     "to": {
         "tam": 9,
         "prod": [9, 8, 7, 6, 5, 4, 3, 2],
-        "format": lambda x: "{0}.{1}.{2}-{3}".format(x[:2], x[2:5], x[5:8], x[8:9]),
+        "format": lambda x: f"{x[:2]}.{x[2:5]}.{x[5:8]}-{x[8:9]}",
     },
 }
 
@@ -142,9 +135,7 @@ def validar_param(uf, inscr_est):
     prod = prod[-val_tam:]
 
     while len(nova_ie) < tam:
-        r = sum([x * y for (x, y) in zip(nova_ie, prod)]) % PARAMETERS[uf].get(
-            "div", 11
-        )
+        r = sum([x * y for (x, y) in zip(nova_ie, prod)]) % PARAMETERS[uf].get("div", 11)
 
         if r > 1:
             f = 11 - r
@@ -564,9 +555,7 @@ def formata_ap(inscr_est):
     inscr_est = inscr_est.strip().rjust(int(tam), "0")
     inscr_est = re.sub("[^0-9]", "", inscr_est)
     if len(inscr_est) == tam:
-        inscr_est = "{0}.{1}.{2}-{3}".format(
-            inscr_est[:2], inscr_est[2:5], inscr_est[5:8], inscr_est[8:9]
-        )
+        inscr_est = f"{inscr_est[:2]}.{inscr_est[2:5]}.{inscr_est[5:8]}-{inscr_est[8:9]}"
     return inscr_est
 
 
@@ -575,7 +564,7 @@ def formata_ba(inscr_est):
     if len(inscr_est) == 8:
         inscr_est = inscr_est.rjust(9, "0")
     if len(inscr_est) == 9:
-        inscr_est = "{0}.{1}.{2}".format(inscr_est[:3], inscr_est[3:6], inscr_est[6:9])
+        inscr_est = f"{inscr_est[:3]}.{inscr_est[3:6]}.{inscr_est[6:9]}"
 
     return inscr_est
 
@@ -585,9 +574,7 @@ def formata_go(inscr_est):
     inscr_est = inscr_est.strip().rjust(int(tam), "0")
     inscr_est = re.sub("[^0-9]", "", inscr_est)
     if len(inscr_est) == tam:
-        inscr_est = "{0}.{1}.{2}-{3}".format(
-            inscr_est[:2], inscr_est[2:5], inscr_est[5:8], inscr_est[8:9]
-        )
+        inscr_est = f"{inscr_est[:2]}.{inscr_est[2:5]}.{inscr_est[5:8]}-{inscr_est[8:9]}"
 
     return inscr_est
 
@@ -595,39 +582,27 @@ def formata_go(inscr_est):
 def formata_mg(inscr_est):
     inscr_est = re.sub("[^0-9]", "", inscr_est)
     if len(inscr_est) == 13:
-        inscr_est = "{0}.{1}.{2}/{3}-{4}".format(
-            inscr_est[:3],
-            inscr_est[3:6],
-            inscr_est[6:9],
-            inscr_est[9:11],
-            inscr_est[11:13],
-        )
+        inscr_est = f"{inscr_est[:3]}.{inscr_est[3:6]}.{inscr_est[6:9]}/{inscr_est[9:11]}-{inscr_est[11:13]}"
     return inscr_est
 
 
 def formata_pe(inscr_est):
     inscr_est = re.sub("[^0-9]", "", inscr_est)
     if len(inscr_est) == 9:
-        inscr_est = "{0}-{1}".format(inscr_est[:7], inscr_est[7:9])
+        inscr_est = f"{inscr_est[:7]}-{inscr_est[7:9]}"
 
     if len(inscr_est) == 14:
-        inscr_est = "{0}.{1}.{2}.{3}-{4}".format(
-            inscr_est[:2], inscr_est[2], inscr_est[3:6], inscr_est[6:13], inscr_est[13]
-        )
+        inscr_est = f"{inscr_est[:2]}.{inscr_est[2]}.{inscr_est[3:6]}.{inscr_est[6:13]}-{inscr_est[13]}"
     return inscr_est
 
 
 def formata_rn(inscr_est):
     inscr_est = re.sub("[^0-9]", "", inscr_est)
     if len(inscr_est) == 9:
-        inscr_est = "{0}.{1}.{2}-{3}".format(
-            inscr_est[:2], inscr_est[2:5], inscr_est[5:8], inscr_est[8:9]
-        )
+        inscr_est = f"{inscr_est[:2]}.{inscr_est[2:5]}.{inscr_est[5:8]}-{inscr_est[8:9]}"
 
     if len(inscr_est) == 10:
-        inscr_est = "{0}.{1}.{2}-{3}".format(
-            inscr_est[:3], inscr_est[3:6], inscr_est[6:9], inscr_est[9:10]
-        )
+        inscr_est = f"{inscr_est[:3]}.{inscr_est[3:6]}.{inscr_est[6:9]}-{inscr_est[9:10]}"
     return inscr_est
 
 
@@ -637,14 +612,10 @@ def formata_sp(inscr_est):
         # Se IE normal
         inscr_est = re.sub("[^0-9]", "", inscr_est)
         if len(inscr_est) == 12:
-            inscr_est = "{0}.{1}.{2}.{3}".format(
-                inscr_est[:3], inscr_est[3:6], inscr_est[6:9], inscr_est[9:12]
-            )
+            inscr_est = f"{inscr_est[:3]}.{inscr_est[3:6]}.{inscr_est[6:9]}.{inscr_est[9:12]}"
     else:
         # Se produtor rural
         inscr_est = re.sub("[^0-9]", "", inscr_est)
         if len(inscr_est) == 12:
-            inscr_est = "P-{0}.{1}/{2}".format(
-                inscr_est[:8], inscr_est[8:9], inscr_est[9:12]
-            )
+            inscr_est = f"P-{inscr_est[:8]}.{inscr_est[8:9]}/{inscr_est[9:12]}"
     return inscr_est
