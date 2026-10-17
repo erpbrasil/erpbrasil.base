@@ -42,7 +42,10 @@ PARAMETERS = {
     },
     "ms": {
         "tam": 9,
-        "starts_with": "28",
+        # 28: numeração antiga e cadastro rural; 50: numeração do novo cadastro
+        # fiscal da SEFAZ-MS (e-CCE, comércio, indústria e serviço, desde 2025).
+        # Mesmo cálculo de dígito verificador.
+        "starts_with": ("28", "50"),
         "format": lambda x: f"{x[:2]}.{x[2:5]}.{x[5:8]}-{x[8:9]}",
     },
     "pa": {
