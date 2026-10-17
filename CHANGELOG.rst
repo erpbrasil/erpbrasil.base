@@ -56,3 +56,12 @@ Changelog
   dos extras de teste (#70).
 * Actions do CI atualizadas: ``checkout`` v7, ``setup-python`` v7 e
   ``codecov-action`` v7 (#71, #72 e #73).
+
+
+2.5.1 (2026-10-17)
+~~~~~~~~~~~~~~~~~~
+
+* Inscrição estadual de MS: aceita a numeração nova iniciada por 50, do novo
+  cadastro fiscal da SEFAZ-MS (e-CCE, para comércio, indústria e serviço), além
+  da iniciada por 28 (inscrições antigas e cadastro rural). O cálculo do dígito
+  verificador é o mesmo (#76).
