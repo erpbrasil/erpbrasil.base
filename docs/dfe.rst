@@ -335,6 +335,55 @@ Chave Natural da NFGas
 
 A Chave Natural da NFGas é composta pelos campos de UF, CNPJ do Emitente, Série e Número da NFGas, além do modelo do documento fiscal eletrônico, da forma de emissão e do Site em que ela foi autorizada. O Sistema de Autorização de Uso validará a existência de uma NFGas previamente autorizada e rejeitará novos pedidos de autorização para NFGas com duplicidade da Chave Natural, quando autorizados no mesmo ambiente de autorização. A informação da Forma de Emissão e do Site em que foi Autorizada a NFGas podem indicar ambientes alternativos de autorização do Ambiente Nacional.
 
+GTV-e - Guia de Transporte de Valores Eletrônica
+================================================
+
+Chave de Acesso da GTV-e
+------------------------
+
+A GTV-e (modelo 64) faz parte do projeto CT-e e usa a mesma chave de acesso do CT-e, com o prefixo ``CTe``:
+
++-------------------+-----------------+------------------------+-------------+--------------+----------------------+-----------------------------------+----------------------+----------+
+| Código da UF(cUF) | AAMM da Emissão | CNPJ do Emitente(CNPJ) | Modelo(mod) | Série(serie) | Número da GTV-e(nCT) | Forma de emissão da GTV-e(tpEmis) | Código Numérico(cCT) | DV(cDV)  |
++===================+=================+========================+=============+==============+======================+===================================+======================+==========+
+| 2 digitos         | 4 digitos       | 14 digitos             | 2 digitos   | 3 digitos    | 9 digitos            | 1 digito                          | 8 digitos            | 1 digito |
++-------------------+-----------------+------------------------+-------------+--------------+----------------------+-----------------------------------+----------------------+----------+
+
+NF-e ABI - Nota Fiscal Eletrônica de Alienação de Bens Imóveis
+==============================================================
+
+Chave de Acesso da NF-e ABI
+---------------------------
+
+A NF-e ABI (modelo 77) tem o site autorizador na chave, como a NF3e, a NFCom, a NFAg e a NFGas, e usa o prefixo ``NFeABI``:
+
++-------------------+-----------------+------------------------+-------------+--------------+-------------------------+--------------------------------------+-----------------------------+----------------------+----------+
+| Código da UF(cUF) | AAMM da Emissão | CNPJ do Emitente(CNPJ) | Modelo(mod) | Série(serie) | Número da NF-e ABI(nNF) | Forma de emissão da NF-e ABI(tpEmis) | Site Autoriz.(nSiteAutoriz) | Código Numérico(cNF) | DV(cDV)  |
++===================+=================+========================+=============+==============+=========================+======================================+=============================+======================+==========+
+| 2 digitos         | 4 digitos       | 14 digitos             | 2 digitos   | 3 digitos    | 9 digitos               | 1 digito                             | 1 digito                    | 7 digitos            | 1 digito |
++-------------------+-----------------+------------------------+-------------+--------------+-------------------------+--------------------------------------+-----------------------------+----------------------+----------+
+
+DC-e - Declaração de Conteúdo Eletrônica
+========================================
+
+Chave de Acesso da DC-e
+-----------------------
+
+A DC-e (modelo 99) tem o tipo do emitente na chave, entre a forma de emissão e o site autorizador, e um código numérico de 6 dígitos. Usa o prefixo ``DCe``:
+
++-------------------+-----------------+------------------------+-------------+--------------+---------------------+----------------------------------+--------------------------+-----------------------------+----------------------+----------+
+| Código da UF(cUF) | AAMM da Emissão | CNPJ do Emitente(CNPJ) | Modelo(mod) | Série(serie) | Número da DC-e(nDC) | Forma de emissão da DC-e(tpEmis) | Tipo do Emitente(tpEmit) | Site Autoriz.(nSiteAutoriz) | Código Numérico(cDC) | DV(cDV)  |
++===================+=================+========================+=============+==============+=====================+==================================+==========================+=============================+======================+==========+
+| 2 digitos         | 4 digitos       | 14 digitos             | 2 digitos   | 3 digitos    | 9 digitos           | 1 digito                         | 1 digito                 | 1 digito                    | 6 digitos            | 1 digito |
++-------------------+-----------------+------------------------+-------------+--------------+---------------------+----------------------------------+--------------------------+-----------------------------+----------------------+----------+
+
+* **tpEmit** - Tipo do emitente: 0 - App Fisco, 1 - Marketplace, 2 - Emissor próprio, 3 - Transportadora
+* **cDC** - Código Numérico aleatório que compõe a Chave de Acesso (lido pela propriedade ``cNF``)
+
+Na geração da chave da DC-e o ``tpEmit`` é obrigatório::
+
+    ChaveDFe(cUF=35, dhEmi="2611", CNPJ="02960895000131", mod="99", serie="1", nNF="123", tpEmit=2)
+
 NFS-e - Nota Fiscal de Serviço Eletrônica
 =========================================
 
