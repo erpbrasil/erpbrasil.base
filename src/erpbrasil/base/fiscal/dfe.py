@@ -15,9 +15,12 @@ Documentos suportados:
     - CF-e SAT (mod 59) - via ChaveCFeSAT
     - NFCom (mod 62)
     - BP-e  (mod 63)
+    - GTV-e (mod 64)
     - NF3e  (mod 66)
     - NFAg  (mod 75)
     - NFGas (mod 76)
+    - NF-e ABI (mod 77)
+    - DC-e  (mod 99)
 
 Nomenclatura dos campos:
     Os campos seguem os nomes oficiais do schema XML da SEFAZ (NT 2018.001):
@@ -94,11 +97,14 @@ EDOC_PREFIX = {
     "59": "CFe",
     "62": "NFCom",
     "63": "BPe",
+    "64": "CTe",
     "65": "NFe",
     "66": "NF3e",
     "67": "CTe",
     "75": "NFAg",
     "76": "NFGas",
+    "77": "NFeABI",
+    "99": "DCe",
 }
 
 CODIGO_MODELOS_EDOC = list(EDOC_PREFIX.keys())
@@ -121,7 +127,11 @@ TP_INSC_NFSE = {
 }
 
 # Modelos que incluem o campo nSiteAutoriz na chave (1 dígito extra antes de cNF)
-MODELOS_SITE_AUTORIZ = ("62", "66", "75", "76")
+MODELOS_SITE_AUTORIZ = ("62", "66", "75", "76", "77", "99")
+
+# Modelos que incluem o campo tpEmit (tipo do emitente) na chave, entre o
+# tpEmis e o nSiteAutoriz, com código numérico de 6 dígitos: DC-e (modelo 99)
+MODELOS_TP_EMIT = ("99",)
 
 # Processo de emissão do DFe (campo procEmi, id:B26 no schema XML da NF-e).
 # Não compõe a chave de acesso, mas determina as faixas de série permitidas
@@ -177,7 +187,7 @@ def detectar_chave_dfe(chave):
 
     prefixo = EDOC_PREFIX.get(campos[20:22])
 
-    if prefixo in ("NFe", "CTe", "MDFe", "NFCom", "BPe", "NF3e", "NFAg", "NFGas"):
+    if prefixo in ("NFe", "CTe", "MDFe", "NFCom", "BPe", "NF3e", "NFAg", "NFGas", "NFeABI", "DCe"):
         return ChaveDFe(chave=chave, validar=True)
     elif prefixo == "CFe":
         return ChaveCFeSAT(chave=chave, validar=True)
@@ -207,13 +217,23 @@ class ChaveDFe:
          |  |    |              |  |   |         | |        |
     NFe  35 2103 20695448000184 55 001 000003589 1 98183992 3
 
-    Para modelos com site autorizador (NF3e=66, NFCom=62, NFAg=75, NFGas=76):
+    Para modelos com site autorizador (NF3e=66, NFCom=62, NFAg=75, NFGas=76,
+    NF-e ABI=77):
 
          0  2    6             20  22  25        34 35 36      43  --> índice
          |  |    |              |  |   |         |  |  |        |
     NF3e 35 2401 02960895000131 66 001 123456789 1  2  1234567  X
                                                     ^-- nSiteAutoriz (1 dígito)
                                                        ^-- cNF (7 dígitos)
+
+    Para a DC-e (modelo 99), com o tipo do emitente antes do site autorizador:
+
+         0  2    6             20  22  25        34 35 36 37     43  --> índice
+         |  |    |              |  |   |         |  |  |  |       |
+    DCe  35 2401 02960895000131 99 001 123456789 1  2  0  123456  X
+                                                    ^-- tpEmit (1 dígito)
+                                                       ^-- nSiteAutoriz (1 dígito)
+                                                          ^-- cDC (6 dígitos)
 
     Nomenclatura dos campos (nomes oficiais do schema XML):
         cUF    (slice 0:2)  - Código IBGE da UF do emitente
@@ -238,6 +258,10 @@ class ChaveDFe:
     SITE_AUTORIZ = slice(35, 36)  # nSiteAutoriz - apenas modelos MODELOS_SITE_AUTORIZ
     CODIGO = slice(35, 43)  # cNF padrão (8 dígitos)
     CODIGO_SITE = slice(36, 43)  # cNF para modelos com site_autoriz (7 dígitos)
+    # Modelos MODELOS_TP_EMIT (DC-e): tpEmit, nSiteAutoriz e cDC (6 dígitos)
+    TP_EMIT = slice(35, 36)
+    SITE_AUTORIZ_TP_EMIT = slice(36, 37)
+    CODIGO_TP_EMIT = slice(37, 43)
     DV = slice(43, None)
 
     def __init__(
@@ -266,6 +290,7 @@ class ChaveDFe:
         site_autorizador=False,
         codigo_aleatorio=False,
         validar=False,
+        tpEmit=None,
     ):
         """Inicializa a chave DFe a partir de uma chave completa ou de campos individuais.
 
@@ -291,6 +316,9 @@ class ChaveDFe:
                 Se informado junto com ``validar=True``, valida a combinação
                 procEmi x serie (Rejeição 266 da SEFAZ).
             validar (bool, optional): Se True, valida a chave após a geração/parse.
+            tpEmit (str|int, optional): Tipo do emitente, obrigatório para gerar a
+                chave da DC-e (modelo 99): 0 - App Fisco, 1 - Marketplace,
+                2 - Emissor próprio, 3 - Transportadora.
 
         Raises:
             ValueError: Se os campos obrigatórios não forem informados ou a chave
@@ -326,16 +354,20 @@ class ChaveDFe:
             # A inclusão do tpEmis na chave torna a chave válida para NF-e v2.00+
             campos += str(_forma).zfill(self.FORMA.stop - self.FORMA.start)
 
+            if str(_modelo) in MODELOS_TP_EMIT:
+                if tpEmit is None or str(tpEmit) == "":
+                    raise ValueError("Impossível gerar a chave: informe o tpEmit!!")
+                campos += str(tpEmit).zfill(self.TP_EMIT.stop - self.TP_EMIT.start)
+
             if str(_modelo) in MODELOS_SITE_AUTORIZ:
-                campos += str(_site or 0).zfill(self.SITE_AUTORIZ.stop - self.SITE_AUTORIZ.start)
+                fatia_site = self._fatia_site_autoriz(_modelo)
+                campos += str(_site or 0).zfill(fatia_site.stop - fatia_site.start)
 
             if not _codigo_aleatorio:
                 _codigo_aleatorio = self.gerar_codigo_aleatorio(campos, _modelo)
 
-            if str(_modelo) in MODELOS_SITE_AUTORIZ:
-                campos += str(_codigo_aleatorio).zfill(self.CODIGO_SITE.stop - self.CODIGO_SITE.start)
-            else:
-                campos += str(_codigo_aleatorio).zfill(self.CODIGO.stop - self.CODIGO.start)
+            fatia_codigo = self._fatia_codigo(_modelo)
+            campos += str(_codigo_aleatorio).zfill(fatia_codigo.stop - fatia_codigo.start)
             campos += str(modulo11(campos))
             if not CHAVE_REGEX.match(campos):
                 raise ValueError(f"Impossível gerar a chave: {campos!r}")
@@ -353,6 +385,24 @@ class ChaveDFe:
 
         if validar:
             self.validar()
+
+    # -----------------------------------------------------------------------
+    # Posição dos campos que variam conforme o modelo
+    # -----------------------------------------------------------------------
+
+    def _fatia_site_autoriz(self, modelo):
+        """Posição do nSiteAutoriz na chave do modelo informado."""
+        if str(modelo) in MODELOS_TP_EMIT:
+            return self.SITE_AUTORIZ_TP_EMIT
+        return self.SITE_AUTORIZ
+
+    def _fatia_codigo(self, modelo):
+        """Posição do código numérico (cNF) na chave do modelo informado."""
+        if str(modelo) in MODELOS_TP_EMIT:
+            return self.CODIGO_TP_EMIT
+        if str(modelo) in MODELOS_SITE_AUTORIZ:
+            return self.CODIGO_SITE
+        return self.CODIGO
 
     # -----------------------------------------------------------------------
     # Geração do código numérico aleatório
@@ -377,10 +427,8 @@ class ChaveDFe:
         for c in campos:
             soma += (ord(c) - 48) ** 3**2
 
-        if str(modelo) in MODELOS_SITE_AUTORIZ:
-            tamanho = self.CODIGO_SITE.stop - self.CODIGO_SITE.start
-        else:
-            tamanho = self.CODIGO.stop - self.CODIGO.start
+        fatia_codigo = self._fatia_codigo(modelo)
+        tamanho = fatia_codigo.stop - fatia_codigo.start
 
         codigo = str(soma)
         if len(codigo) > tamanho:
@@ -406,10 +454,8 @@ class ChaveDFe:
         Returns:
             str: Código numérico com o número de dígitos adequado ao modelo.
         """
-        if str(modelo) in MODELOS_SITE_AUTORIZ:
-            tamanho = self.CODIGO_SITE.stop - self.CODIGO_SITE.start
-        else:
-            tamanho = self.CODIGO.stop - self.CODIGO.start
+        fatia_codigo = self._fatia_codigo(modelo)
+        tamanho = fatia_codigo.stop - fatia_codigo.start
         numero = int(campos[self.NUMERO])
         while True:
             codigo = str(secrets.randbelow(10**tamanho)).zfill(tamanho)
@@ -476,11 +522,16 @@ class ChaveDFe:
                 f"{cnpj_cpf.formata(doc_emitente[1])!r}): {self.chave!r}"
             )
 
-        # Verifica nSiteAutoriz (apenas modelos específicos)
-        if self.mod in MODELOS_SITE_AUTORIZ and not self.campos[ChaveDFe.SITE_AUTORIZ].isdigit():
+        # Verifica tpEmit (apenas DC-e)
+        if self.mod in MODELOS_TP_EMIT and not self.campos[ChaveDFe.TP_EMIT].isdigit():
             raise ValueError(
-                f"Chave de acesso invalida (Site Autorizador: {self.campos[ChaveDFe.SITE_AUTORIZ]!r}): {self.chave!r}"
+                f"Chave de acesso invalida (Tipo do Emitente: {self.campos[ChaveDFe.TP_EMIT]!r}): {self.chave!r}"
             )
+
+        # Verifica nSiteAutoriz (apenas modelos específicos)
+        site = self.campos[self._fatia_site_autoriz(self.mod)]
+        if self.mod in MODELOS_SITE_AUTORIZ and not site.isdigit():
+            raise ValueError(f"Chave de acesso invalida (Site Autorizador: {site!r}): {self.chave!r}")
 
         # Verifica procEmi x serie (Rejeição 266) - apenas quando procEmi for informado
         if self._proc_emi is not None and self.mod in ("55", "65"):
@@ -593,15 +644,24 @@ class ChaveDFe:
             str | False: Dígito do site autorizador ou False se não aplicável.
         """
         if self.mod in MODELOS_SITE_AUTORIZ:
-            return self._campos[self.SITE_AUTORIZ]
+            return self._campos[self._fatia_site_autoriz(self.mod)]
+        return False
+
+    @property
+    def tpEmit(self):
+        """Tipo do emitente (str, 1 dígito) - apenas DC-e (modelo 99).
+
+        Returns:
+            str | False: Dígito do tipo do emitente ou False se não aplicável.
+        """
+        if self.mod in MODELOS_TP_EMIT:
+            return self._campos[self.TP_EMIT]
         return False
 
     @property
     def cNF(self):
-        """Código numérico que compõe a chave de acesso (str, 7 ou 8 dígitos)."""
-        if self.mod in MODELOS_SITE_AUTORIZ:
-            return self._campos[self.CODIGO_SITE]
-        return self._campos[self.CODIGO]
+        """Código numérico que compõe a chave de acesso (str, 6, 7 ou 8 dígitos)."""
+        return self._campos[self._fatia_codigo(self.mod)]
 
     @property
     def cDV(self):
